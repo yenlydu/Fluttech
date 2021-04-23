@@ -5,6 +5,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/services.dart';
 
 //File Page Includ
+import 'Page/Homepage/home.dart';
+import 'Page/Homepage/profile.dart';
 import 'Page/LoginPage/login.dart';
 import './Page/LoginPage/login.dart';
 import './Page/LoginPage/LoginPending.dart';
@@ -38,7 +40,7 @@ class MyAppState extends State<MyApp> with WidgetsBindingObserver {
         primarySwatch: Colors.deepPurple,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: HomePage(),
+      home: LoginPage(),
       //LoginPage(),
       routes: <String, WidgetBuilder>{
         '/login': (BuildContext context) => new LoginPage(),

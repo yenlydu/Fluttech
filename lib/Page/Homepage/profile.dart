@@ -6,6 +6,7 @@ import 'package:path/path.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 //File Page Includ
+import '../../main.dart';
 import '../../Model/Constants.dart';
 import '../../Widget/app_icons_icons.dart';
 import '../../Model/SocialAccount.dart' as localuser;
@@ -215,9 +216,56 @@ class _ProfilePageState extends State<ProfilePage> {
   // Social Networks Buttons
   Widget _socialcontainer(BuildContext context) {
     return Container(
-      padding: new EdgeInsets.only(top: 100.0),
+      padding: new EdgeInsets.only(top: 25.0),
       child: Column(
-        children: <Widget>[],
+        children: <Widget>[
+          Container(
+            padding: new EdgeInsets.symmetric(horizontal: 30.0),
+            child: Align(
+              child: Text(
+                (user != null) ? user.fullName() : "user name".toUpperCase(),
+                style: TextStyle(fontWeight: FontWeight.w700, fontSize: 20.0),
+              ),
+            ),
+          ),
+          Container(
+            padding: new EdgeInsets.only(left: 30.0, right: 30.0, top: 15.0),
+            child: Container(
+              padding: new EdgeInsets.only(top: 10.0),
+              child: Column(
+                children: <Widget>[
+                  Align(
+                    alignment: Alignment.topLeft,
+                    child: Text(
+                      "Mail : " +
+                          ((user != null)
+                              ? user.fullName()
+                              : "user.name@epitech.eu"),
+                      style: TextStyle(
+                          fontWeight: FontWeight.w400, fontSize: 15.0),
+                    ),
+                  ),
+                  Align(
+                    alignment: Alignment.topLeft,
+                    child: Text(
+                      "Credits : " + ((user != null) ? user.fullName() : "0"),
+                      style: TextStyle(
+                          fontWeight: FontWeight.w400, fontSize: 15.0),
+                    ),
+                  ),
+                  Align(
+                    alignment: Alignment.topLeft,
+                    child: Text(
+                      "G.P.A : " + ((user != null) ? user.fullName() : "0"),
+                      style: TextStyle(
+                          fontWeight: FontWeight.w400, fontSize: 15.0),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -228,26 +276,31 @@ class _ProfilePageState extends State<ProfilePage> {
     _initImage(context);
     _initUser(context);
     return Scaffold(
-      body: Container(
-        padding: new EdgeInsets.all(50.0),
-        child: Center(
-          child: ListView(
-            children: <Widget>[
-              FlatButton(
-                padding: new EdgeInsets.all(25.0),
-                onPressed: () {
-                  _showChoiceDialog(context);
-                },
-                child: _imageprofile(context),
+      appBar: AppBar(
+        title: const Text('Profile'),
+      ),
+      body: ListView(
+        children: <Widget>[
+          Container(
+            padding: new EdgeInsets.only(top: 25),
+            child: Center(
+              child: Container(
+                child: Column(
+                  children: <Widget>[
+                    FlatButton(
+                      padding: new EdgeInsets.all(25.0),
+                      onPressed: () {
+                        _showChoiceDialog(context);
+                      },
+                      child: _imageprofile(context),
+                    ),
+                    _socialcontainer(context),
+                  ],
+                ),
               ),
-              Text(
-                (user != null) ? user.fullName() : "user name".toUpperCase(),
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0),
-              ),
-              _socialcontainer(context),
-            ],
+            ),
           ),
-        ),
+        ],
       ),
     );
   }
