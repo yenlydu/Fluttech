@@ -38,7 +38,7 @@ class MyAppState extends State<MyApp> with WidgetsBindingObserver {
     ]);
     FlutterStatusbarcolor.setStatusBarColor(Constants().app_color);
     return MaterialApp(
-      title: 'Fluffy',
+      title: 'FlutTECH',
       theme: ThemeData(
         primarySwatch: Colors.deepPurple,
         visualDensity: VisualDensity.adaptivePlatformDensity,
