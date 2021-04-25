@@ -5,7 +5,7 @@ class Constants extends StatelessWidget {
   /////////COLORS
   //GLOBAL
   Color app_color = new Color(0xFF664C9E);
-  Color login_app_color = new Color.fromRGBO(86, 0, 232, 1);
+  Color login_app_color = new Color(0xFF664C9E);
   Color facebook_color = new Color(0xFF4267B2);
   Color instagram_color = new Color(0xFF405DE6);
   Color twitter_color = new Color(0xFF1DA1F2);
@@ -22,7 +22,7 @@ class Constants extends StatelessWidget {
   Color posts_color = new Color(0xFFE0E0E0);
 
   //BORDER TEMPLATE OF FRIENDS & SUBSCRIBERS
-  Color friends_subscribers_border_color = new Color(0xFF0051FF);
+  Color friends_subscribers_border_color = new Color(0xFF664C9E);
 
   //ICON
 
@@ -32,33 +32,35 @@ class Constants extends StatelessWidget {
   }
 }
 
-final kHintTextStyle = TextStyle(
-  color: Colors.white54,
-  fontFamily: 'OpenSans',
-);
+//GLOBAL
 
-final kLabelStyle = TextStyle(
-  color: Colors.white,
-  fontWeight: FontWeight.bold,
-  fontFamily: 'OpenSans',
-);
-
-final kBoxDecorationStyle = BoxDecoration(
-  color: Color(0xFF9989BD),
-  borderRadius: BorderRadius.circular(10.0),
-  boxShadow: [
-    BoxShadow(
-      color: Colors.black12,
-      blurRadius: 6.0,
-      offset: Offset(0, 2),
-    ),
-  ],
-);
-
+/* Box Decoration Gradient Background */
 final kBoxDecoration_BG = BoxDecoration(
   gradient: LinearGradient(
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
     colors: [Color(0xFF664C9E), Color(0xFF9989BD), Color(0xFFFFFFFF)],
   ),
+);
+
+/* Container Gradient Background */
+final kContainer_BG = Container(
+  height: double.infinity,
+  width: double.infinity,
+  decoration: kBoxDecoration_BG,
+);
+
+/* Size Box Space */
+final kSizeBox_Space10 = SizedBox(
+  height: 10.0,
+);
+
+/* Size Box Space */
+final kSizeBox_Space20 = SizedBox(
+  height: 20.0,
+);
+
+/* Size Box Space */
+final kSizeBox_Space30 = SizedBox(
+  height: 30.0,
 );

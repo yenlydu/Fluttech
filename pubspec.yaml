@@ -36,6 +36,7 @@ flutter_icons:
 flutter:
   assets:
       - assets/images/
+      - assets/icon/
       
   uses-material-design: true
   fonts:

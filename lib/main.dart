@@ -6,11 +6,14 @@ import 'package:flutter/services.dart';
 
 //File Page Includ
 import 'Page/Homepage/home.dart';
-import 'Page/Homepage/profile.dart';
+import 'Page/ProfilePage/Profile.dart';
+import 'Page/ProjectsPage/Projects.dart';
+import 'Page/CalendarPage/Calendar.dart';
+import 'Page/NotificationsPage/Notifications.dart';
 import 'Page/LoginPage/login.dart';
 import './Page/LoginPage/login.dart';
 import './Page/LoginPage/LoginPending.dart';
-import './Page/HomePage/MyHomePage.dart';
+import './Page/HomePage/Nav.dart';
 import './Model/SocialAccount.dart' as localuser;
 import './Model/Constants.dart';
 
@@ -40,11 +43,11 @@ class MyAppState extends State<MyApp> with WidgetsBindingObserver {
         primarySwatch: Colors.deepPurple,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: LoginPage(),
+      home: NavElem(),
       //LoginPage(),
       routes: <String, WidgetBuilder>{
         '/login': (BuildContext context) => new LoginPage(),
-        '/home': (BuildContext context) => new MyHomePage(),
+        '/home': (BuildContext context) => new NavElem(),
       },
     );
   }

@@ -4,7 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_auth/firebase_auth.dart' as auth;
 
 import '../../main.dart';
-import '../HomePage/MyHomePage.dart';
+import '../HomePage/Nav.dart';
 import '../../Tools/LocalTools.dart';
 import './Login.dart';
 import '../../Model/SocialAccount.dart' as Social;
@@ -31,7 +31,7 @@ class LoginPendingState extends State<LoginPending> {
       if (user != null) {
         MyAppState.currentUser = user;
         Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (context) => MyHomePage()));
+            context, MaterialPageRoute(builder: (context) => NavElem()));
       } else {
         Navigator.pushReplacement(
             context, MaterialPageRoute(builder: (context) => LoginPage()));
@@ -41,7 +41,7 @@ class LoginPendingState extends State<LoginPending> {
       if (user != null) {
         MyAppState.currentUser = user;
         Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (context) => MyHomePage()));
+            context, MaterialPageRoute(builder: (context) => NavElem()));
       } else {
         Navigator.pushReplacement(
             context, MaterialPageRoute(builder: (context) => LoginPage()));

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 //File Page Includ
 import '../../Model/Constants.dart';
+import '../../Model/Constants/C_Login.dart';
 import '../../Widget/app_icons_icons.dart';
 
 class LoginPage extends StatefulWidget {
@@ -78,9 +79,7 @@ class _LoginPageState extends State<LoginPage> {
           "Email",
           style: kLabelStyle,
         ),
-        SizedBox(
-          height: 10.0,
-        ),
+        kSizeBox_Space10,
         Container(
           alignment: Alignment.centerLeft,
           decoration: kBoxDecorationStyle,
@@ -110,9 +109,7 @@ class _LoginPageState extends State<LoginPage> {
           "Password",
           style: kLabelStyle,
         ),
-        SizedBox(
-          height: 10.0,
-        ),
+        kSizeBox_Space10,
         Container(
           alignment: Alignment.centerLeft,
           decoration: kBoxDecorationStyle,
@@ -174,15 +171,35 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   @override
+  Widget _buildStructure() {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        Text(
+          "Log In",
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 30.0,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        kSizeBox_Space30,
+        _buildEmailTF(),
+        kSizeBox_Space30,
+        _buildPasswordTF(),
+        _buildForgotPasswordBT(),
+        _buildRememberMeCheckBox(),
+        _buildLoginBtn(),
+      ],
+    );
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Stack(
         children: <Widget>[
-          Container(
-            height: double.infinity,
-            width: double.infinity,
-            decoration: kBoxDecoration_BG,
-          ),
+          kContainer_BG,
           Container(
             height: double.infinity,
             child: SingleChildScrollView(
@@ -191,30 +208,7 @@ class _LoginPageState extends State<LoginPage> {
                 horizontal: 40.0,
                 vertical: 120.0,
               ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Text(
-                    "Log In",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 30.0,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  SizedBox(
-                    height: 30.0,
-                  ),
-                  _buildEmailTF(),
-                  SizedBox(
-                    height: 30.0,
-                  ),
-                  _buildPasswordTF(),
-                  _buildForgotPasswordBT(),
-                  _buildRememberMeCheckBox(),
-                  _buildLoginBtn(),
-                ],
-              ),
+              child: _buildStructure(),
             ),
           ),
         ],
@@ -258,11 +252,7 @@ class _LoginPageState extends State<LoginPage> {
     return Scaffold(
       body: Stack(
         children: <Widget>[
-          Container(
-            height: double.infinity,
-            width: double.infinity,
-            decoration: kBoxDecoration_BG,
-          ),
+          kContainer_BG,
           Align(
             alignment: Alignment.center,
             child: new Image.asset(
