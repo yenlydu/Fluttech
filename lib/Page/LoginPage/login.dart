@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter2/Page/Admin/LoginPage/adminLoginPage.dart';
+import 'package:flutter2/Page/CommonBackground.dart';
+import 'package:lite_rolling_switch/lite_rolling_switch.dart';
 
 //File Page Includ
 import '../../Model/Constants.dart';
@@ -10,6 +13,7 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+
   bool _rememberme = false;
 /*
   // Show Message in case of error (Not Use)
@@ -137,7 +141,13 @@ class _LoginPageState extends State<LoginPage> {
     return Container(
       alignment: Alignment.centerRight,
       child: FlatButton(
-        onPressed: () => print("Forgot Password Button Pressed"),
+        onPressed: () =>
+        {
+          Navigator.push(
+            context,
+            PageRouteBuilder(pageBuilder: (_, __, ___) => AdminLoginPage()),
+          )
+        },
         padding: EdgeInsets.only(right: 0.0),
         child: Text(
           "Forgot Password ?",
@@ -146,6 +156,7 @@ class _LoginPageState extends State<LoginPage> {
       ),
     );
   }
+
 
   Widget _buildLoginBtn() {
     return Container(
@@ -172,18 +183,17 @@ class _LoginPageState extends State<LoginPage> {
       ),
     );
   }
-
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
+
       body: Stack(
         children: <Widget>[
+          CommonBackground(),
+
           Container(
-            height: double.infinity,
-            width: double.infinity,
-            decoration: kBoxDecoration_BG,
-          ),
-          Container(
+
             height: double.infinity,
             child: SingleChildScrollView(
               physics: AlwaysScrollableScrollPhysics(),
@@ -192,28 +202,30 @@ class _LoginPageState extends State<LoginPage> {
                 vertical: 120.0,
               ),
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Text(
-                    "Log In",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 30.0,
-                      fontWeight: FontWeight.bold,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Text(
+                      "Log In",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 30.0,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
-                  ),
-                  SizedBox(
-                    height: 30.0,
-                  ),
-                  _buildEmailTF(),
-                  SizedBox(
-                    height: 30.0,
-                  ),
-                  _buildPasswordTF(),
-                  _buildForgotPasswordBT(),
-                  _buildRememberMeCheckBox(),
-                  _buildLoginBtn(),
-                ],
+                    SizedBox(
+                      height: 30.0,
+                    ),
+                    _buildEmailTF(),
+                    SizedBox(
+                      height: 30.0,
+                    ),
+                    _buildPasswordTF(),
+                    _buildForgotPasswordBT(),
+                    _buildRememberMeCheckBox(),
+                    _buildLoginBtn(),
+                    Constants().buttonChangeUserPage("ADMIN LOGIN", PageRouteBuilder(pageBuilder: (_, __, ___) => AdminLoginPage()), context)
+
+                  ]
               ),
             ),
           ),
