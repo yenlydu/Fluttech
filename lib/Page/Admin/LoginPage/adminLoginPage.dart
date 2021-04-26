@@ -133,10 +133,10 @@ class _AdminLoginPageState extends State<AdminLoginPage> {
       child: FlatButton(
         onPressed: () =>
         {
-          Navigator.push(
-            context,
-            PageRouteBuilder(pageBuilder: (_, __, ___) => AdminLoginPage()),
-          )
+    //      Navigator.push(
+      //      context,
+        //    PageRouteBuilder(pageBuilder: (_, __, ___) => AdminLoginPage()),
+          //)
         },
         padding: EdgeInsets.only(right: 0.0),
         child: Text(
@@ -175,6 +175,7 @@ class _AdminLoginPageState extends State<AdminLoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,   //new line
 
       body: Stack(
 
@@ -209,6 +210,9 @@ class _AdminLoginPageState extends State<AdminLoginPage> {
                 ),
                 this.buildPasswordField(),
                 _buildForgotPasswordBT(),
+                SizedBox(
+                  height: 30.0,
+                ),
                 _buildRememberMeCheckBox(),
                 this._buildLoginBtn(),
                 Constants().buttonChangeUserPage("CLASSIC LOGIN", PageRouteBuilder(pageBuilder: (_, __, ___) => LoginPage()), context),

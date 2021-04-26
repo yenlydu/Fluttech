@@ -18,6 +18,9 @@ dependencies:
   flappy_search_bar: ^1.7.2
   shared_preferences: ^2.0.5
   firebase_core: ^1.0.4
+  autocomplete_textfield: ^1.7.3
+
+
   firebase_auth: ^1.1.1
   cloud_firestore: ^1.0.6
   firebase_core_platform_interface: ^4.0.0
