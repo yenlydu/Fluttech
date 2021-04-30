@@ -1,11 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter2/Web/homeAdmin.dart';
+import 'package:flutter2/Web/Dashboard/navigationBar.dart';
 import 'package:flutter2/Model/Constants.dart';
+import 'package:flutter2/Mobile/Page/Admin/FindUsersPage/FindUsersPage.dart';
 class LoginP extends StatelessWidget {
   final GlobalKey<ScaffoldState> _key = GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context) {
+    final password = TextEditingController();
+    final email = TextEditingController();
+
     return Container(
+
       decoration: kBoxDecoration_BG,
       child: Scaffold(
         backgroundColor: Colors.transparent,
@@ -27,6 +34,14 @@ class LoginP extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
+                  Image(
+                    image: new AssetImage("images/icon.png"),
+                    color: null,
+                    width: 150,
+                    height: 150,
+                    fit: BoxFit.scaleDown,
+                    alignment: Alignment.center,
+                  ),
                   Text("ADMIN"),
                   SizedBox(height: 20,),
                   Padding(
@@ -38,6 +53,7 @@ class LoginP extends StatelessWidget {
                       child: Padding(
                         padding: const EdgeInsets.only(left: 8.0),
                         child: TextField(
+                          controller: email,
                           decoration: InputDecoration(
                             border: InputBorder.none,
                             hintText: "Email",
@@ -57,6 +73,7 @@ class LoginP extends StatelessWidget {
                       child: Padding(
                         padding: EdgeInsets.only(left: 8.0),
                         child: TextField(
+                          controller: password,
                           decoration: InputDecoration(
                               border: InputBorder.none,
                               hintText: "Password",
@@ -84,7 +101,16 @@ class LoginP extends StatelessWidget {
                         color: Colors.indigo,
                       ),
                       child: FlatButton(
-
+                        onPressed:()
+                        {
+                          if (email.text.isEmpty || password.text.isEmpty) {
+                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Invalid email or password")));
+                          } else {
+                            print(email.text + " "+ password.text);
+                            Navigator.push(context, PageRouteBuilder(pageBuilder: (_, __, ___) => HomeAdmin()));
+//                            Navigator.push(context, PageRouteBuilder(pageBuilder: (_, __, ___) => FindUsersPage()));
+                          }
+                        },
                       ),
                     ),
                   )

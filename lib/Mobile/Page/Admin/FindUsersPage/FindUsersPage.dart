@@ -57,17 +57,17 @@ class _FindUsersPageState extends State<FindUsersPage> {
     return Scaffold(
       body: Padding(
         padding: EdgeInsets.all(10),
-        child: Column(
-          children: <Widget>[
-            SizedBox(
-              height: 45.0,
-            ),
-            usersAutocomplete.userAutocomplete(),
+            child: Column(
+              children: <Widget>[
+                SizedBox(
+                  height: 45.0,
+                ),
+                usersAutocomplete.userAutocomplete(),
 //            UsersAutocomplete().shouldDisplay ? Text("string test")  : Spacer(),
 
-          ],
-        )
-      ),
+              ],
+            )
+        ),
     );
   }
 }

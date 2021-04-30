@@ -21,7 +21,7 @@ import './Mobile/Page/HomePage/Nav.dart';
 import 'package:flutter2/Model/SocialAccount.dart' as localuser;
 import 'package:flutter2/Model/Constants.dart';
 
-import 'package:flutter2/Web/HomeView.dart';
+import 'package:flutter2/Web/homeAdmin.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -31,9 +31,9 @@ void main() async {
 
 class MyApp extends StatefulWidget {
   @override
-  MyMobileState createState() => MyMobileState();
+//  MyMobileState createState() => MyMobileState();
   //Launch web
-//  MyWebState createState() => MyWebState();
+    MyWebState createState() => MyWebState();
 }
 
 class MyWebState extends State <MyApp>
@@ -43,7 +43,7 @@ class MyWebState extends State <MyApp>
     // TODO: implement build
 
     return MaterialApp(
-      title: "Web Admin",
+      title: "FluTECH",
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
