@@ -1,11 +1,6 @@
 import 'package:flutter/material.dart';
 
 class DahsboardIcon extends StatefulWidget {
-  final ImageIcon icon = ImageIcon(
-    AssetImage("images/icon_more.png"),
-    color: Color(0xFF3A5A98),
-  );
-
   @override
   _DahsboardIconState createState() => _DahsboardIconState();
 }
@@ -35,7 +30,6 @@ class _DahsboardIconState extends State<DahsboardIcon> {
               ),
               Padding(
                 padding: EdgeInsets.only(left: 30.0),
-                child: ImageIcon,
               ),
             ],
           ),

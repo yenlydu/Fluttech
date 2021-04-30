@@ -61,8 +61,9 @@ class _FindUsersPageState extends State<FindUsersPage> {
               children: <Widget>[
                 SizedBox(
                   height: 45.0,
+                  child: usersAutocomplete.userAutocomplete(),
+
                 ),
-                usersAutocomplete.userAutocomplete(),
 //            UsersAutocomplete().shouldDisplay ? Text("string test")  : Spacer(),
 
               ],

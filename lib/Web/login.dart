@@ -18,11 +18,11 @@ class LoginP extends StatelessWidget {
         backgroundColor: Colors.transparent,
         body: Center(
           child: Container(
-            color: Colors.red,
+            color: Colors.transparent,
             child: Container(
               decoration: BoxDecoration(
                 color: Colors.white,
-                borderRadius: BorderRadius.circular(8),
+                borderRadius: BorderRadius.circular(50),
                 boxShadow: [
                   BoxShadow(
                     color: Colors.grey, offset: Offset(0,3), blurRadius: 24
@@ -48,15 +48,19 @@ class LoginP extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(horizontal: 20),
                     child: Container(
                       decoration: BoxDecoration(
-                        color: Colors.grey[200]
+
+                        color: Colors.grey[200],
+                        borderRadius: BorderRadius.circular(40.0),
                       ),
                       child: Padding(
                         padding: const EdgeInsets.only(left: 8.0),
                         child: TextField(
+
                           controller: email,
                           decoration: InputDecoration(
-                            border: InputBorder.none,
-                            hintText: "Email",
+                              border: InputBorder.none,
+
+                              hintText: "Email",
                             icon: Icon(Icons.email_outlined)
                           ),
                         ),
@@ -69,6 +73,8 @@ class LoginP extends StatelessWidget {
                     child: Container(
                       decoration: BoxDecoration(
                         color: Colors.grey[200],
+                        borderRadius: BorderRadius.circular(50),
+
                       ),
                       child: Padding(
                         padding: EdgeInsets.only(left: 8.0),
@@ -113,7 +119,7 @@ class LoginP extends StatelessWidget {
                         },
                       ),
                     ),
-                  )
+                  ),
                 ],
               ),
             ),

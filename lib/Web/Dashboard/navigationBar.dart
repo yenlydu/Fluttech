@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter2/Web/Dashboard/CompanyName.dart';
+import 'package:flutter2/Web/Dashboard/dashboardBar.dart';
 class NavigationBar extends StatefulWidget {
   @override
   _NavigationBarState createState() => _NavigationBarState();
@@ -18,6 +19,10 @@ class _NavigationBarState extends State<NavigationBar>
         child: Stack(
           children: [
             CompanyName(),
+            Align(
+              alignment: Alignment.center,
+              child: DashboardBar(),
+            )
           ],
         ),
       ),
