@@ -50,41 +50,6 @@ class Constants extends StatelessWidget {
 
 
   //CHANGE USER LOGIN PAGE
-  Widget buttonChangeUserPage(String displayedText, PageRouteBuilder route, BuildContext context) {
-    return Center(
-      child: FlatButton(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(30.0),
-        ),
-
-        color: Colors.white.withOpacity(0),
-        onPressed: () => {  Navigator.push(
-        context,
-        route,
-        )
-      },
-        padding: EdgeInsets.all(8.0),
-        child: Column( // Replace with a Row for horizontal icon + text
-          children: <Widget>[
-            Icon(Icons.person,
-              color: Constants().app_color
-            ),
-            Text(
-              displayedText,
-              style: TextStyle(
-                letterSpacing: 1.5,
-                fontSize: 12.0,
-                fontWeight: FontWeight.bold,
-
-                color: Constants().app_color,
-                fontFamily: 'OpenSans',
-              ),
-            )
-          ],
-        ),
-      ),
-    );
-  }
   @override
   Widget build(BuildContext context) {
 
