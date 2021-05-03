@@ -35,7 +35,7 @@ class LoginP extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Image(
-                    image: new AssetImage("images/icon.png"),
+                    image: new AssetImage("assets/images/icon.png"),
                     color: null,
                     width: 150,
                     height: 150,
@@ -55,11 +55,9 @@ class LoginP extends StatelessWidget {
                       child: Padding(
                         padding: const EdgeInsets.only(left: 8.0),
                         child: TextField(
-
                           controller: email,
                           decoration: InputDecoration(
                               border: InputBorder.none,
-
                               hintText: "Email",
                             icon: Icon(Icons.email_outlined)
                           ),
@@ -114,7 +112,7 @@ class LoginP extends StatelessWidget {
                           } else {
                             print(email.text + " "+ password.text);
                             Navigator.push(context, PageRouteBuilder(pageBuilder: (_, __, ___) => HomeAdmin()));
-//                            Navigator.push(context, PageRouteBuilder(pageBuilder: (_, __, ___) => FindUsersPage()));
+                          //  Navigator.push(context, PageRouteBuilder(pageBuilder: (_, __, ___) => FindUsersPage()));
                           }
                         },
                       ),

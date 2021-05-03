@@ -47,11 +47,10 @@ class MyWebState extends State <MyApp>
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: LoginP(),
+      home: LoginPage(),
     );
   }
 }
-
 
 class MyMobileState extends State<MyApp> with WidgetsBindingObserver {
   static localuser.User currentUser;
