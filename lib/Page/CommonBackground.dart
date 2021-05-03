@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../Model/Constants.dart';
+import '../Model/Constants.dart';
 
 class CommonBackground extends StatefulWidget {
   @override
