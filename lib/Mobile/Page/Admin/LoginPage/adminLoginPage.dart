@@ -10,8 +10,8 @@ class AdminLoginPage extends StatefulWidget {
 
   @override
   _AdminLoginPageState createState() => _AdminLoginPageState();
-
 }
+
 class _AdminLoginPageState extends State<AdminLoginPage> {
   final emailTFController = TextEditingController();
   final passwordTFController = TextEditingController();
@@ -50,10 +50,12 @@ class _AdminLoginPageState extends State<AdminLoginPage> {
       ],
     );
   }
-  bool checkEmailPasswordCorrect(){
+
+  bool checkEmailPasswordCorrect() {
     print(emailTFController.text.isEmpty);
-    if (emailTFController.text.isNotEmpty && passwordTFController.text.isNotEmpty) {
-      return  true;
+    if (emailTFController.text.isNotEmpty &&
+        passwordTFController.text.isNotEmpty) {
+      return true;
     }
     return false;
   }
@@ -75,7 +77,6 @@ class _AdminLoginPageState extends State<AdminLoginPage> {
           height: 50.0,
           child: TextField(
             controller: emailTFController,
-
             keyboardType: TextInputType.emailAddress,
             style: TextStyle(color: Colors.white),
             decoration: InputDecoration(
@@ -91,24 +92,18 @@ class _AdminLoginPageState extends State<AdminLoginPage> {
     );
   }
 
-
-
-
   Widget _buildLoginBtn() {
-
     return Container(
       padding: EdgeInsets.symmetric(vertical: 25.0),
       width: double.infinity,
       child: RaisedButton(
         elevation: 5.0,
-        onPressed: () =>
-        {
+        onPressed: () => {
           if (checkEmailPasswordCorrect() == false)
             Constants().errorFieldAlert(context)
           else
             Navigator.pushNamed(context, '/admin/findUsers')
-
-      },
+        },
         padding: EdgeInsets.all(10.0),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(30.0),
@@ -127,15 +122,15 @@ class _AdminLoginPageState extends State<AdminLoginPage> {
       ),
     );
   }
+
   Widget _buildForgotPasswordBT() {
     return Container(
       alignment: Alignment.centerRight,
       child: FlatButton(
-        onPressed: () =>
-        {
-    //      Navigator.push(
-      //      context,
-        //    PageRouteBuilder(pageBuilder: (_, __, ___) => AdminLoginPage()),
+        onPressed: () => {
+          //      Navigator.push(
+          //      context,
+          //    PageRouteBuilder(pageBuilder: (_, __, ___) => AdminLoginPage()),
           //)
         },
         padding: EdgeInsets.only(right: 0.0),
@@ -146,6 +141,7 @@ class _AdminLoginPageState extends State<AdminLoginPage> {
       ),
     );
   }
+
   Widget _buildRememberMeCheckBox() {
     return Container(
       child: Row(
@@ -175,12 +171,9 @@ class _AdminLoginPageState extends State<AdminLoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,   //new line
-
+      resizeToAvoidBottomInset: false, //new line
       body: Stack(
-
-
-        children: <Widget> [
+        children: <Widget>[
           CommonBackground(),
           Container(
             padding: EdgeInsets.symmetric(
@@ -188,22 +181,19 @@ class _AdminLoginPageState extends State<AdminLoginPage> {
               vertical: 120.0,
             ),
             child: Column(
-
-              children:<Widget> [
+              children: <Widget>[
                 Text(
                   "ADMIN Log In",
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 30.0,
                     letterSpacing: 1.5,
-
                     fontWeight: FontWeight.bold,
                   ),
                 ),
                 SizedBox(
                   height: 30.0,
                 ),
-
                 this._buildEmailTF(),
                 SizedBox(
                   height: 30.0,
@@ -215,16 +205,13 @@ class _AdminLoginPageState extends State<AdminLoginPage> {
                 ),
                 _buildRememberMeCheckBox(),
                 this._buildLoginBtn(),
-//                Constants().buttonChangeUserPage("CLASSIC LOGIN", PageRouteBuilder(pageBuilder: (_, __, ___) => LoginPage()), context),
+                //  Constants().buttonChangeUserPage("CLASSIC LOGIN", PageRouteBuilder(pageBuilder: (_, __, ___) => LoginPage()), context),
                 //this.buttonChangeUserPage("Non admin log in", PageRouteBuilder(pageBuilder: (_, __, ___) => LoginPage()), context),
               ],
             ),
           ),
         ],
       ),
-
-
     );
-
   }
 }

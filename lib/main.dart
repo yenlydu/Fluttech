@@ -8,6 +8,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter2/Web/login.dart';
 import 'package:lite_rolling_switch/lite_rolling_switch.dart';
 import 'package:flutter2/Mobile/Page/Admin/FindUsersPage/FindUsersPage.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:provider/provider.dart';
 
 //File Page Includ
 import 'Mobile/Page/Homepage/home.dart';
@@ -22,8 +24,15 @@ import 'package:flutter2/Model/SocialAccount.dart' as localuser;
 import 'package:flutter2/Model/Constants.dart';
 
 import 'package:flutter2/Web/homeAdmin.dart';
+import './mobile/Tools/authentication_service.dart';
 
-void main() async {
+// void main() async {
+//   WidgetsFlutterBinding.ensureInitialized();
+//   await Firebase.initializeApp();
+//   runApp(MyApp());
+// }
+
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   runApp(MyApp());
@@ -31,13 +40,12 @@ void main() async {
 
 class MyApp extends StatefulWidget {
   @override
-//  MyMobileState createState() => MyMobileState();
+  MyMobileState createState() => MyMobileState();
   //Launch web
-    MyWebState createState() => MyWebState();
+  // MyWebState createState() => MyWebState();
 }
 
-class MyWebState extends State <MyApp>
-{
+class MyWebState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -47,8 +55,20 @@ class MyWebState extends State <MyApp>
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: LoginPage(),
+      home: LoginP(),
     );
+  }
+}
+
+class AuthenticationWrapper extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    final firebaseUser = context.watch<User>();
+
+    if (firebaseUser != null) {
+      return HomePage();
+    }
+    return LoginPage();
   }
 }
 
@@ -56,25 +76,50 @@ class MyMobileState extends State<MyApp> with WidgetsBindingObserver {
   static localuser.User currentUser;
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setPreferredOrientations([
-      DeviceOrientation.portraitUp,
-    ]);
-    FlutterStatusbarcolor.setStatusBarColor(Constants().app_color);
-    return MaterialApp(
-      title: 'FlutTECH',
-      theme: ThemeData(
-        primarySwatch: Colors.deepPurple,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
+    return MultiProvider(
+      providers: [
+        Provider<AuthenticationService>(
+          create: (_) => AuthenticationService(FirebaseAuth.instance),
+        ),
+        StreamProvider(
+          create: (context) =>
+              context.read<AuthenticationService>().authStateChanges,
+        )
+      ],
+      child: 
+      Consumer<AuthenticationService>(
+        builder: (context, provider, _) => 
+        MaterialApp(
+          title: 'FluTECH',
+          theme: ThemeData(
+            primarySwatch: Colors.blue,
+            visualDensity: VisualDensity.adaptivePlatformDensity,
+          ),
+          home: AuthenticationWrapper(),
+        ),
       ),
-      home: LoginPage(),
-      //LoginPage(),
-      routes: <String, WidgetBuilder>{
-        '/login': (BuildContext context) => new LoginPage(),
-        '/home': (BuildContext context) => new NavElem(),
-        '/admin/login': (BuildContext contect) => new AdminLoginPage(),
-        '/admin/findUsers': (BuildContext contect) => new FindUsersPage(),
-
-      },
     );
   }
+
+  // Widget build(BuildContext context) {
+  //   SystemChrome.setPreferredOrientations([
+  //     DeviceOrientation.portraitUp,
+  //   ]);
+  //   FlutterStatusbarcolor.setStatusBarColor(Constants().app_color);
+  //   return MaterialApp(
+  //     title: 'FlutTECH',
+  //     theme: ThemeData(
+  //       primarySwatch: Colors.deepPurple,
+  //       visualDensity: VisualDensity.adaptivePlatformDensity,
+  //     ),
+  //     home: LoginPage(),
+  //     //LoginPage(),
+  //     routes: <String, WidgetBuilder>{
+  //       '/login': (BuildContext context) => new LoginPage(),
+  //       '/home': (BuildContext context) => new NavElem(),
+  //       '/admin/login': (BuildContext contect) => new AdminLoginPage(),
+  //       '/admin/findUsers': (BuildContext contect) => new FindUsersPage(),
+  //     },
+  //   );
+  // }
 }

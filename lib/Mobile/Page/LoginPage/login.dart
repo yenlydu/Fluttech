@@ -2,11 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter2/Mobile/Page/Admin/LoginPage/adminLoginPage.dart';
 import 'package:flutter2/Mobile/Page/CommonBackground.dart';
 import 'package:lite_rolling_switch/lite_rolling_switch.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:provider/provider.dart';
 
 //File Page Includ
 import 'package:flutter2/Model/Constants.dart';
 import 'package:flutter2/Model/Constants/C_Login.dart';
 import '../../Widget/app_icons_icons.dart';
+import '../../Tools/authentication_service.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -14,8 +17,10 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-
+  FirebaseAuth auth = FirebaseAuth.instance;
   bool _rememberme = false;
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
 /*
   // Show Message in case of error (Not Use)
   Future<void> _showMessage(String message) {
@@ -91,6 +96,7 @@ class _LoginPageState extends State<LoginPage> {
           child: TextField(
             keyboardType: TextInputType.emailAddress,
             style: TextStyle(color: Colors.white),
+            controller: emailController,
             decoration: InputDecoration(
               border: InputBorder.none,
               contentPadding: EdgeInsets.only(top: 14.0),
@@ -121,6 +127,7 @@ class _LoginPageState extends State<LoginPage> {
           child: TextField(
             obscureText: true,
             style: TextStyle(color: Colors.white),
+            controller: passwordController,
             decoration: InputDecoration(
               border: InputBorder.none,
               contentPadding: EdgeInsets.only(top: 14.0),
@@ -138,8 +145,7 @@ class _LoginPageState extends State<LoginPage> {
     return Container(
       alignment: Alignment.centerRight,
       child: FlatButton(
-        onPressed: () =>
-        {
+        onPressed: () => {
           Navigator.push(
             context,
             PageRouteBuilder(pageBuilder: (_, __, ___) => AdminLoginPage()),
@@ -154,14 +160,19 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-
   Widget _buildLoginBtn() {
     return Container(
       padding: EdgeInsets.symmetric(vertical: 25.0),
       width: double.infinity,
       child: RaisedButton(
         elevation: 5.0,
-        onPressed: () => print('Login Button Pressed'),
+        onPressed: () {
+          context.read<AuthenticationService>().signIn(
+                email: emailController.text.trim(),
+                password: passwordController.text.trim(),
+              );
+        },
+        // onPressed: () => print('Login Button Pressed'),
         padding: EdgeInsets.all(10.0),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(30.0),
@@ -180,6 +191,7 @@ class _LoginPageState extends State<LoginPage> {
       ),
     );
   }
+
   @override
   Widget _buildStructure() {
     return Column(
@@ -206,9 +218,7 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
-
       body: Stack(
         children: <Widget>[
           kContainer_BG,
