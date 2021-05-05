@@ -1,5 +1,7 @@
 import '../../../main.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../../Tools/authentication_service.dart';
 
 class HomePage extends StatefulWidget {
   HomePage({Key key}) : super(key: key);
@@ -29,6 +31,13 @@ class _HomePageState extends State<HomePage> {
                           fontWeight: FontWeight.bold, fontSize: 20.0),
                     ),
                   ),
+                              RaisedButton(
+              onPressed: () {
+                context.read<AuthenticationService>().signOut();
+              },
+              child: Text("Sign out"),
+            ),
+
                 ],
               ),
             ),

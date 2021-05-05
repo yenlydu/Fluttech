@@ -10,6 +10,7 @@ import 'package:lite_rolling_switch/lite_rolling_switch.dart';
 import 'package:flutter2/Mobile/Page/Admin/FindUsersPage/FindUsersPage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter2/Mobile/Tools/authentication_service.dart';
 
 //File Page Includ
 import 'Mobile/Page/Homepage/home.dart';
@@ -24,7 +25,10 @@ import 'package:flutter2/Model/SocialAccount.dart' as localuser;
 import 'package:flutter2/Model/Constants.dart';
 
 import 'package:flutter2/Web/homeAdmin.dart';
-import './mobile/Tools/authentication_service.dart';
+// import './mobile/Tools/authentication_service.dart';
+
+// import './Mobile/Page/home_page.dart';
+import 'package:flutter2/Mobile/Tools/signUpPage.dart';
 
 // void main() async {
 //   WidgetsFlutterBinding.ensureInitialized();
@@ -40,9 +44,9 @@ Future<void> main() async {
 
 class MyApp extends StatefulWidget {
   @override
-  MyMobileState createState() => MyMobileState();
+  // MyMobileState createState() => MyMobileState();
   //Launch web
-  // MyWebState createState() => MyWebState();
+  MyWebState createState() => MyWebState();
 }
 
 class MyWebState extends State<MyApp> {
@@ -50,13 +54,38 @@ class MyWebState extends State<MyApp> {
   Widget build(BuildContext context) {
     // TODO: implement build
 
-    return MaterialApp(
-      title: "FluTECH",
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
+    return MultiProvider(
+      providers: [
+        Provider<AuthenticationService>(
+          create: (_) => AuthenticationService(FirebaseAuth.instance),
+        ),
+        StreamProvider(
+          create: (context) =>
+              context.read<AuthenticationService>().authStateChanges,
+        )
+      ],
+      child: Consumer<AuthenticationService>(
+        builder: (context, provider, _) => MaterialApp(
+          title: "FluTECH",
+          theme: ThemeData(
+            primarySwatch: Colors.blue,
+          ),
+          home: WebAuthenticationWrapper(),
+        ),
       ),
-      home: LoginP(),
     );
+  }
+}
+
+class WebAuthenticationWrapper extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    final firebaseUser = context.watch<User>();
+
+    if (firebaseUser != null) {
+      return HomeAdmin();
+    }
+    return LoginP();
   }
 }
 
@@ -86,10 +115,8 @@ class MyMobileState extends State<MyApp> with WidgetsBindingObserver {
               context.read<AuthenticationService>().authStateChanges,
         )
       ],
-      child: 
-      Consumer<AuthenticationService>(
-        builder: (context, provider, _) => 
-        MaterialApp(
+      child: Consumer<AuthenticationService>(
+        builder: (context, provider, _) => MaterialApp(
           title: 'FluTECH',
           theme: ThemeData(
             primarySwatch: Colors.blue,
