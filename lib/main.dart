@@ -43,7 +43,7 @@ class MyAppState extends State<MyApp> with WidgetsBindingObserver {
         primarySwatch: Colors.deepPurple,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: NavElem(),
+      home: NavElem(), //NavElem(),
       //LoginPage(),
       routes: <String, WidgetBuilder>{
         '/login': (BuildContext context) => new LoginPage(),
