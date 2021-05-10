@@ -10,9 +10,9 @@ import 'package:lite_rolling_switch/lite_rolling_switch.dart';
 import 'package:flutter2/Mobile/Page/Admin/FindUsersPage/FindUsersPage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:provider/provider.dart';
-import 'package:flutter2/Mobile/Tools/authentication_service.dart';
 
 //File Page Includ
+import 'package:flutter2/Mobile/Tools/authentication_service.dart';
 import 'Mobile/Page/Homepage/home.dart';
 import 'Mobile/Page/ProfilePage/Profile.dart';
 import 'Mobile/Page/CalendarPage/Calendar.dart';
@@ -30,12 +30,6 @@ import 'package:flutter2/Web/homeAdmin.dart';
 // import './Mobile/Page/home_page.dart';
 import 'package:flutter2/Mobile/Tools/signUpPage.dart';
 
-// void main() async {
-//   WidgetsFlutterBinding.ensureInitialized();
-//   await Firebase.initializeApp();
-//   runApp(MyApp());
-// }
-
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
@@ -44,9 +38,9 @@ Future<void> main() async {
 
 class MyApp extends StatefulWidget {
   @override
-  // MyMobileState createState() => MyMobileState();
+  MyMobileState createState() => MyMobileState();
   //Launch web
-  MyWebState createState() => MyWebState();
+  //MyWebState createState() => MyWebState();
 }
 
 class MyWebState extends State<MyApp> {
@@ -92,10 +86,10 @@ class WebAuthenticationWrapper extends StatelessWidget {
 class AuthenticationWrapper extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final firebaseUser = context.watch<User>();
-
+    //final firebaseUser = context.watch<User>();
+    final firebaseUser = FirebaseAuth.instance.currentUser;
     if (firebaseUser != null) {
-      return HomePage();
+      return ProfilePage();
     }
     return LoginPage();
   }

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter2/Mobile/Page/Admin/LoginPage/adminLoginPage.dart';
 import 'package:flutter2/Mobile/Page/CommonBackground.dart';
+import 'package:flutter2/Mobile/Page/Homepage/home.dart';
+import 'package:flutter2/Mobile/Page/ProfilePage/Profile.dart';
 import 'package:lite_rolling_switch/lite_rolling_switch.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:provider/provider.dart';
@@ -166,12 +168,15 @@ class _LoginPageState extends State<LoginPage> {
       width: double.infinity,
       child: RaisedButton(
         elevation: 5.0,
-        onPressed: () 
-        {
-          context.read<AuthenticationService>().signIn(
+        onPressed: () async {
+          String res = await context.read<AuthenticationService>().signIn(
                 email: emailController.text.trim(),
                 password: passwordController.text.trim(),
               );
+          if (res == "Signed in") {
+            Navigator.pushReplacement(context,
+                MaterialPageRoute(builder: (context) => ProfilePage()));
+          }
         },
         // onPressed: () => print('Login Button Pressed'),
         padding: EdgeInsets.all(10.0),

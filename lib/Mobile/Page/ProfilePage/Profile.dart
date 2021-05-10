@@ -4,13 +4,16 @@ import 'dart:io';
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:firebase_auth/firebase_auth.dart' as fireauth;
 
-//File Page Includ
+//File Page Include
 import 'package:flutter2/Model/Constants.dart';
 import 'package:flutter2/Model/Constants/C_Profile.dart';
 import '../../Widget/app_icons_icons.dart';
 import 'package:flutter2/Model/SocialAccount.dart' as localuser;
 import '../../Tools/LocalTools.dart';
+import '../../Tools/ImagePickerManager.dart';
+import '../../Tools/ImageProfileFireManager.dart';
 
 class ProfilePage extends StatefulWidget {
   ProfilePage({Key key}) : super(key: key);
@@ -19,26 +22,29 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  localuser.User user;
+  //Manager
+  ImagePickerManager imagePickerManager;
+  ImageProfileFireManager fireimagemanager;
+  final fireauth.FirebaseAuth auth = fireauth.FirebaseAuth.instance;
+  //End Manager
+
+  fireauth.User user;
 
   _initUser(BuildContext context) async {
-    user = await Localtools().getCurrentUser();
+    user = auth.currentUser;
+    fireimagemanager = new ImageProfileFireManager();
   }
 
   //Image && Profile Selection
-  File imageFile;
+  NetworkImage imageFile;
+  AssetImage UserImage;
   // check if local image exist and select it
   _initImage(BuildContext context) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String image = await fireimagemanager.getUserPhoto(user.uid);
 
-    if (!prefs.containsKey('picked_image')) return;
-
-    final filepath = (prefs.getString('picked_image'));
-
-    final pickedFile = File(filepath);
     setState(() {
-      if (pickedFile != null) {
-        imageFile = File(pickedFile.path);
+      if (image != "") {
+        imageFile = NetworkImage(image);
       } else {
         print('No image selected.');
       }
@@ -48,39 +54,36 @@ class _ProfilePageState extends State<ProfilePage> {
   //Open user gallery to select a profile picture
   _openGallery(BuildContext context) async {
     final picker = ImagePicker();
+    //File pickedFile = await imagePickerManager.pickImageFromGallery(context);
     final pickedFile = await picker.getImage(source: ImageSource.gallery);
 
     if (pickedFile != null) {
-      imageCache.clear();
       Directory tempDir = await getApplicationDocumentsDirectory();
       String path = tempDir.path;
+      var res = await fireimagemanager.uploadPhoto(File(pickedFile.path));
 
-      final fileName = basename(pickedFile.path);
-      final File file = await File(pickedFile.path).copy('$path/picked');
-
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-      prefs.setString('picked_image', file.path);
+      setState(() {
+        imageCache.clear();
+        imageFile = NetworkImage(res);
+      });
+    } else {
+      print('No image selected.');
     }
-
-    setState(() {
-      if (pickedFile != null) {
-        imageFile = File(pickedFile.path);
-      } else {
-        print('No image selected.');
-      }
-    });
     Navigator.of(context).pop();
   }
 
   //Open Phone Camera to take a profile picture
   _openCamera(BuildContext context) async {
     final picker = ImagePicker();
+    final fireStore = ImageProfileFireManager();
 
-    final pickedFile = await picker.getImage(source: ImageSource.camera);
+    PickedFile pickedFile = await picker.getImage(source: ImageSource.camera);
 
+    var file = File(pickedFile.path);
+    var res = await fireimagemanager.uploadPhoto(file);
     setState(() {
       if (pickedFile != null) {
-        imageFile = File(pickedFile.path);
+        imageFile = NetworkImage(res);
       } else {
         print('No image selected.');
       }
@@ -141,8 +144,8 @@ class _ProfilePageState extends State<ProfilePage> {
         height: 230,
         child: ClipRRect(
           borderRadius: BorderRadius.circular(150),
-          child: Image.file(
-            imageFile,
+          child: Image.network(
+            imageFile.url,
             fit: BoxFit.cover,
           ),
         ),
@@ -223,7 +226,7 @@ class _ProfilePageState extends State<ProfilePage> {
             padding: new EdgeInsets.symmetric(horizontal: 30.0),
             child: Align(
               child: Text(
-                (user != null) ? user.fullName() : "user name".toUpperCase(),
+                (user != null) ? user.displayName : "user name".toUpperCase(),
                 style: TextStyle(fontWeight: FontWeight.w700, fontSize: 20.0),
               ),
             ),
@@ -239,7 +242,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     child: Text(
                       "Mail : " +
                           ((user != null)
-                              ? user.fullName()
+                              ? user.displayName
                               : "user.name@epitech.eu"),
                       style: TextStyle(
                           fontWeight: FontWeight.w400, fontSize: 15.0),
@@ -248,7 +251,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   Align(
                     alignment: Alignment.topLeft,
                     child: Text(
-                      "Credits : " + ((user != null) ? user.fullName() : "0"),
+                      "Credits : " + ((user != null) ? user.displayName : "0"),
                       style: TextStyle(
                           fontWeight: FontWeight.w400, fontSize: 15.0),
                     ),
@@ -256,7 +259,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   Align(
                     alignment: Alignment.topLeft,
                     child: Text(
-                      "G.P.A : " + ((user != null) ? user.fullName() : "0"),
+                      "G.P.A : " + ((user != null) ? user.displayName : "0"),
                       style: TextStyle(
                           fontWeight: FontWeight.w400, fontSize: 15.0),
                     ),
@@ -273,8 +276,8 @@ class _ProfilePageState extends State<ProfilePage> {
   //Profile Page
   @override
   Widget build(BuildContext context) {
-    _initImage(context);
     _initUser(context);
+    _initImage(context);
     return Scaffold(
       appBar: AppBar(
         title: const Text('Profile'),
