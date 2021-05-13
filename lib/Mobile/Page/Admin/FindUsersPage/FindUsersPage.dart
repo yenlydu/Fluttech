@@ -23,52 +23,27 @@ class InputWidget extends StatelessWidget {
 class _FindUsersPageState extends State<FindUsersPage> {
   UsersAutocomplete usersAutocomplete = new UsersAutocomplete();
 
-  Widget buildPasswordField() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        Text(
-          "Password",
-        ),
-        SizedBox(
-          height: 10.0,
-        ),
-        Container(
-          alignment: Alignment.centerLeft,
-          height: 50.0,
-          child: TextField(
-            obscureText: true,
-            style: TextStyle(color: Colors.white),
-            decoration: InputDecoration(
-              border: InputBorder.none,
-              contentPadding: EdgeInsets.only(top: 14.0),
-              prefixIcon: Icon(Icons.lock, color: Colors.white),
-              hintText: "Enter your Password",
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
+
+      backgroundColor: Colors.transparent,
       body: Padding(
         padding: EdgeInsets.all(10),
             child: Column(
               children: <Widget>[
-                SizedBox(
-                  height: 45.0,
-                  child: usersAutocomplete.userAutocomplete(),
-
+                Expanded(
+                  child: SizedBox(
+                    height: 45.0,
+                    width:500,
+                    child: usersAutocomplete.userAutocomplete(),
+                  ),
                 ),
-//            UsersAutocomplete().shouldDisplay ? Text("string test")  : Spacer(),
-
               ],
             )
         ),
+
     );
   }
 }
