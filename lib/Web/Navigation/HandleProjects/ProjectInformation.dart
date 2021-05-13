@@ -3,22 +3,22 @@ import 'package:flutter/material.dart';
 class Reunion
 {
   String reunionName;
-  String date;
+  DateTime date;
 //  TimeOfDay releaseTime = TimeOfDay(hour: 15, minute: 0);
-  TimeOfDay beginDate;
-  TimeOfDay endDate;
-
-  Reunion({@required this.reunionName, @required this.date, @required this.beginDate, @required this.endDate});
+  TimeOfDay beginHour;
+  TimeOfDay endHour;
+  Reunion({@required this.reunionName, @required this.date, @required this.beginHour, @required this.endHour});
 }
 
 class ProjectInformation
 {
   String title;
   String description;
-  String beginDate;
-  String endDate;
+  DateTime beginDate;
+  DateTime endDate;
   String requirements;
+  String professorName;
   int allowedStudents = 1;
   List<Reunion> reunions;
-  ProjectInformation({@required this.title, @required this.description, @required this.beginDate, @required this.endDate, this.requirements, this.allowedStudents, this.reunions});
+  ProjectInformation({@required this.title, @required this.description, @required this.beginDate, @required this.endDate, this.requirements, this.allowedStudents, this.reunions, this.professorName});
 }

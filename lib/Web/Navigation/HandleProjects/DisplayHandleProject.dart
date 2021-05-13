@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:html' as html;
-
+import 'package:flutter2/Web/Navigation/HandleProjects/PopupDescription.dart';
+import 'package:flutter2/Web/Navigation/HandleProjects/ProjectInformation.dart';
 class DisplayHandleProject
 {
   static final appContainer =
@@ -14,32 +15,22 @@ class DisplayHandleProject
     );
 
   }
-  Widget displaySubtitle(String subtitle)
-  {
-    return Text(subtitle, style: TextStyle(color: Color(0xFF875BC5),fontSize: 19,fontFamily: "Montserrat-Italic", fontWeight: FontWeight.bold, ),);
-  }
 
 
-  Widget singleItem({BuildContext context, String title, String description, IconData icon, Color iconColor}) {
+  Widget singleItem({BuildContext context, ProjectInformation project}) {
     return Center(
     child:InkWell(
       onTap: ()=> {
         showDialog(
           context: context,
           builder: (BuildContext context) {
-            return AlertDialog(
-              content: Stack(
-                overflow: Overflow.visible,
-                children: <Widget>[
-                  Text("enter")
-                ],
-              ),
-            );
+            return PopupDescription(project: project,);
           })
       },
       child: Container(
       width: MediaQuery.of(context).size.width/1.6,
       decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10),
         color: Color(0xFFF7F8F8),
         boxShadow: [
           BoxShadow(
@@ -57,15 +48,22 @@ class DisplayHandleProject
             SizedBox(
               height: 5.0,
             ),
-            displayTitle(title: title),
-            SizedBox(
-              height: 10.0,
-            ),
-            displaySubtitle("Description"),
+            displayTitle(title: project.title),
             SizedBox(
               height: 20.0,
             ),
-            Text(description, style: TextStyle(fontSize: 21, color: Color(0xFFC27BD9), ),),/*
+
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                Text("enter"),
+                Text("enter1"),
+                Text("enter2"),
+                Text("enter3")
+              ],
+            )
+
+            /*
             icon==null?Text(value, style: TextStyle(fontSize: 21, color: Color(0xFFB67FFF), ),):
             Row(
               mainAxisAlignment: MainAxisAlignment.center,

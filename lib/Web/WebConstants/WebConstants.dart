@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter2/Web/Dashboard/dashboardBar.dart';
-import 'package:flutter_feather_icons/flutter_feather_icons.dart';
+import 'package:intl/intl.dart';
+import 'package:intl/date_symbol_data_local.dart';
 
 enum Navigation {
   HANDLE_PROJECTS,
@@ -13,6 +13,11 @@ final hamburgerIcon = Icon(
   color: Colors.deepPurple,
   size: 30.0,
 );
+
+String formatter(DateTime dateTime)
+{
+  return DateFormat('yyyy-MM-dd – kk:mm').format(dateTime);
+}
 
 class NavigationsButtonsStyle {
   final callback;
