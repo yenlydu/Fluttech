@@ -1,38 +1,25 @@
 import 'package:flutter/material.dart';
-import 'package:flutter2/Mobile/Page/Admin/FindUsersPage/FindUsersPage.dart';
-import 'package:flutter2/Mobile/Page/CommonBackground.dart';
-import 'package:flutter2/Mobile/Page/Homepage/home.dart';
-import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter/services.dart';
+import 'package:flutter2/Mobile/Tools/push_notifications.dart';
 import 'package:flutter2/Web/login.dart';
-import 'package:lite_rolling_switch/lite_rolling_switch.dart';
-import 'package:flutter2/Mobile/Page/Admin/FindUsersPage/FindUsersPage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:provider/provider.dart';
 
 //File Page Includ
 import 'package:flutter2/Mobile/Tools/authentication_service.dart';
-import 'Mobile/Page/Homepage/home.dart';
 import 'Mobile/Page/ProfilePage/Profile.dart';
-import 'Mobile/Page/CalendarPage/Calendar.dart';
-import 'Mobile/Page/NotificationsPage/Notifications.dart';
 import './Mobile/Page/LoginPage/login.dart';
-import './Mobile/Page/Admin/LoginPage/adminLoginPage.dart';
-import './Mobile/Page/LoginPage/LoginPending.dart';
-import './Mobile/Page/HomePage/Nav.dart';
-import 'package:flutter2/Model/SocialAccount.dart' as localuser;
-import 'package:flutter2/Model/Constants.dart';
 
 import 'package:flutter2/Web/homeAdmin.dart';
 // import './mobile/Tools/authentication_service.dart';
 
 // import './Mobile/Page/home_page.dart';
-import 'package:flutter2/Mobile/Tools/signUpPage.dart';
+import 'Mobile/Tools/ServiceLocator/ServiceManager.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  setupServices();
   runApp(MyApp());
 }
 
@@ -96,7 +83,6 @@ class AuthenticationWrapper extends StatelessWidget {
 }
 
 class MyMobileState extends State<MyApp> with WidgetsBindingObserver {
-  static localuser.User currentUser;
   @override
   Widget build(BuildContext context) {
     return MultiProvider(

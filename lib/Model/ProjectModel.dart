@@ -1,7 +1,7 @@
 import 'dart:io';
 
 // Local User Data
-class User {
+class ProjectModel {
   String email;
   String firstName;
   String lastName;
@@ -33,7 +33,7 @@ class User {
   String appIdentifier;
 
   // Init User Data (avoid null Reference Exception)
-  User(
+  ProjectModel(
       {this.email = '',
       this.firstName = '',
       this.phoneNumber = '',
@@ -59,8 +59,8 @@ class User {
   }
 
   // get User object from json encoding
-  factory User.fromJson(Map<String, dynamic> parsedJson) {
-    return new User(
+  factory ProjectModel.fromJson(Map<String, dynamic> parsedJson) {
+    return new ProjectModel(
         email: parsedJson['email'] ?? '',
         firstName: parsedJson['firstName'] ?? '',
         lastName: parsedJson['lastName'] ?? '',

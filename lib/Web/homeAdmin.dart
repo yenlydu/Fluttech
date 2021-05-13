@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter2/Mobile/Tools/signUpPage.dart';
+import 'package:flutter2/Mobile/Page/LoginPage/signUpPage.dart';
 import 'package:flutter2/Model/Constants.dart';
 import 'package:flutter2/Web/Dashboard/dashboard.dart';
 import 'package:flutter2/Model/Constants/C_Login.dart';
