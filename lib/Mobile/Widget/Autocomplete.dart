@@ -26,10 +26,11 @@ class UsersAutocomplete  {
         controller: _suggestionsTextFieldController,
         suggestions: mailAddressesList,
         clearOnSubmit: false,
-        style: TextStyle(color: Constants().app_color,
+        style: TextStyle(color: Colors.deepPurple,
             fontFamily: 'OpenSans',
             fontSize: 16.0),
         decoration: InputDecoration(
+          fillColor: Colors.white,
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(20.0),
             )

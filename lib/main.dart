@@ -5,7 +5,7 @@ import 'package:flutter2/Mobile/Page/Homepage/home.dart';
 import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter2/Web/login.dart';
+import 'package:flutter2/Web/Login.dart';
 import 'package:lite_rolling_switch/lite_rolling_switch.dart';
 import 'package:flutter2/Mobile/Page/Admin/FindUsersPage/FindUsersPage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -23,7 +23,7 @@ import './Mobile/Page/LoginPage/LoginPending.dart';
 import './Mobile/Page/HomePage/Nav.dart';
 import 'package:flutter2/Model/SocialAccount.dart' as localuser;
 import 'package:flutter2/Model/Constants.dart';
-
+import 'package:flutter2/Web/Login.dart';
 import 'package:flutter2/Web/homeAdmin.dart';
 // import './mobile/Tools/authentication_service.dart';
 
@@ -38,9 +38,9 @@ Future<void> main() async {
 
 class MyApp extends StatefulWidget {
   @override
-  MyMobileState createState() => MyMobileState();
+//  MyMobileState createState() => MyMobileState();
   //Launch web
-  //MyWebState createState() => MyWebState();
+  MyWebState createState() => MyWebState();
 }
 
 class MyWebState extends State<MyApp> {
@@ -62,8 +62,12 @@ class MyWebState extends State<MyApp> {
         builder: (context, provider, _) => MaterialApp(
           title: "FluTECH",
           theme: ThemeData(
+            fontFamily: 'Montserrat',
             primarySwatch: Colors.blue,
-          ),
+          ) ,
+          routes: <String, WidgetBuilder>{
+            '/login': (BuildContext context) => new LoginP(),
+          },
           home: WebAuthenticationWrapper(),
         ),
       ),

@@ -1,15 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter2/Web/homeAdmin.dart';
-import 'package:flutter2/Web/Dashboard/navigationBar.dart';
+import 'package:flutter2/Web/Navigation/NavigationBar.dart';
 import 'package:flutter2/Model/Constants.dart';
 import 'package:flutter2/Mobile/Page/Admin/FindUsersPage/FindUsersPage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:provider/provider.dart';
 
 import '../Mobile/Tools/authentication_service.dart';
+typedef void IntCallback(int id);
 
 class LoginP extends StatelessWidget {
+
   final GlobalKey<ScaffoldState> _key = GlobalKey<ScaffoldState>();
+  final IntCallback onSonChanged;
+  LoginP({ @required this.onSonChanged });
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +37,7 @@ class LoginP extends StatelessWidget {
                       color: Colors.grey, offset: Offset(0, 3), blurRadius: 24)
                 ],
               ),
-              height: 400,
+              height: 450,
               width: 350,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -46,10 +50,8 @@ class LoginP extends StatelessWidget {
                     fit: BoxFit.scaleDown,
                     alignment: Alignment.center,
                   ),
-                  Text("ADMIN"),
-                  SizedBox(
-                    height: 20,
-                  ),
+                  Text("ADMINISTRATOR", style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold, fontFamily: "Butler"),),
+                  SizedBox(height: 20,),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20),
                     child: Container(
@@ -111,22 +113,26 @@ class LoginP extends StatelessWidget {
                         color: Colors.indigo,
                       ),
                       child: FlatButton(
-                        onPressed: () 
+/*
+                        onPressed: ()
                         {
                           context.read<AuthenticationService>().signIn(
                                 email: email.text.trim(),
                                 password: password.text.trim(),
                               );
+*/
+                          // TEXT FOR INVALID LOGIN
+                        onPressed:() {
+                          if (email.text.isEmpty || password.text.isEmpty) {
+                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Invalid email or password")));
+                          } else {
+                            print(email.text + " "+ password.text);
+                            Navigator.push(context,     MaterialPageRoute(
+                              builder: (context) => HomeAdmin (email: email.text,)
+                            ));
+                            //                            Navigator.push(context, PageRouteBuilder(pageBuilder: (_, __, ___) => FindUsersPage()));
+                          }
                         },
-                        // {
-                        //   if (email.text.isEmpty || password.text.isEmpty) {
-                        //     ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Invalid email or password")));
-                        //   } else {
-                        //     print(email.text + " "+ password.text);
-                        //     Navigator.push(context, PageRouteBuilder(pageBuilder: (_, __, ___) => HomeAdmin()));
-                        //   //  Navigator.push(context, PageRouteBuilder(pageBuilder: (_, __, ___) => FindUsersPage()));
-                        //   }
-                        // },
                         child: Text("Sign in", style: TextStyle(color: Colors.white)),
                       ),
                     ),
