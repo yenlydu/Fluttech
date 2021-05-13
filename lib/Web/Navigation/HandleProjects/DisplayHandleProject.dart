@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'dart:html' as html;
 import 'package:flutter2/Web/Navigation/HandleProjects/PopupDescription.dart';
+import 'package:flutter2/Web/WebConstants/WebConstants.dart';
 import 'package:flutter2/Web/Navigation/HandleProjects/ProjectInformation.dart';
+
 class DisplayHandleProject
 {
-  static final appContainer =
-  html.window.document.getElementById('app-container');
+  static final appContainer = html.window.document.getElementById('app-container');
 
   Widget displayTitle({String title})
   {
@@ -13,9 +14,7 @@ class DisplayHandleProject
         alignment: Alignment.centerLeft,
         child: Text(title, style: TextStyle(color: Color(0xFF5D1EB5),fontSize: 22,fontWeight: FontWeight.bold, ),),
     );
-
   }
-
 
   Widget singleItem({BuildContext context, ProjectInformation project}) {
     return Center(
@@ -49,10 +48,7 @@ class DisplayHandleProject
               height: 5.0,
             ),
             displayTitle(title: project.title),
-            SizedBox(
-              height: 20.0,
-            ),
-
+            spaceBetweenWidgets,
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
@@ -62,29 +58,6 @@ class DisplayHandleProject
                 Text("enter3")
               ],
             )
-
-            /*
-            icon==null?Text(value, style: TextStyle(fontSize: 21, color: Color(0xFFB67FFF), ),):
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-
-              children: [
-                Center(
-                    child: Container(
-                      child: Row(
-
-                        children: [
-                          Text(value, style: TextStyle(fontSize: 18, color:Colors.deepPurpleAccent, fontWeight: FontWeight.bold),),
-                          Icon(icon,color: iconColor,)
-
-                        ],
-                      ),
-                    )
-                ),
-              ],
-            )
-  */
           ],
         ),
         ),

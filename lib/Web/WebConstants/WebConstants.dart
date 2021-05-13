@@ -8,6 +8,10 @@ enum Navigation {
   PROFILE,
 }
 
+final spaceBetweenWidgets = SizedBox(
+  height: 25.0,
+);
+
 final hamburgerIcon = Icon(
   Icons.menu,
   color: Colors.deepPurple,

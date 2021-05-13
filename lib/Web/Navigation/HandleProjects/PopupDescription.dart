@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'ProjectInformation.dart';
+import 'package:flutter2/Web/WebConstants/WebConstants.dart';
 class PopupDescription extends StatelessWidget
 {
   ProjectInformation project;
@@ -26,10 +27,33 @@ class PopupDescription extends StatelessWidget
                     height: 10.0,
                   ),
                   displaySubtitle("Description"),
-                  SizedBox(
-                    height: 20.0,
-                  ),
+                  spaceBetweenWidgets,
                   Text(project.description, style: TextStyle(fontSize: 17, color: Color(0xFFC27BD9), ),),
+                  spaceBetweenWidgets,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      Column(
+                        children:[
+                          displaySubtitle("Begin Date"),
+                          spaceBetweenWidgets,
+                          Text(formatter( project.beginDate), style: TextStyle(fontSize: 17, color: Color(0xFFC27BD9), ),),
+
+
+                        ]
+                      ),
+                      Column(
+                          children:[
+                            displaySubtitle("End Date"),
+                            spaceBetweenWidgets,
+                            Text(formatter(project.endDate), style: TextStyle(fontSize: 17, color: Color(0xFFC27BD9), ),),
+
+
+                          ]
+                      )
+
+                    ],
+                  )
                 ],
               ),
             ),
