@@ -10,8 +10,6 @@ Widget actionDeletingProject(BuildContext context)
 {
   Navigator.of(context).pop();
   Navigator.pop(context);
-  print("enter");
-
   return Container();
 }
 

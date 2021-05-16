@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter2/Web/homeAdmin.dart';
 import 'package:flutter2/Model/Constants.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:provider/provider.dart';
 
+import '../Mobile/Tools/authentication_service.dart';
 class LoginP extends StatelessWidget {
 
   @override
@@ -104,15 +106,15 @@ class LoginP extends StatelessWidget {
                         color: Colors.indigo,
                       ),
                       child: FlatButton(
-/*
-                        onPressed: ()
-                        {
+                          child: Text("Sign in", style: TextStyle(color: Colors.white)),
+
+                          onPressed: () {
                           context.read<AuthenticationService>().signIn(
-                                email: email.text.trim(),
-                                password: password.text.trim(),
-                              );
-*/
-                          // TEXT FOR INVALID LOGIN
+                            email: email.text.trim(),
+                            password: password.text.trim(),
+                          );
+                          }
+/*                            // TEXT FOR INVALID LOGIN
                         onPressed:() {
                           if (email.text.isEmpty || password.text.isEmpty) {
                             ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Invalid email or password")));
@@ -123,17 +125,18 @@ class LoginP extends StatelessWidget {
                             ));
                             //                            Navigator.push(context, PageRouteBuilder(pageBuilder: (_, __, ___) => FindUsersPage()));
                           }
-                        },
-                        child: Text("Sign in", style: TextStyle(color: Colors.white)),
+                        },*/
+
+                    ),
+
                       ),
+                  ),
+                    ],
                     ),
                   ),
-                ],
               ),
             ),
           ),
-        ),
-      ),
-    );
+        );
   }
 }

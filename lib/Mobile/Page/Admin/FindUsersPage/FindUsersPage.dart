@@ -44,7 +44,6 @@ class _FindUsersPageState extends State<FindUsersPage> {
 
       backgroundColor: Colors.transparent,
       body: Container(
-        color: Colors.red,
         width: MediaQuery.of(context).size.width,
         height: 73,
         child: Padding(

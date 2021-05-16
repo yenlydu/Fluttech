@@ -110,27 +110,31 @@ return Container(
       Container(
       child:
           Column(
+    mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Expanded(child: FindUsersPage(getStudentSelected: getEmail,),),
+            Center(
+              child: Container(
+                width: MediaQuery.of(context).size.width,
+                height: MediaQuery.of(context).size.height/1.8,
 
-            Container(
-              width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height/1.8,
-
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  color: Color(0xFFF7F8F8),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(0.4),
-                      spreadRadius: 2,
-                      offset: Offset(0.5,0.5),
-                      blurRadius: 2,
-                    )
-                  ]
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: Color(0xFFF7F8F8),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.4),
+                        spreadRadius: 2,
+                        offset: Offset(0.5,0.5),
+                        blurRadius: 2,
+                      )
+                    ]
+                ),
+                child: email != null ? Text(email, style: TextStyle(color: Color(0xFF5D1EB5),fontSize: 22,fontWeight: FontWeight.bold, ),): Container(),
               ),
-              child: email != null ? Text(email) : Container(),
-             ),
+
+            )
 
 
           ],
