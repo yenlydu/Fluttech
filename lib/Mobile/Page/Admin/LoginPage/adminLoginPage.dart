@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter2/Mobile/Page/LoginPage/login.dart';
-import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
 import 'package:flutter2/Model/Constants.dart';
 import 'package:flutter2/Model/Constants/C_Login.dart';
 import 'package:flutter2/Mobile/Page/CommonBackground.dart';

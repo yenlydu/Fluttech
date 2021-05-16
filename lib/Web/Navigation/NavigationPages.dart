@@ -53,8 +53,9 @@ class verticalWidget extends StatelessWidget
                 children: [
                   Flexible(
                     child: HandleProjects().constructProjectsList(size * 2, context),
-                  )
-                   ,
+                  ),
+
+
 //                  RightSideWidget()
 
                 ],
@@ -67,34 +68,78 @@ class verticalWidget extends StatelessWidget
 
     );
   }
-
 }
 class AllStudents extends StatelessWidget
 {
   @override
   Widget build(BuildContext context) {
     return ResponsiveLayout(
-      largeScreen: AllStudentsPage( ),
+      largeScreen: HandleStudentsPage( ),
     );
   }
 }
 
-class AllStudentsPage extends StatelessWidget {
+class HandleStudentsPage extends StatefulWidget {
+  final void customFunction;
+  HandleStudentsPage({Key key, this.customFunction}): super(key: key);
+  @override
+  _HandleStudentsPageState createState() => _HandleStudentsPageState();
+}
+
+class _HandleStudentsPageState extends State<HandleStudentsPage>
+{
+  String email;
+
+  void getEmail(str)
+  {
+    setState(() {
+      email = str;
+    });
+  }
+
+
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 80,
-      width: 500,
-      child: Stack(
+return Container(
+  width: MediaQuery.of(context).size.width/1.1,
+  height: MediaQuery.of(context).size.height/1.5,
+  child: Stack(
         alignment: Alignment.topCenter,
         fit: StackFit.expand,
         children: <Widget>[
-          FractionallySizedBox(
-            alignment: Alignment.topCenter,
-            child: FindUsersPage(),
-          )
-        ],
+      Container(
+      child:
+          Column(
+          children: [
+            Expanded(child: FindUsersPage(getStudentSelected: getEmail,),),
+
+            Container(
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.height/1.8,
+
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  color: Color(0xFFF7F8F8),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.4),
+                      spreadRadius: 2,
+                      offset: Offset(0.5,0.5),
+                      blurRadius: 2,
+                    )
+                  ]
+              ),
+              child: email != null ? Text(email) : Container(),
+             ),
+
+
+          ],
+        ),
       ),
+      sizedBox(10),
+
+    ],
+),
     );
   }
 }

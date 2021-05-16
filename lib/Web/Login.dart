@@ -1,19 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter2/Web/homeAdmin.dart';
-import 'package:flutter2/Web/Navigation/NavigationBar.dart';
 import 'package:flutter2/Model/Constants.dart';
-import 'package:flutter2/Mobile/Page/Admin/FindUsersPage/FindUsersPage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:provider/provider.dart';
-
-import '../Mobile/Tools/authentication_service.dart';
-typedef void IntCallback(int id);
 
 class LoginP extends StatelessWidget {
-
-  final GlobalKey<ScaffoldState> _key = GlobalKey<ScaffoldState>();
-  final IntCallback onSonChanged;
-  LoginP({ @required this.onSonChanged });
 
   @override
   Widget build(BuildContext context) {
@@ -85,6 +75,7 @@ class LoginP extends StatelessWidget {
                         padding: EdgeInsets.only(left: 8.0),
                         child: TextField(
                           controller: password,
+                          obscureText: true,
                           decoration: InputDecoration(
                               border: InputBorder.none,
                               hintText: "Password",

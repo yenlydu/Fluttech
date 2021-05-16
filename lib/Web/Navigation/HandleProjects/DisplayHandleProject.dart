@@ -1,13 +1,23 @@
 import 'package:flutter/material.dart';
-import 'dart:html' as html;
-import 'package:flutter2/Web/Navigation/HandleProjects/PopupDescription.dart';
+import 'package:flutter2/Web/Navigation/HandleProjects/Actions/PopupDescription.dart';
+import 'package:flutter2/Web/Navigation/HandleProjects/Actions/ProjectsActions.dart';
+import 'package:flutter2/Web/WebConstants/Enumerations.dart';
 import 'package:flutter2/Web/WebConstants/WebConstants.dart';
 import 'package:flutter2/Web/Navigation/HandleProjects/ProjectInformation.dart';
+import 'package:flutter2/Web/Style/ButtonsStyle.dart';
 
-class DisplayHandleProject
+
+class DisplayHandleProject extends StatefulWidget {
+  final ProjectInformation project;
+
+  DisplayHandleProject({this.project});
+
+  @override
+  _DisplayHandleProjectState createState() => _DisplayHandleProjectState();
+}
+
+class  _DisplayHandleProjectState extends State<DisplayHandleProject>
 {
-  static final appContainer = html.window.document.getElementById('app-container');
-
   Widget displayTitle({String title})
   {
     return Align(
@@ -16,7 +26,12 @@ class DisplayHandleProject
     );
   }
 
-  Widget singleItem({BuildContext context, ProjectInformation project}) {
+  @override
+  Widget build(BuildContext context) {
+    return singleItem(project: widget.project);
+  }
+  Widget singleItem({@required ProjectInformation project}) {
+
     return Center(
     child:InkWell(
       onTap: ()=> {
@@ -48,22 +63,24 @@ class DisplayHandleProject
               height: 5.0,
             ),
             displayTitle(title: project.title),
-            spaceBetweenWidgets,
+            sizedBox(20),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                Text("enter"),
-                Text("enter1"),
-                Text("enter2"),
-                Text("enter3")
+                ActionButtonsStyle(color: Colors.red, text: "Delete", customFunction: () => ProjectsActions(project: project,actions: ProjectActionsEnum.DELETE, ), icon: Icons.delete),
+                ActionButtonsStyle(color: Colors.orange, text: "Edit",customFunction: () => ProjectsActions(project: project,actions: ProjectActionsEnum.EDIT,), icon: Icons.edit,),
+                ActionButtonsStyle(color: Colors.green, text: "Add Student",customFunction: () => ProjectsActions(project: project,actions: ProjectActionsEnum.ADD_STUDENT,), icon: Icons.add,),
               ],
-            )
+            ),
+            sizedBox(5)
           ],
         ),
         ),
         ),
       ),
     );
+
+
   }
 
 }

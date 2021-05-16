@@ -1,70 +1,86 @@
 import 'package:flutter/material.dart';
-import 'package:flutter2/Mobile/Tools/signUpPage.dart';
-import 'package:flutter2/Model/Constants.dart';
-import 'package:flutter2/Web/Dashboard/dashboard.dart';
-import 'package:flutter2/Model/Constants/C_Login.dart';
 import 'package:flutter2/Web/Navigation/NavigationBar.dart';
 import 'package:flutter2/Web/Navigation/NavigationPages.dart';
-import 'package:flutter2/Web/WebConstants/WebConstants.dart';
+import 'package:flutter2/Web/WebConstants/Enumerations.dart';
 
 class HomeAdmin extends StatefulWidget {
+  final String email;
   HomeAdmin({@required this.email});
-  String email = "";
   @override
   _HomeAdminState createState() => _HomeAdminState(email: this.email);
 }
 
 class _HomeAdminState extends State<HomeAdmin> {
-  _HomeAdminState({@required this.email});
-  final String email;
-  Navigation currentPage = Navigation.HANDLE_PROJECTS;
+  Widget current;
+  List<Widget> screens = [
+  ];
 
-  Widget getCurrentPage()
-  {
-    if (this.currentPage == Navigation.HANDLE_PROJECTS) {
-      return Container(
-        child: Column(
-          children: <Widget>[
-            Text("Handle Projects", style: TextStyle(fontSize: 30,fontFamily: 'Butler'),),
-            Center(child: AllProjects(),),
-          ],
-        ),
-      );
-    } else if (this.currentPage == Navigation.HANDLE_USERS) {
-      return Container(
-        child: Column(
+  @override
+  void initState() {
+    super.initState();
+    screens.add(    Column(
+      children: <Widget>[
+        Text("Handle Projects", style: TextStyle(fontSize: 30,fontFamily: 'Butler'),),
+        Center(child: AllProjects(),),
+      ],
+    ),);
+        screens.add(Column(
           children: <Widget>[
             Text("Handle Users", style: TextStyle(fontSize: 30,fontFamily: 'Butler'),),
-
-            AllStudents(),
-
+            Center(child: AllStudents(),),
           ],
-        ),
-      );
-    } else {
-      return Container(
-        child: Column(
+        ));
+        screens.add(Column(
           children: <Widget>[
-            Text(
-              "Profile", style: TextStyle(fontSize: 30, fontFamily: 'Butler'),),
-            Profile(),
+            Text("Profile", style: TextStyle(fontSize: 30,fontFamily: 'Butler'),),
+            Center(child: Profile(),),
           ],
-        ),
-      );
-    }
+        )
+        );
+  }
 
-    }
+  _HomeAdminState({@required this.email});
+  final String email;
+  NavigationEnum currentPage = NavigationEnum.HANDLE_PROJECTS;
 
-    void parentChange(nav)
+    void navigationChange(nav)
     {
       setState(() {
         currentPage = nav;
       });
-
     }
+
 
   @override
   Widget build(BuildContext context) {
+    // TODO: implement build
+    return Scaffold(
+
+      body: Container(
+        height: MediaQuery
+            .of(context)
+            .size
+            .height,
+        width: MediaQuery
+            .of(context)
+            .size
+            .width,
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              NavigationBar(customFunction: navigationChange),
+              Text(email),
+              screens[currentPage.index]
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+/*
+  @override
+  Widget build(BuildContext context) {
+
     // TODO: implement build
     return Scaffold(
       body: Container(
@@ -79,7 +95,7 @@ class _HomeAdminState extends State<HomeAdmin> {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              NavigationBar(customFunction: parentChange),
+              NavigationBar(customFunction: navigationChange),
               getCurrentPage(),
             ],
           ),
@@ -87,4 +103,5 @@ class _HomeAdminState extends State<HomeAdmin> {
       ),
     );
   }
+*/
 }

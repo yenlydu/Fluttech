@@ -5,9 +5,7 @@ class Reunion
   String reunionName;
   DateTime date;
 //  TimeOfDay releaseTime = TimeOfDay(hour: 15, minute: 0);
-  TimeOfDay beginHour;
-  TimeOfDay endHour;
-  Reunion({@required this.reunionName, @required this.date, @required this.beginHour, @required this.endHour});
+  Reunion({@required this.reunionName, @required this.date});
 }
 
 class ProjectInformation
