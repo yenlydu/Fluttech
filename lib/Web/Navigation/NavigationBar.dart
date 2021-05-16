@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter2/Model/Constants.dart';
-import 'package:flutter2/Web/Login.dart';
-import 'package:responsive_layout_builder/responsive_layout_builder.dart';
-import '../WebConstants/responsiveLayout.dart';
-import 'package:flutter2/Web/Navigation/NavigationPages.dart';
+import 'package:flutter2/Web/WebConstants/responsiveLayout.dart';
+import 'package:flutter2/Web/Style/ButtonsStyle.dart';
+import 'package:flutter2/Web/WebConstants/Enumerations.dart';
 import 'package:flutter2/Web/WebConstants/WebConstants.dart';
 
 class NavigationBar extends StatefulWidget {
@@ -18,32 +17,27 @@ class _NavigationBarState extends State<NavigationBar>
   void func(text)
   {
     if (text == "Handle Projects"){
-      currentPage = Navigation.HANDLE_PROJECTS;
+      currentPage = NavigationEnum.HANDLE_PROJECTS;
     } else if (text == "Handle Users") {
-      currentPage = Navigation.HANDLE_USERS;
+      currentPage = NavigationEnum.HANDLE_USERS;
     } else {
-      currentPage = Navigation.PROFILE;
+      currentPage = NavigationEnum.PROFILE;
     }
     widget.customFunction(currentPage);
   }
-  Navigation currentPage = Navigation.HANDLE_PROJECTS;
+  NavigationEnum currentPage = NavigationEnum.HANDLE_PROJECTS;
   final navLinks = ["Handle Projects", "Handle Users", "Profile"];
   String te = "";
   List<Widget> navItem ()
   {
     return navLinks.map((text) {
-      return NavigationsButtonsStyle(
+      return NavigationButtonsStyle(
               () => func(text),
           Text(text, style: TextStyle(fontFamily: "Montserrat-Italic",
               backgroundColor: Colors.transparent)),
           navigationButtons, 120).button();
     }).toList();
   }
-  final PageRouteBuilder _homeRoute = new PageRouteBuilder(
-    pageBuilder: (BuildContext context, _, __) {
-      return LoginP();
-    },
-  );
 
   void _goHome() {
     Navigator.pushReplacementNamed(context, "/login");
@@ -70,7 +64,6 @@ class _NavigationBarState extends State<NavigationBar>
                         offset: Offset(0, 3), // changes position of shadow
                       ),
                     ],
-
                     borderRadius: BorderRadius.circular(18),
                     gradient:LinearGradient(
                       colors: [Color(0xFFC798E9), Color(0xFFD5C0E5), Color(0xFFFFFFFF)],
@@ -82,12 +75,11 @@ class _NavigationBarState extends State<NavigationBar>
                 child: Center(
                   child: Image.asset('images/icon.png'),
                 ),
-
               ),
               SizedBox(
                 width: 16,
               ),
-              Text("FluTECH", style: TextStyle(fontSize: 30,fontWeight: FontWeight.bold, fontFamily: "Butler"),)
+              Text("FluTECH", style: TextStyle(fontSize: 30,fontWeight: FontWeight.bold, fontFamily: "Butler", ),)
             ],
           ),
           if (!ResponsiveLayout.isSmallScreen(context))
@@ -96,7 +88,7 @@ class _NavigationBarState extends State<NavigationBar>
                 children:<Widget> [
                   ...navItem(),
                 ]..add(
-                  NavigationsButtonsStyle(_goHome, Icon(
+                  NavigationButtonsStyle(_goHome, Icon(
                     Icons.power_settings_new,
                     color: Colors.deepPurple,
                     size: 30.0,
@@ -107,8 +99,7 @@ class _NavigationBarState extends State<NavigationBar>
                 )
 
             )
-          else
-            hamburgerIcon
+          else hamburgerIcon
 
         ],
 

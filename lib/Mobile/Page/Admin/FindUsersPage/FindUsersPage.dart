@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter2/Mobile/Widget/Autocomplete.dart';
+import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 
 class FindUsersPage extends StatefulWidget {
-  FindUsersPage();
+  final getStudentSelected;
+
+  FindUsersPage({Key key, this.getStudentSelected}): super(key: key);
   @override
   _FindUsersPageState createState() => _FindUsersPageState();
 
@@ -21,29 +24,42 @@ class InputWidget extends StatelessWidget {
 }
 
 class _FindUsersPageState extends State<FindUsersPage> {
-  UsersAutocomplete usersAutocomplete = new UsersAutocomplete();
+  String email;
+
+  void getEmail(str)
+  {
+    setState(() {
+      email = str;
+      widget.getStudentSelected(this.email);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
+    UsersAutocomplete usersAutocomplete = new UsersAutocomplete(getStudentSelected: getEmail,);
+
     return Scaffold(
+
       resizeToAvoidBottomInset: false,
 
       backgroundColor: Colors.transparent,
-      body: Padding(
+      body: Container(
+        color: Colors.red,
+        width: MediaQuery.of(context).size.width,
+        height: 73,
+        child: Padding(
         padding: EdgeInsets.all(10),
             child: Column(
+
               children: <Widget>[
-                Expanded(
-                  child: SizedBox(
-                    height: 45.0,
-                    width:500,
-                    child: usersAutocomplete.userAutocomplete(),
-                  ),
+                Container(
+                  width: 500,
+                 child: usersAutocomplete.userAutocomplete(),
                 ),
               ],
             )
         ),
-
+      ),
     );
   }
 }

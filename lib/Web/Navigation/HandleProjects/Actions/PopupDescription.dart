@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'ProjectInformation.dart';
+import '../ProjectInformation.dart';
 import 'package:flutter2/Web/WebConstants/WebConstants.dart';
+
 class PopupDescription extends StatelessWidget
 {
-  ProjectInformation project;
+  final ProjectInformation project;
 
   PopupDescription({Key key, @required this.project}) : super(key: key);
 
@@ -23,35 +24,28 @@ class PopupDescription extends StatelessWidget
               width: MediaQuery.of(context).size.width/1.5,
               child:Column(
                 children:[
-                  SizedBox(
-                    height: 10.0,
-                  ),
+                  sizedBox(10),
                   displaySubtitle("Description"),
-                  spaceBetweenWidgets,
-                  Text(project.description, style: TextStyle(fontSize: 17, color: Color(0xFFC27BD9), ),),
-                  spaceBetweenWidgets,
+                  sizedBox(10),
+                  Text(project.description, style: TextStyle(fontSize: 17, color: Color(0xFFF69F20), ),),
+                  sizedBox(25),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
                       Column(
                         children:[
                           displaySubtitle("Begin Date"),
-                          spaceBetweenWidgets,
-                          Text(formatter( project.beginDate), style: TextStyle(fontSize: 17, color: Color(0xFFC27BD9), ),),
-
-
+                          sizedBox(5),
+                          Text(formatter( project.beginDate), style: TextStyle(fontSize: 17, color: Color(0xFFF69F20), ),),
                         ]
                       ),
                       Column(
                           children:[
                             displaySubtitle("End Date"),
-                            spaceBetweenWidgets,
-                            Text(formatter(project.endDate), style: TextStyle(fontSize: 17, color: Color(0xFFC27BD9), ),),
-
-
+                            sizedBox(5),
+                            Text(formatter(project.endDate), style: TextStyle(fontSize: 17, color: Color(0xFFF69F20), ),),
                           ]
                       )
-
                     ],
                   )
                 ],
@@ -60,6 +54,5 @@ class PopupDescription extends StatelessWidget
           ]
       ),
     );
-
   }
 }

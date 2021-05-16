@@ -4,9 +4,7 @@ import 'package:flutter/material.dart';
 import '../ProfilePage/Profile.dart';
 import '../CalendarPage/Calendar.dart';
 import '../ProjectsPage/Projects.dart';
-import '../ProfilePage/Profile.dart';
 import '../NotificationsPage/Notifications.dart';
-import 'recent.dart';
 
 class NavElem extends StatefulWidget {
   NavElem({Key key, this.title = ""}) : super(key: key);
