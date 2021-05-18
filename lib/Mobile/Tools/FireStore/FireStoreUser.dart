@@ -16,7 +16,7 @@ class FireStoreUser {
   CollectionReference users;
 
   FireStoreUser() {
-    CollectionReference users = FirebaseFirestore.instance.collection('users');
+    CollectionReference users = FirebaseFirestore.instance.collection('User');
   }
 
   Future<bool> registerUser(User fireUser, UserModel data) {
