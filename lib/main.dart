@@ -105,6 +105,12 @@ class MyMobileState extends State<MyApp> with WidgetsBindingObserver {
           home: AuthenticationWrapper(),
         ),
       ),
+      home: NavElem(), //NavElem(),
+      //LoginPage(),
+      routes: <String, WidgetBuilder>{
+        '/login': (BuildContext context) => new LoginPage(),
+        '/home': (BuildContext context) => new NavElem(),
+      },
     );
   }
 
