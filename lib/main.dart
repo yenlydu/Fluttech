@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter2/Mobile/Tools/push_notifications.dart';
+import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
 import 'package:flutter2/Web/login.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:provider/provider.dart';
 
 //File Page Includ
 import 'package:flutter2/Mobile/Tools/authentication_service.dart';
+import 'Mobile/Page/Homepage/Nav.dart';
 import 'Mobile/Page/ProfilePage/Profile.dart';
 import './Mobile/Page/LoginPage/login.dart';
 
@@ -76,7 +78,7 @@ class AuthenticationWrapper extends StatelessWidget {
     //final firebaseUser = context.watch<User>();
     final firebaseUser = FirebaseAuth.instance.currentUser;
     if (firebaseUser != null) {
-      return ProfilePage();
+      return NavElem();
     }
     return LoginPage();
   }
@@ -85,6 +87,7 @@ class AuthenticationWrapper extends StatelessWidget {
 class MyMobileState extends State<MyApp> with WidgetsBindingObserver {
   @override
   Widget build(BuildContext context) {
+    FlutterStatusbarcolor.setStatusBarColor(Color.fromRGBO(86, 0, 232, 1));
     return MultiProvider(
       providers: [
         Provider<AuthenticationService>(
@@ -99,18 +102,16 @@ class MyMobileState extends State<MyApp> with WidgetsBindingObserver {
         builder: (context, provider, _) => MaterialApp(
           title: 'FluTECH',
           theme: ThemeData(
-            primarySwatch: Colors.blue,
+            primarySwatch: Colors.deepPurple,
             visualDensity: VisualDensity.adaptivePlatformDensity,
           ),
           home: AuthenticationWrapper(),
+          routes: <String, WidgetBuilder>{
+            '/login': (BuildContext context) => new LoginPage(),
+            '/home': (BuildContext context) => new NavElem(),
+          },
         ),
       ),
-      home: NavElem(), //NavElem(),
-      //LoginPage(),
-      routes: <String, WidgetBuilder>{
-        '/login': (BuildContext context) => new LoginPage(),
-        '/home': (BuildContext context) => new NavElem(),
-      },
     );
   }
 
