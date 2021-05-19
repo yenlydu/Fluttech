@@ -8,7 +8,6 @@ import '../Image/ImagePickerManager.dart';
 import '../FireStore/FireStoreUser.dart';
 import '../FireStore/FireStoreUnit.dart';
 import '../FireStore/FireStoreProject.dart';
-import '../push_notifications.dart';
 
 final locator = GetIt.instance;
 
@@ -25,8 +24,4 @@ void setupServices() {
   locator.registerSingleton<FireStoreUser>(FireStoreUser());
   locator.registerSingleton<FireStoreUnit>(FireStoreUnit());
   locator.registerSingleton<FireStoreProject>(FireStoreProject());
-
-  //Push Notifications
-  locator.registerSingleton<PushNotifManager>(PushNotifManager());
-  locator.get<PushNotifManager>().init();
 }

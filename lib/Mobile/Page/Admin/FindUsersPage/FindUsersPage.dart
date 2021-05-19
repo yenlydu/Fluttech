@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter2/Mobile/Widget/Autocomplete.dart';
+import 'package:flutter2/Web/CreateUser.dart';
+import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 
 class FindUsersPage extends StatefulWidget {
-  FindUsersPage();
+  final getStudentSelected;
+
+  FindUsersPage({Key key, this.getStudentSelected}) : super(key: key);
   @override
   _FindUsersPageState createState() => _FindUsersPageState();
-
 }
 
 class InputWidget extends StatelessWidget {
-
   final int index;
 
   InputWidget(this.index);
@@ -21,54 +23,49 @@ class InputWidget extends StatelessWidget {
 }
 
 class _FindUsersPageState extends State<FindUsersPage> {
-  UsersAutocomplete usersAutocomplete = new UsersAutocomplete();
+  String email;
 
-  Widget buildPasswordField() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        Text(
-          "Password",
-        ),
-        SizedBox(
-          height: 10.0,
-        ),
-        Container(
-          alignment: Alignment.centerLeft,
-          height: 50.0,
-          child: TextField(
-            obscureText: true,
-            style: TextStyle(color: Colors.white),
-            decoration: InputDecoration(
-              border: InputBorder.none,
-              contentPadding: EdgeInsets.only(top: 14.0),
-              prefixIcon: Icon(Icons.lock, color: Colors.white),
-              hintText: "Enter your Password",
-            ),
-          ),
-        ),
-      ],
-    );
+  void getEmail(str) {
+    setState(() {
+      email = str;
+      widget.getStudentSelected(this.email);
+    });
   }
-
 
   @override
   Widget build(BuildContext context) {
+    UsersAutocomplete usersAutocomplete = new UsersAutocomplete(
+      getStudentSelected: getEmail,
+    );
+
     return Scaffold(
-      body: Padding(
-        padding: EdgeInsets.all(10),
+      resizeToAvoidBottomInset: false,
+      backgroundColor: Colors.transparent,
+      body: Container(
+        width: MediaQuery.of(context).size.width,
+        height: 73,
+        child: Padding(
+            padding: EdgeInsets.all(10),
             child: Column(
               children: <Widget>[
-                SizedBox(
-                  height: 45.0,
+                Container(
+                  width: 500,
                   child: usersAutocomplete.userAutocomplete(),
-
                 ),
-//            UsersAutocomplete().shouldDisplay ? Text("string test")  : Spacer(),
-
               ],
-            )
-        ),
+            )),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => CreateUser()),
+          );
+          // Add your onPressed code here!
+        },
+        child: const Icon(Icons.add),
+        backgroundColor: Colors.green,
+      ),
     );
   }
 }
