@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter2/Mobile/Tools/authentication_service.dart';
 import 'package:flutter2/Model/Constants.dart';
 import 'package:flutter2/Web/WebConstants/responsiveLayout.dart';
 import 'package:flutter2/Web/Style/ButtonsStyle.dart';
@@ -12,11 +13,9 @@ class NavigationBar extends StatefulWidget {
   _NavigationBarState createState() => _NavigationBarState();
 }
 
-class _NavigationBarState extends State<NavigationBar>
-{
-  void func(text)
-  {
-    if (text == "Handle Projects"){
+class _NavigationBarState extends State<NavigationBar> {
+  void func(text) {
+    if (text == "Handle Projects") {
       currentPage = NavigationEnum.HANDLE_PROJECTS;
     } else if (text == "Handle Users") {
       currentPage = NavigationEnum.HANDLE_USERS;
@@ -25,17 +24,21 @@ class _NavigationBarState extends State<NavigationBar>
     }
     widget.customFunction(currentPage);
   }
+
   NavigationEnum currentPage = NavigationEnum.HANDLE_PROJECTS;
   final navLinks = ["Handle Projects", "Handle Users", "Profile"];
   String te = "";
-  List<Widget> navItem ()
-  {
+  List<Widget> navItem() {
     return navLinks.map((text) {
       return NavigationButtonsStyle(
               () => func(text),
-          Text(text, style: TextStyle(fontFamily: "Montserrat-Italic",
-              backgroundColor: Colors.transparent)),
-          navigationButtons, 120).button();
+              Text(text,
+                  style: TextStyle(
+                      fontFamily: "Montserrat-Italic",
+                      backgroundColor: Colors.transparent)),
+              navigationButtons,
+              120)
+          .button();
     }).toList();
   }
 
@@ -46,7 +49,7 @@ class _NavigationBarState extends State<NavigationBar>
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 45,  vertical: 38),
+      padding: EdgeInsets.symmetric(horizontal: 45, vertical: 38),
       child: Row(
         children: <Widget>[
           Row(
@@ -65,13 +68,15 @@ class _NavigationBarState extends State<NavigationBar>
                       ),
                     ],
                     borderRadius: BorderRadius.circular(18),
-                    gradient:LinearGradient(
-                      colors: [Color(0xFFC798E9), Color(0xFFD5C0E5), Color(0xFFFFFFFF)],
-
+                    gradient: LinearGradient(
+                      colors: [
+                        Color(0xFFC798E9),
+                        Color(0xFFD5C0E5),
+                        Color(0xFFFFFFFF)
+                      ],
                       begin: Alignment.bottomRight,
                       end: Alignment.topLeft,
-                    )
-                ),
+                    )),
                 child: Center(
                   child: Image.asset('images/icon.png'),
                 ),
@@ -79,30 +84,45 @@ class _NavigationBarState extends State<NavigationBar>
               SizedBox(
                 width: 16,
               ),
-              Text("FluTECH", style: TextStyle(fontSize: 30,fontWeight: FontWeight.bold, fontFamily: "Butler", ),)
+              Text(
+                "FluTECH",
+                style: TextStyle(
+                  fontSize: 30,
+                  fontWeight: FontWeight.bold,
+                  fontFamily: "Butler",
+                ),
+              )
             ],
           ),
           if (!ResponsiveLayout.isSmallScreen(context))
             Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children:<Widget> [
-                  ...navItem(),
-                ]..add(
-                  NavigationButtonsStyle(_goHome, Icon(
-                    Icons.power_settings_new,
-                    color: Colors.deepPurple,
-                    size: 30.0,
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: <Widget>[
+                ...navItem(),
+              ]..add(
+                  FloatingActionButton(
+                    onPressed: () {
+                      context.read<AuthenticationService>().signOut();
+                      // Add your onPressed code here!
+                    },
+                    child: const Icon(Icons.add),
+                    backgroundColor: Colors.green,
                   ),
-                    BoxDecoration(),
-                    50
-                  ).button(),
-                )
-
+                  // NavigationButtonsStyle(
+                  //         _goHome,
+                  //         Icon(
+                  //           Icons.power_settings_new,
+                  //           color: Colors.deepPurple,
+                  //           size: 30.0,
+                  //         ),
+                  //         BoxDecoration(),
+                  //         50)
+                  //     .button(),
+                ),
             )
-          else hamburgerIcon
-
+          else
+            hamburgerIcon
         ],
-
       ),
     );
   }

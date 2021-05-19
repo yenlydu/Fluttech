@@ -8,6 +8,8 @@ class User {
 
   String phoneNumber;
 
+  bool isAdmin;
+
   bool active;
 
   String userID;
@@ -37,6 +39,7 @@ class User {
       {this.email = '',
       this.firstName = '',
       this.phoneNumber = '',
+      this.isAdmin,
       this.lastName = '',
       this.active = false,
       this.selected = false,
@@ -72,6 +75,7 @@ class User {
             parsedJson['facebookprofilePictureURL'] ?? '',
         twitterprofilePictureURL: parsedJson['twitterprofilePictureURL'] ?? '',
         phoneNumber: parsedJson['phoneNumber'] ?? '',
+        isAdmin: parsedJson['isAdmin'] ?? '',
         userID: parsedJson['id'] ?? parsedJson['userID'] ?? '',
         profilePictureURL: parsedJson['profilePictureURL'] ?? '');
   }

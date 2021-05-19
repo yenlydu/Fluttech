@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter2/Web/CreateUser.dart';
 import 'package:flutter2/Web/Login.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:provider/provider.dart';
+import 'package:overlay_support/overlay_support.dart';
 
 //File Page Includ
 import 'package:flutter2/Mobile/Tools/authentication_service.dart';
@@ -28,28 +30,30 @@ class MyWebState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-
-    return MultiProvider(
-      providers: [
-        Provider<AuthenticationService>(
-          create: (_) => AuthenticationService(FirebaseAuth.instance),
-        ),
-        StreamProvider(
-          create: (context) =>
-              context.read<AuthenticationService>().authStateChanges,
-        )
-      ],
-      child: Consumer<AuthenticationService>(
-        builder: (context, provider, _) => MaterialApp(
-          title: "FluTECH",
-          theme: ThemeData(
-            fontFamily: 'Montserrat',
-            primarySwatch: Colors.blue,
-          ) ,
-          routes: <String, WidgetBuilder>{
-            '/login': (BuildContext context) => new LoginP(),
-          },
-          home: WebAuthenticationWrapper(),
+    return OverlaySupport.global(
+      child: MultiProvider(
+        providers: [
+          Provider<AuthenticationService>(
+            create: (_) => AuthenticationService(FirebaseAuth.instance),
+          ),
+          StreamProvider(
+            create: (context) =>
+                context.read<AuthenticationService>().authStateChanges,
+          )
+        ],
+        child: Consumer<AuthenticationService>(
+          builder: (context, provider, _) => MaterialApp(
+            debugShowCheckedModeBanner: false,
+            title: "FluTECH",
+            theme: ThemeData(
+              fontFamily: 'Montserrat',
+              primarySwatch: Colors.blue,
+            ),
+            routes: <String, WidgetBuilder>{
+              '/login': (BuildContext context) => new LoginP(),
+            },
+            home: WebAuthenticationWrapper(),
+          ),
         ),
       ),
     );
@@ -59,10 +63,12 @@ class MyWebState extends State<MyApp> {
 class WebAuthenticationWrapper extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final firebaseUser = context.watch<User>();
-
+    var firebaseUser = FirebaseAuth.instance.currentUser;
+    if (firebaseUser == null) firebaseUser = context.watch<User>();
+    // print(["hello", firebaseUser]);
     if (firebaseUser != null) {
-      return HomeAdmin();
+      // return CreateUser();
+      return HomeAdmin(email: firebaseUser.email);
     }
     return LoginP();
   }
@@ -71,7 +77,6 @@ class WebAuthenticationWrapper extends StatelessWidget {
 class AuthenticationWrapper extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    //final firebaseUser = context.watch<User>();
     final firebaseUser = FirebaseAuth.instance.currentUser;
     if (firebaseUser != null) {
       return ProfilePage();

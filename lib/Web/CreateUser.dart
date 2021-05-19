@@ -1,18 +1,17 @@
+import 'package:flutter2/Mobile/Tools/authentication_service.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter2/Web/homeAdmin.dart';
-import 'package:flutter2/Model/Constants.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter2/Model/Constants.dart';
+import 'package:overlay_support/overlay_support.dart';
 
-import '../Mobile/Tools/authentication_service.dart';
+class CreateUser extends StatelessWidget {
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+  final TextEditingController confirmPasswordController =
+      TextEditingController();
 
-class LoginP extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    // FirebaseAuth auth = FirebaseAuth.instance;
-    final TextEditingController password = TextEditingController();
-    final TextEditingController email = TextEditingController();
-
     return Container(
       decoration: kBoxDecoration_BG,
       child: Scaffold(
@@ -29,7 +28,7 @@ class LoginP extends StatelessWidget {
                       color: Colors.grey, offset: Offset(0, 3), blurRadius: 24)
                 ],
               ),
-              height: 450,
+              height: 550,
               width: 350,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -43,7 +42,7 @@ class LoginP extends StatelessWidget {
                     alignment: Alignment.center,
                   ),
                   Text(
-                    "ADMINISTRATOR",
+                    "CREATE NEW USER",
                     style: TextStyle(
                         fontSize: 25,
                         fontWeight: FontWeight.bold,
@@ -62,7 +61,7 @@ class LoginP extends StatelessWidget {
                       child: Padding(
                         padding: const EdgeInsets.only(left: 8.0),
                         child: TextField(
-                          controller: email,
+                          controller: emailController,
                           decoration: InputDecoration(
                               border: InputBorder.none,
                               hintText: "Email",
@@ -84,11 +83,34 @@ class LoginP extends StatelessWidget {
                       child: Padding(
                         padding: EdgeInsets.only(left: 8.0),
                         child: TextField(
-                          controller: password,
+                          controller: passwordController,
                           obscureText: true,
                           decoration: InputDecoration(
                               border: InputBorder.none,
                               hintText: "Password",
+                              icon: Icon(Icons.lock_open)),
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Colors.grey[200],
+                        borderRadius: BorderRadius.circular(50),
+                      ),
+                      child: Padding(
+                        padding: EdgeInsets.only(left: 8.0),
+                        child: TextField(
+                          controller: confirmPasswordController,
+                          obscureText: true,
+                          decoration: InputDecoration(
+                              border: InputBorder.none,
+                              hintText: "Confirm Password",
                               icon: Icon(Icons.lock_open)),
                         ),
                       ),
@@ -114,28 +136,49 @@ class LoginP extends StatelessWidget {
                         color: Colors.indigo,
                       ),
                       child: FlatButton(
-                          child: Text("Sign in",
-                              style: TextStyle(color: Colors.white)),
-                          onPressed: () {
-                            context.read<AuthenticationService>().signIn(
-                                  email: email.text.trim(),
-                                  password: password.text.trim(),
+                        child: Text("Create",
+                            style: TextStyle(color: Colors.white)),
+                        onPressed: () {
+                          if (passwordController.text ==
+                                  confirmPasswordController.text &&
+                              passwordController.text != null &&
+                              passwordController.text != "" &&
+                              emailController.text != null &&
+                              emailController.text != "") {
+                            context.read<AuthenticationService>().signUp(
+                                  email: emailController.text.trim(),
+                                  password: passwordController.text.trim(),
                                 );
-                          }
-/*                            // TEXT FOR INVALID LOGIN
-                        onPressed:() {
-                          if (email.text.isEmpty || password.text.isEmpty) {
-                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Invalid email or password")));
+                          } else if (emailController.text == null ||
+                              emailController.text == "") {
+                            showSimpleNotification(
+                                Text(
+                                  "Email can't be empty !",
+                                  textAlign: TextAlign.center,
+                                ),
+                                background: Colors.red);
+                          } else if (passwordController.text == null ||
+                              passwordController.text == "") {
+                            showSimpleNotification(
+                                Text(
+                                  "Password can't be empty !",
+                                  textAlign: TextAlign.center,
+                                ),
+                                background: Colors.red);
                           } else {
-                            print(email.text + " "+ password.text);
-                            Navigator.push(context,     MaterialPageRoute(
-                              builder: (context) => HomeAdmin (email: email.text,)
-                            ));
-                            //                            Navigator.push(context, PageRouteBuilder(pageBuilder: (_, __, ___) => FindUsersPage()));
+                            print([
+                              passwordController.text,
+                              confirmPasswordController.text
+                            ]);
+                            showSimpleNotification(
+                                Text(
+                                  "The password and confirm password do not match !",
+                                  textAlign: TextAlign.center,
+                                ),
+                                background: Colors.red);
                           }
-                        },*/
-
-                          ),
+                        },
+                      ),
                     ),
                   ),
                 ],

@@ -7,6 +7,7 @@ import 'package:firebase_auth_oauth/firebase_auth_oauth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:overlay_support/overlay_support.dart';
 
 class AuthenticationService {
   final FirebaseAuth _firebaseAuth;
@@ -23,8 +24,15 @@ class AuthenticationService {
     try {
       await _firebaseAuth.signInWithEmailAndPassword(
           email: email, password: password);
+      showSimpleNotification(
+          Text(
+            "Welcome !",
+            textAlign: TextAlign.center,
+          ),
+          background: Colors.green);
       return "Signed in";
     } on FirebaseAuthException catch (e) {
+      print(["Error can't sign in : ", e]);
       return e.message;
     }
   }
@@ -33,8 +41,16 @@ class AuthenticationService {
     try {
       await _firebaseAuth.createUserWithEmailAndPassword(
           email: email, password: password);
+      showSimpleNotification(
+          Text(
+            "User successfully created !",
+            textAlign: TextAlign.center,
+          ),
+          background: Colors.green);
+
       return "Signed up";
     } on FirebaseAuthException catch (e) {
+      print(["Error can't sign up : ", e]);
       return e.message;
     }
   }
