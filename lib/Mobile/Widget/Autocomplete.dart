@@ -2,12 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:autocomplete_textfield/autocomplete_textfield.dart';
 // import './../Model/Constants.dart';
 import 'package:flutter2/Model/Constants.dart';
-import 'package:flutter2/Model/SocialAccount.dart';
-
 
 class UsersAutocomplete extends StatelessWidget {
   final getStudentSelected;
-  UsersAutocomplete({Key key, this.getStudentSelected}): super(key: key);
+  UsersAutocomplete({Key key, this.getStudentSelected}) : super(key: key);
   var shouldDisplay = false;
   bool get getShouldDisplay => shouldDisplay;
   String email;
@@ -21,7 +19,6 @@ class UsersAutocomplete extends StatelessWidget {
     "ugo.sant@epitech.eu",
     "dylan.ferreira@epitech.eu",
     "dyl.fe@epitech.eu",
-
   ];
 
   String get age {
@@ -29,8 +26,7 @@ class UsersAutocomplete extends StatelessWidget {
   }
 
   @override
-  Widget build(BuildContext context)
-  {
+  Widget build(BuildContext context) {
     return Container();
   }
 
@@ -40,15 +36,13 @@ class UsersAutocomplete extends StatelessWidget {
         controller: _suggestionsTextFieldController,
         suggestions: mailAddressesList,
         clearOnSubmit: false,
-        style: TextStyle(color: Colors.deepPurple,
-            fontFamily: 'OpenSans',
-            fontSize: 16.0),
+        style: TextStyle(
+            color: Colors.deepPurple, fontFamily: 'OpenSans', fontSize: 16.0),
         decoration: InputDecoration(
-          fillColor: Colors.white,
+            fillColor: Colors.white,
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(20.0),
-            )
-        ),
+            )),
         itemFilter: (item, query) {
           return item.toLowerCase().startsWith(query.toLowerCase());
         },
@@ -73,7 +67,6 @@ class UsersAutocomplete extends StatelessWidget {
               ],
             ),
           );
-        }
-    );
+        });
   }
 }

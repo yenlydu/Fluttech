@@ -102,7 +102,7 @@ class _NavigationBarState extends State<NavigationBar> {
               ]..add(
                   FloatingActionButton(
                     onPressed: () {
-                      context.read<AuthenticationService>().signOut();
+                      //context.read<AuthenticationService>().signOut();
                       // Add your onPressed code here!
                     },
                     child: const Icon(Icons.add),

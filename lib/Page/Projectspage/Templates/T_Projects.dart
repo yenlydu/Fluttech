@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:getwidget/getwidget.dart';
 
-import '../../../../Model/Constants.dart';
-import '../../../../Model/Constants/C_Projects.dart';
+import '../../../Model/Constants.dart';
+import '../../../Model/Constants/C_Projects.dart';
 
 class T_Projects extends StatelessWidget {
   const T_Projects({Key key}) : super(key: key);
