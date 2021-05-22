@@ -7,14 +7,22 @@ class CreateProjectButton extends StatefulWidget {
 }
 
 class _CreateProjectButtonState extends State<CreateProjectButton> {
+  Widget createProjectPopup()
+  {
+    return AlertDialog(
+        content: SizedBox(
+        width: MediaQuery.of(context).size.width/2,
+      )
+    );
 
+  }
 
   @override
   Widget build(BuildContext context) {
     return  SizedBox(
       width: 140,
       height: 50,
-      child: ActionButtonsStyle(color: Colors.lightGreen, customFunction: Text("enter"),text: "Create Project", icon: Icons.add, textStyle: TextStyle(fontSize: 15)),
+      child: ActionButtonsStyle(color: Colors.lightGreen, customFunction: createProjectPopup,text: "Create Project", icon: Icons.add, textStyle: TextStyle(fontSize: 15)),
     );
   }
 }
