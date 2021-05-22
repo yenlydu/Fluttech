@@ -5,6 +5,7 @@ import 'package:flutter2/Web/WebConstants/responsiveLayout.dart';
 import 'package:flutter2/Web/Style/ButtonsStyle.dart';
 import 'package:flutter2/Web/WebConstants/Enumerations.dart';
 import 'package:flutter2/Web/WebConstants/WebConstants.dart';
+import 'package:provider/provider.dart';
 
 class NavigationBar extends StatefulWidget {
   final customFunction;
@@ -102,22 +103,18 @@ class _NavigationBarState extends State<NavigationBar> {
               ]..add(
                   FloatingActionButton(
                     onPressed: () {
-                      //context.read<AuthenticationService>().signOut();
-                      // Add your onPressed code here!
+                      context.read<AuthenticationService>().signOut();
                     },
-                    child: const Icon(Icons.add),
-                    backgroundColor: Colors.green,
+                    child: const Icon(
+                      Icons.power_settings_new,
+                      color: Colors.deepPurple,
+                      size: 30.0,
+                    ),
+                    backgroundColor: Colors.transparent,
+                    elevation: 0,
+                    focusElevation: 0,
+                    hoverElevation: 0,
                   ),
-                  // NavigationButtonsStyle(
-                  //         _goHome,
-                  //         Icon(
-                  //           Icons.power_settings_new,
-                  //           color: Colors.deepPurple,
-                  //           size: 30.0,
-                  //         ),
-                  //         BoxDecoration(),
-                  //         50)
-                  //     .button(),
                 ),
             )
           else

@@ -5,10 +5,9 @@ import 'package:flutter2/Model/Constants.dart';
 import 'package:overlay_support/overlay_support.dart';
 
 class CreateUser extends StatelessWidget {
-  final TextEditingController emailController = TextEditingController();
-  final TextEditingController passwordController = TextEditingController();
-  final TextEditingController confirmPasswordController =
-      TextEditingController();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+  TextEditingController confirmPasswordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -149,6 +148,9 @@ class CreateUser extends StatelessWidget {
                                   email: emailController.text.trim(),
                                   password: passwordController.text.trim(),
                                 );
+                            emailController.clear();
+                            passwordController.clear();
+                            confirmPasswordController.clear();
                           } else if (emailController.text == null ||
                               emailController.text == "") {
                             showSimpleNotification(

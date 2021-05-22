@@ -29,9 +29,9 @@ Future<void> main() async {
 
 class MyApp extends StatefulWidget {
   @override
-  MyMobileState createState() => MyMobileState();
+  // MyMobileState createState() => MyMobileState();
   //Launch web
-  //MyWebState createState() => MyWebState();
+  MyWebState createState() => MyWebState();
 }
 
 class MyWebState extends State<MyApp> {
