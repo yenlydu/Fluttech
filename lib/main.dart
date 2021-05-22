@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
-import 'package:flutter2/Web/CreateUser.dart';
 import 'package:flutter2/Web/Login.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:provider/provider.dart';
@@ -10,14 +10,11 @@ import 'package:overlay_support/overlay_support.dart';
 //File Page Includ
 import 'package:flutter2/Mobile/Tools/authentication_service.dart';
 import 'Mobile/Page/Homepage/Nav.dart';
-import 'Mobile/Page/ProfilePage/Profile.dart';
 import './Mobile/Page/LoginPage/login.dart';
-import './Mobile/Page/Admin/LoginPage/adminLoginPage.dart';
-import './Mobile/Page/LoginPage/LoginPending.dart';
-import 'package:flutter2/Model/Constants.dart';
 
 import 'package:flutter2/Web/homeAdmin.dart';
 
+import 'Mobile/Tools/FireStore/FireStoreUser.dart';
 import 'Mobile/Tools/ServiceLocator/ServiceManager.dart';
 
 Future<void> main() async {
@@ -37,7 +34,6 @@ class MyApp extends StatefulWidget {
 class MyWebState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return OverlaySupport.global(
       child: MultiProvider(
         providers: [
@@ -87,6 +83,10 @@ class AuthenticationWrapper extends StatelessWidget {
   Widget build(BuildContext context) {
     final firebaseUser = FirebaseAuth.instance.currentUser;
     if (firebaseUser != null) {
+      var res = locator<FireStoreUser>().getUser(firebaseUser.uid);
+      res.then((value) => {
+            if (value != null) {locator<FireStoreUser>().currentUser = value}
+          });
       return NavElem();
     }
     return LoginPage();
@@ -96,6 +96,9 @@ class AuthenticationWrapper extends StatelessWidget {
 class MyMobileState extends State<MyApp> with WidgetsBindingObserver {
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+    ]);
     FlutterStatusbarcolor.setStatusBarColor(Color.fromRGBO(86, 0, 232, 1));
     return MultiProvider(
       providers: [
