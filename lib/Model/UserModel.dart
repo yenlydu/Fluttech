@@ -1,9 +1,3 @@
-import 'dart:io';
-
-import 'package:flutter2/Model/AppointementModel.dart';
-import 'package:flutter2/Model/ProjectModel.dart';
-import 'package:flutter2/Model/UnitModel.dart';
-
 // Local User Data
 class UserModel {
   String userid;
@@ -18,23 +12,28 @@ class UserModel {
   int currentCredits;
   int maxAvailable;
 
-  List<ProjectModel> subscribeProject;
-  List<UnitModel> subscribeUnit;
-  List<AppointementModel> appointementlist;
+  String role;
+  //Map<String, String> authorization;
+
+  List<String> subscribeProject;
+  List<String> subscribeUnit;
+  List<String> appointementlist;
 
   // Init User Data (avoid null Reference Exception)
   UserModel({
     this.userid = '',
     this.firebaseid = '',
-    this.email = '',
-    this.firstName = '',
-    this.lastName = '',
-    this.phoneNumber = '',
-    lastOnlineTimestamp,
+    this.email = 'template@temp.tmp',
+    this.firstName = 'Template',
+    this.lastName = 'Temp',
+    this.phoneNumber = '217 329 314',
     this.gpa = 0.0,
     this.currentCredits = 0,
     this.maxAvailable = 0,
-    this.subscribeProject = const <ProjectModel>[],
+    this.role = 'user',
+    this.subscribeProject = const <String>[],
+    this.subscribeUnit = const <String>[],
+    this.appointementlist = const <String>[],
   });
 
   // Get Combinaison of First Name & Last name of the user
@@ -45,19 +44,36 @@ class UserModel {
   // get User object from json encoding
   factory UserModel.fromJson(Map<String, dynamic> parsedJson) {
     return new UserModel(
+      userid: parsedJson['userid'] ?? '',
+      firebaseid: parsedJson['firebaseid'] ?? '',
       email: parsedJson['email'] ?? '',
       firstName: parsedJson['firstName'] ?? '',
       lastName: parsedJson['lastName'] ?? '',
+      phoneNumber: parsedJson['phoneNumber'] ?? '',
+      gpa: parsedJson['gpa'] ?? 0.0,
+      currentCredits: parsedJson['currentCredits'] ?? 0,
+      maxAvailable: parsedJson['maxAvailable'] ?? 0,
+      subscribeProject: parsedJson['subscribeProject'] ?? const <String>[],
+      subscribeUnit: parsedJson['subscribeUnit'] ?? const <String>[],
+      appointementlist: parsedJson['appointementlist'] ?? const <String>[],
     );
   }
 
   // Create an json encode version of the User Class (for Data saving)
   Map<String, dynamic> toJson() {
     return {
+      'userid': this.userid,
+      'firebaseid': this.firebaseid,
       'email': this.email,
       'firstName': this.firstName,
       'lastName': this.lastName,
-      'phoneNumber': this.phoneNumber
+      'phoneNumber': this.phoneNumber,
+      'gpa': this.gpa,
+      'currentCredits': this.currentCredits,
+      'maxAvailable': this.maxAvailable,
+      'subscribeProject': this.subscribeProject,
+      'subscribeUnit': this.subscribeUnit,
+      'appointementlist': this.appointementlist,
     };
   }
 }

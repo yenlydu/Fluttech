@@ -1,11 +1,6 @@
-import 'dart:io';
-import 'package:flutter/material.dart';
 // Import the firebase_core and cloud_firestore plugn
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 //File Includ
 import '../../../Model/ProjectModel.dart';
@@ -13,24 +8,32 @@ import '../../../Model/ProjectModel.dart';
 // Manage User Info with Shared Preferences
 class FireStoreProject {
   FirebaseFirestore firestore = FirebaseFirestore.instance;
-  CollectionReference users;
+  CollectionReference project;
 
   FireStoreProject() {
-    CollectionReference users = FirebaseFirestore.instance.collection('users');
+    project = FirebaseFirestore.instance.collection('project');
   }
 
-  Future<bool> registerUser(User fireUser, ProjectModel data) {
-    var res = users.doc(fireUser.uid).set(data.toJson());
+  Future<ProjectModel> registerProject(User fireUser, ProjectModel data) async {
+    try {
+      var res = await project.add(data.toJson());
+      var ress = await project.doc(res.id).update({'id': res.id});
+
+      data.id = res.id;
+      return data;
+    } catch (e) {
+      return null;
+    }
   }
 
-  Future<bool> UpdateUser(User fireUser, ProjectModel data) {
-    users.doc(fireUser.uid).update(data.toJson());
+  Future<bool> UpdateProject(User fireUser, ProjectModel data) {
+    project.doc(fireUser.uid).update(data.toJson());
   }
 
-  Future<bool> UpdateUserField(User fireUser, ProjectModel data) {}
+  Future<bool> UpdateProjectField(User fireUser, ProjectModel data) {}
 
   Future<ProjectModel> getData(String documentId) async {
-    DocumentSnapshot res = await users.doc(documentId).get();
+    DocumentSnapshot res = await project.doc(documentId).get();
 
     if (res.data() != null) {
       ProjectModel user = ProjectModel.fromJson(res.data());
@@ -41,7 +44,7 @@ class FireStoreProject {
 
   bool deleteData(String documentId) {
     try {
-      users.doc(documentId).delete();
+      project.doc(documentId).delete();
       return true;
     } catch (e) {
       return false;

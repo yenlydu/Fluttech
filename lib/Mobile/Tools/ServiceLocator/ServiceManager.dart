@@ -8,6 +8,7 @@ import '../Image/ImagePickerManager.dart';
 import '../FireStore/FireStoreUser.dart';
 import '../FireStore/FireStoreUnit.dart';
 import '../FireStore/FireStoreProject.dart';
+import '../FireStore/FireStoreAppointements.dart';
 
 final locator = GetIt.instance;
 
@@ -24,4 +25,5 @@ void setupServices() {
   locator.registerSingleton<FireStoreUser>(FireStoreUser());
   locator.registerSingleton<FireStoreUnit>(FireStoreUnit());
   locator.registerSingleton<FireStoreProject>(FireStoreProject());
+  locator.registerSingleton<FireStoreAppointement>(FireStoreAppointement());
 }

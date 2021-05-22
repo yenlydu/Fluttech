@@ -1,23 +1,26 @@
-import 'dart:io';
-
-import 'package:flutter2/Model/ProjectModel.dart';
-
 // Local User Data
 class AppointementModel {
   String id;
   String name;
-  String description;
+  String room;
 
-  List<String> usersId;
+  String creatorUserName;
+  String creatorUserid;
+  String unitid;
+
+  List<String> subscribedusersId;
 
   DateTime timetoAppoint = DateTime.now();
 
-  // Init User Data (avoid null Reference Exception)
+  // Init Data (avoid null Reference Exception)
   AppointementModel({
     this.id = '',
     this.name = '',
-    this.description = '',
-    this.usersId = const <String>[],
+    this.room = '',
+    this.creatorUserName = '',
+    this.creatorUserid = '',
+    this.unitid = '',
+    this.subscribedusersId = const <String>[],
     this.timetoAppoint = null,
   });
 
@@ -26,9 +29,12 @@ class AppointementModel {
     return new AppointementModel(
       id: parsedJson['id'] ?? '',
       name: parsedJson['name'] ?? '',
-      description: parsedJson['description'] ?? '',
-      timetoAppoint: parsedJson['timetoAppoint'] ?? '',
-      usersId: parsedJson['usersId'] ?? '',
+      room: parsedJson['room'] ?? '',
+      creatorUserName: parsedJson['creatorUserName'] ?? '',
+      creatorUserid: parsedJson['creatorUserid'] ?? '',
+      unitid: parsedJson['unitid'] ?? '',
+      subscribedusersId: parsedJson['subscribedusersId'] ?? const <String>[],
+      timetoAppoint: parsedJson['timetoAppoint'] ?? null,
     );
   }
 
@@ -37,9 +43,12 @@ class AppointementModel {
     return {
       'id': this.id,
       'name': this.name,
-      'description': this.description,
+      'room': this.room,
+      'creatorUserName': this.creatorUserName,
+      'creatorUserid': this.creatorUserid,
+      'unitid': this.unitid,
       'timetoAppoint': this.timetoAppoint,
-      'usersId': this.usersId,
+      'subscribedusersId': this.subscribedusersId,
     };
   }
 }
