@@ -24,25 +24,25 @@ class PopupDescription extends StatelessWidget
               width: MediaQuery.of(context).size.width/1.5,
               child:Column(
                 children:[
-                  sizedBox(10),
+                  SizedBox(height:10),
                   displaySubtitle("Description"),
-                  sizedBox(10),
+                  SizedBox(height:10),
                   Text(project.description, style: TextStyle(fontSize: 17, color: Color(0xFFF69F20), ),),
-                  sizedBox(25),
+                  SizedBox(height:25),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
                       Column(
                         children:[
                           displaySubtitle("Begin Date"),
-                          sizedBox(5),
+                          SizedBox(height:5),
                           Text(formatter( project.beginDate), style: TextStyle(fontSize: 17, color: Color(0xFFF69F20), ),),
                         ]
                       ),
                       Column(
                           children:[
                             displaySubtitle("End Date"),
-                            sizedBox(5),
+                            SizedBox(height:5),
                             Text(formatter(project.endDate), style: TextStyle(fontSize: 17, color: Color(0xFFF69F20), ),),
                           ]
                       )

@@ -108,13 +108,13 @@ class LoginP extends StatelessWidget {
                       child: FlatButton(
                           child: Text("Sign in", style: TextStyle(color: Colors.white)),
 
-                          onPressed: () {
+/*                          onPressed: () {
                           context.read<AuthenticationService>().signIn(
                             email: email.text.trim(),
                             password: password.text.trim(),
                           );
-                          }
-/*                            // TEXT FOR INVALID LOGIN
+                          }*/
+                            // TEXT FOR INVALID LOGIN
                         onPressed:() {
                           if (email.text.isEmpty || password.text.isEmpty) {
                             ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Invalid email or password")));
@@ -125,7 +125,7 @@ class LoginP extends StatelessWidget {
                             ));
                             //                            Navigator.push(context, PageRouteBuilder(pageBuilder: (_, __, ___) => FindUsersPage()));
                           }
-                        },*/
+                        },
 
                     ),
 

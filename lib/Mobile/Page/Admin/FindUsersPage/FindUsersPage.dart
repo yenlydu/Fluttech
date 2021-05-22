@@ -37,15 +37,27 @@ class _FindUsersPageState extends State<FindUsersPage> {
   @override
   Widget build(BuildContext context) {
     UsersAutocomplete usersAutocomplete = new UsersAutocomplete(getStudentSelected: getEmail,);
+    // MAXIME : recupérer toutes les addresses mails et les transformer avec le type List
+    List mailAddressesList = [
+      "yen-ly.duong@epitech.eu",
+      "y.duong@epitech.eu",
+      "maxime.le-gall@epitech.eu",
+      "max.le-gall@epitech.eu",
+      "ugo.santoro@epitech.eu",
+      "ugo.sant@epitech.eu",
+      "dylan.ferreira@epitech.eu",
+      "dyl.fe@epitech.eu",
 
+    ];
     return Scaffold(
-
       resizeToAvoidBottomInset: false,
 
       backgroundColor: Colors.transparent,
       body: Container(
+/*
         width: MediaQuery.of(context).size.width,
         height: 73,
+*/
         child: Padding(
         padding: EdgeInsets.all(10),
             child: Column(
@@ -53,7 +65,12 @@ class _FindUsersPageState extends State<FindUsersPage> {
               children: <Widget>[
                 Container(
                   width: 500,
-                 child: usersAutocomplete.userAutocomplete(),
+                 child: Column(
+                   children:[
+                     usersAutocomplete.userAutocomplete(mailAddressesList: mailAddressesList, labelName: "Student Mail"),
+                     email != null ? Text(email): Container()
+                   ]
+                 )
                 ),
               ],
             )

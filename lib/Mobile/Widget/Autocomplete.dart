@@ -11,22 +11,8 @@ class UsersAutocomplete extends StatelessWidget {
   var shouldDisplay = false;
   bool get getShouldDisplay => shouldDisplay;
   String email;
-  var _suggestionsTextFieldController = new TextEditingController();
-  List mailAddressesList = [
-    "yen-ly.duong@epitech.eu",
-    "y.duong@epitech.eu",
-    "maxime.le-gall@epitech.eu",
-    "max.le-gall@epitech.eu",
-    "ugo.santoro@epitech.eu",
-    "ugo.sant@epitech.eu",
-    "dylan.ferreira@epitech.eu",
-    "dyl.fe@epitech.eu",
+  var suggestionsTextFieldController = new TextEditingController();
 
-  ];
-
-  String get age {
-    return email;
-  }
 
   @override
   Widget build(BuildContext context)
@@ -34,16 +20,18 @@ class UsersAutocomplete extends StatelessWidget {
     return Container();
   }
 
-  Widget userAutocomplete() {
+  Widget userAutocomplete({@required List mailAddressesList, String labelName }) {
     return AutoCompleteTextField(
         key: key,
-        controller: _suggestionsTextFieldController,
-        suggestions: mailAddressesList,
         clearOnSubmit: false,
+        controller: suggestionsTextFieldController,
+        suggestions: mailAddressesList,
         style: TextStyle(color: Colors.deepPurple,
             fontFamily: 'OpenSans',
             fontSize: 16.0),
         decoration: InputDecoration(
+            prefixIcon: Icon(Icons.search),
+            labelText: labelName,
           fillColor: Colors.white,
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(20.0),
@@ -55,9 +43,10 @@ class UsersAutocomplete extends StatelessWidget {
         itemSorter: (a, b) {
           return (a.compareTo(b));
         },
+
         itemSubmitted: (item) {
           shouldDisplay = true;
-          _suggestionsTextFieldController.text = item;
+          suggestionsTextFieldController.text = item;
           this.getStudentSelected(item);
           email = item;
         },
@@ -69,7 +58,8 @@ class UsersAutocomplete extends StatelessWidget {
                 Text(
                   item,
                   style: TextStyle(color: Colors.black),
-                )
+                ),
+
               ],
             ),
           );

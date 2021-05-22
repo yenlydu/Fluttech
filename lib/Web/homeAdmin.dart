@@ -69,7 +69,6 @@ class _HomeAdminState extends State<HomeAdmin> {
           child: Column(
             children: [
               NavigationBar(customFunction: navigationChange),
-              Text(email),
               screens[currentPage.index]
             ],
           ),

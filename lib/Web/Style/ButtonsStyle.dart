@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-
+import 'package:flutter2/Web/Style/ActionsButtons.dart';
+import 'package:flutter2/Web/Navigation/HandleProjects/ProjectInformation.dart';
 class NavigationButtonsStyle {
   final callback;
   Widget content;
@@ -29,6 +30,19 @@ class NavigationButtonsStyle {
       ),
     );
   }
+
+}
+
+Widget logOut(_goHome)
+{
+  return NavigationButtonsStyle(_goHome, Icon(
+    Icons.power_settings_new,
+    color: Colors.deepPurple,
+    size: 30.0,
+  ),
+      BoxDecoration(),
+      50
+  ).button();
 }
 
 class ActionButtonsStyle extends StatefulWidget
@@ -36,19 +50,20 @@ class ActionButtonsStyle extends StatefulWidget
   final customFunction;
   final Color color;
   final String text;
+  final setProjectEdited;
   final IconData icon;
-  ActionButtonsStyle({@required this.color, @required this.text, this.customFunction, this.icon});
+  final TextStyle textStyle;
+  ActionButtonsStyle({@required this.color, @required this.text, this.customFunction, this.icon, this.setProjectEdited, this.textStyle});
   @override
   _ActionsButtonsStyleState createState() => _ActionsButtonsStyleState();
-
 }
+
 class _ActionsButtonsStyleState extends State<ActionButtonsStyle> {
   @override
   Widget build(BuildContext context) {
-
     return RaisedButton(
-
       onPressed: ()=>{
+//        widget.setProjectEdited(PROJECT)
       showDialog(
         context: context,
         builder: (context) {
@@ -59,13 +74,9 @@ class _ActionsButtonsStyleState extends State<ActionButtonsStyle> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          Icon(widget.icon, size: 14 ,),
-
-          Text(widget.text, style: TextStyle(fontSize: 12),),
-
+          actionsButton(widget.textStyle, widget.icon, widget.text)
         ],
       ),
-
       color: widget.color,
       shape: RoundedRectangleBorder(
         borderRadius: new BorderRadius.circular(5.0),
