@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:getwidget/getwidget.dart';
 
-import '../../../../Model/Constants.dart';
-import '../../../../Model/Constants/C_Projects.dart';
+import '../../../Model/Constants.dart';
+import '../../../Model/Constants/C_Projects.dart';
 
-class T_Projects extends StatelessWidget {
-  const T_Projects({Key key}) : super(key: key);
+class T_Modules extends StatelessWidget {
+  const T_Modules({Key key}) : super(key: key);
 
   // Accordion Head Template
   @override
-  Widget _buildAccordionHeadProjectsTemplate(Text str) {
+  Widget _buildAccordionHeadModulesTemplate(Text str) {
     return Container(
       child: Column(
         children: <Widget>[
@@ -41,7 +41,7 @@ class T_Projects extends StatelessWidget {
 
   // Accordion Content Template
   @override
-  Widget _buildAccordionContentProjectsTemplate(
+  Widget _buildAccordionContentModulesTemplate(
       Text title, Text desc, Text credit, Text start, Text end) {
     return Container(
       decoration: kProject_AccordionBoxDecorationStyle,
@@ -117,13 +117,13 @@ class T_Projects extends StatelessWidget {
 
   // Accordion Head Template
   @override
-  Widget _buildAccordionProjectsTemplate(
+  Widget _buildAccordionModulesTemplate(
       Text p_title, Text p_desc, Text p_credit, Text p_start, Text p_end) {
     return GFAccordion(
       titlePadding: EdgeInsets.all(0),
-      titleChild: _buildAccordionHeadProjectsTemplate(Text(p_title.data)),
+      titleChild: _buildAccordionHeadModulesTemplate(Text(p_title.data)),
       contentPadding: EdgeInsets.all(0),
-      contentChild: _buildAccordionContentProjectsTemplate(
+      contentChild: _buildAccordionContentModulesTemplate(
           Text(p_title.data),
           Text(p_desc.data),
           Text(p_credit.data),
@@ -145,7 +145,7 @@ class T_Projects extends StatelessWidget {
           padding: EdgeInsets.all(10),
           child: Column(
             children: <Widget>[
-              _buildAccordionProjectsTemplate(
+              _buildAccordionModulesTemplate(
                 Text(
                     "M - Flutter II : Flutter & Firebase Cloud Firestore Advanced"),
                 Text(

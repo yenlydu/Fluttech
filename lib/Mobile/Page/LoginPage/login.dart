@@ -1,11 +1,15 @@
+import 'dart:ui';
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter2/Mobile/Page/Admin/LoginPage/adminLoginPage.dart';
 import 'package:flutter2/Mobile/Page/CommonBackground.dart';
+import 'package:flutter2/Mobile/Page/Homepage/Nav.dart';
 import 'package:flutter2/Mobile/Page/Homepage/home.dart';
 import 'package:flutter2/Mobile/Page/ProfilePage/Profile.dart';
 import 'package:lite_rolling_switch/lite_rolling_switch.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 //File Page Includ
 import 'package:flutter2/Model/Constants.dart';
@@ -23,6 +27,9 @@ class _LoginPageState extends State<LoginPage> {
   bool _rememberme = false;
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+
+  bool _visible = false;
+  bool _loginvisible = false;
 /*
   // Show Message in case of error (Not Use)
   Future<void> _showMessage(String message) {
@@ -53,6 +60,14 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 */
+  _LoginPageState() {
+    Timer _timer;
+    _timer = new Timer(const Duration(milliseconds: 400), () {
+      setState(() {
+        _visible = !_visible;
+      });
+    });
+  }
 
   @override
   Widget _buildRememberMeCheckBox() {
@@ -169,14 +184,21 @@ class _LoginPageState extends State<LoginPage> {
       child: RaisedButton(
         elevation: 5.0,
         onPressed: () async {
+          setState(() {
+            _loginvisible = !_loginvisible;
+          });
           String res = await context.read<AuthenticationService>().signIn(
                 email: emailController.text.trim(),
                 password: passwordController.text.trim(),
               );
           if (res == "Signed in") {
-            Navigator.pushReplacement(context,
-                MaterialPageRoute(builder: (context) => ProfilePage()));
+            Navigator.pushReplacement(
+                context, MaterialPageRoute(builder: (context) => NavElem()));
           }
+
+          setState(() {
+            _loginvisible = !_loginvisible;
+          });
         },
         // onPressed: () => print('Login Button Pressed'),
         padding: EdgeInsets.all(10.0),
@@ -218,6 +240,12 @@ class _LoginPageState extends State<LoginPage> {
         _buildForgotPasswordBT(),
         _buildRememberMeCheckBox(),
         _buildLoginBtn(),
+        const SizedBox(height: 48.0),
+        AnimatedOpacity(
+          opacity: _loginvisible ? 1.0 : 0.0,
+          duration: Duration(milliseconds: 500),
+          child: const SpinKitFadingCube(color: Colors.deepPurple),
+        )
       ],
     );
   }
@@ -225,7 +253,14 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
+        body: AnimatedOpacity(
+      // If the widget is visible, animate to 0.0 (invisible).
+      // If the widget is hidden, animate to 1.0 (fully visible).
+
+      opacity: _visible ? 1.0 : 0.0,
+      duration: Duration(milliseconds: 500),
+      // The green box must be a child of the AnimatedOpacity widget.
+      child: Stack(
         children: <Widget>[
           kContainer_BG,
           Container(
@@ -241,7 +276,7 @@ class _LoginPageState extends State<LoginPage> {
           ),
         ],
       ),
-    );
+    ));
   }
 }
 

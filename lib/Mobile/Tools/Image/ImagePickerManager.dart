@@ -15,7 +15,6 @@ class ImagePickerManager {
     final pickedFile = await picker.getImage(source: ImageSource.gallery);
 
     if (pickedFile != null) {
-      imageCache.clear();
       Directory tempDir = await getApplicationDocumentsDirectory();
       String path = tempDir.path;
 

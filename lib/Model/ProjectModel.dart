@@ -1,12 +1,14 @@
 import 'dart:io';
 
 // Local User Data
-class User {
+class ProjectModel {
   String email;
   String firstName;
   String lastName;
 
   String phoneNumber;
+
+  bool isAdmin;
 
   bool active;
 
@@ -33,10 +35,11 @@ class User {
   String appIdentifier;
 
   // Init User Data (avoid null Reference Exception)
-  User(
+  ProjectModel(
       {this.email = '',
       this.firstName = '',
       this.phoneNumber = '',
+      this.isAdmin,
       this.lastName = '',
       this.active = false,
       this.selected = false,
@@ -59,8 +62,8 @@ class User {
   }
 
   // get User object from json encoding
-  factory User.fromJson(Map<String, dynamic> parsedJson) {
-    return new User(
+  factory ProjectModel.fromJson(Map<String, dynamic> parsedJson) {
+    return new ProjectModel(
         email: parsedJson['email'] ?? '',
         firstName: parsedJson['firstName'] ?? '',
         lastName: parsedJson['lastName'] ?? '',
@@ -72,6 +75,7 @@ class User {
             parsedJson['facebookprofilePictureURL'] ?? '',
         twitterprofilePictureURL: parsedJson['twitterprofilePictureURL'] ?? '',
         phoneNumber: parsedJson['phoneNumber'] ?? '',
+        isAdmin: parsedJson['isAdmin'] ?? '',
         userID: parsedJson['id'] ?? parsedJson['userID'] ?? '',
         profilePictureURL: parsedJson['profilePictureURL'] ?? '');
   }

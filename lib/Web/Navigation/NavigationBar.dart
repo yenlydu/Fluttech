@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter2/Mobile/Tools/authentication_service.dart';
 import 'package:flutter2/Model/Constants.dart';
 import 'package:flutter2/Web/WebConstants/responsiveLayout.dart';
 import 'package:flutter2/Web/Style/ButtonsStyle.dart';
 import 'package:flutter2/Web/WebConstants/Enumerations.dart';
 import 'package:flutter2/Web/WebConstants/WebConstants.dart';
 import 'package:flutter2/Web/Style/NavigationStyle.dart';
+import 'package:provider/provider.dart';
+
 class NavigationBar extends StatefulWidget {
   final customFunction;
   NavigationBar({this.customFunction});
@@ -47,7 +50,7 @@ class _NavigationBarState extends State<NavigationBar>
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 45,  vertical: 38),
+      padding: EdgeInsets.symmetric(horizontal: 45, vertical: 38),
       child: Row(
         children: <Widget>[
           navbarRowItems(),

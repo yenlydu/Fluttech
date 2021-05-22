@@ -10,10 +10,9 @@ import 'package:firebase_auth/firebase_auth.dart' as fireauth;
 import 'package:flutter2/Model/Constants.dart';
 import 'package:flutter2/Model/Constants/C_Profile.dart';
 import '../../Widget/app_icons_icons.dart';
-import 'package:flutter2/Model/SocialAccount.dart' as localuser;
 import '../../Tools/LocalTools.dart';
-import '../../Tools/ImagePickerManager.dart';
-import '../../Tools/ImageProfileFireManager.dart';
+import '../../Tools/Image/ImagePickerManager.dart';
+import '../../Tools/Image/ImageProfileFireManager.dart';
 
 class ProfilePage extends StatefulWidget {
   ProfilePage({Key key}) : super(key: key);
@@ -37,10 +36,9 @@ class _ProfilePageState extends State<ProfilePage> {
 
   //Image && Profile Selection
   NetworkImage imageFile;
-  AssetImage UserImage;
   // check if local image exist and select it
   _initImage(BuildContext context) async {
-    String image = await fireimagemanager.getUserPhoto(user.uid);
+    String image = await fireimagemanager.getUserPhoto();
 
     setState(() {
       if (image != "") {
@@ -226,7 +224,9 @@ class _ProfilePageState extends State<ProfilePage> {
             padding: new EdgeInsets.symmetric(horizontal: 30.0),
             child: Align(
               child: Text(
-                (user != null) ? user.displayName : "user name".toUpperCase(),
+                (user != null && user.displayName != null)
+                    ? user.displayName
+                    : "user name".toUpperCase(),
                 style: TextStyle(fontWeight: FontWeight.w700, fontSize: 20.0),
               ),
             ),
@@ -241,9 +241,20 @@ class _ProfilePageState extends State<ProfilePage> {
                     alignment: Alignment.topLeft,
                     child: Text(
                       "Mail : " +
-                          ((user != null)
+                          ((user != null && user.email != null)
+                              ? user.email
+                              : "your.email@epitech.eu"),
+                      style: TextStyle(
+                          fontWeight: FontWeight.w400, fontSize: 15.0),
+                    ),
+                  ),
+                  Align(
+                    alignment: Alignment.topLeft,
+                    child: Text(
+                      "Credits : " +
+                          ((user != null && user.displayName != null)
                               ? user.displayName
-                              : "user.name@epitech.eu"),
+                              : "0"),
                       style: TextStyle(
                           fontWeight: FontWeight.w400, fontSize: 15.0),
                     ),
@@ -251,15 +262,10 @@ class _ProfilePageState extends State<ProfilePage> {
                   Align(
                     alignment: Alignment.topLeft,
                     child: Text(
-                      "Credits : " + ((user != null) ? user.displayName : "0"),
-                      style: TextStyle(
-                          fontWeight: FontWeight.w400, fontSize: 15.0),
-                    ),
-                  ),
-                  Align(
-                    alignment: Alignment.topLeft,
-                    child: Text(
-                      "G.P.A : " + ((user != null) ? user.displayName : "0"),
+                      "G.P.A : " +
+                          ((user != null && user.displayName != null)
+                              ? user.displayName
+                              : "0"),
                       style: TextStyle(
                           fontWeight: FontWeight.w400, fontSize: 15.0),
                     ),

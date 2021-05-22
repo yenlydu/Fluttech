@@ -2,21 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:autocomplete_textfield/autocomplete_textfield.dart';
 // import './../Model/Constants.dart';
 import 'package:flutter2/Model/Constants.dart';
-import 'package:flutter2/Model/SocialAccount.dart';
-
 
 class UsersAutocomplete extends StatelessWidget {
   final getStudentSelected;
-  UsersAutocomplete({Key key, this.getStudentSelected}): super(key: key);
+  UsersAutocomplete({Key key, this.getStudentSelected}) : super(key: key);
   var shouldDisplay = false;
   bool get getShouldDisplay => shouldDisplay;
   String email;
   var suggestionsTextFieldController = new TextEditingController();
-
-
   @override
-  Widget build(BuildContext context)
-  {
+  Widget build(BuildContext context) {
     return Container();
   }
 
@@ -35,8 +30,7 @@ class UsersAutocomplete extends StatelessWidget {
           fillColor: Colors.white,
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(20.0),
-            )
-        ),
+            )),
         itemFilter: (item, query) {
           return item.toLowerCase().startsWith(query.toLowerCase());
         },
@@ -63,7 +57,6 @@ class UsersAutocomplete extends StatelessWidget {
               ],
             ),
           );
-        }
-    );
+        });
   }
 }

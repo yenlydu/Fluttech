@@ -5,8 +5,9 @@ import 'package:flutter2/Mobile/Page/Admin/FindUsersPage/FindUsersPage.dart';
 import 'package:flutter2/Web/WebConstants/responsiveLayout.dart';
 import 'package:flutter2/Web/Navigation/HandleProjects/ButtonsActions/CreateProjectButton.dart';
 import 'package:flutter2/Web/Navigation/HandleStudents/DisplayHandleStudents.dart';
-class AllProjects extends StatelessWidget
-{
+import 'package:responsive_builder/responsive_builder.dart';
+
+class AllProjects extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AllProjectsPage();
@@ -16,12 +17,11 @@ class AllProjects extends StatelessWidget
 class AllProjectsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Center(child:verticalWidget());
+    return Center(child: verticalWidget());
   }
 }
 
-class RightSideWidget  extends StatelessWidget
-{
+class RightSideWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -33,8 +33,7 @@ class RightSideWidget  extends StatelessWidget
   }
 }
 
-class verticalWidget extends StatelessWidget
-{
+class verticalWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double size = MediaQuery.of(context).size.height / 3;
@@ -49,53 +48,44 @@ class verticalWidget extends StatelessWidget
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    CreateProjectButton(),
                     Flexible(
-                      child: HandleProjects().constructProjectsList(size * 2, context),
+                      child: HandleProjects()
+                          .constructProjectsList(size * 2, context),
                     ),
-
-
-//                  RightSideWidget()
-
                   ],
                 ),
               ],
             ),
           ),
-
         )
-
     );
   }
 }
-class AllStudents extends StatelessWidget
-{
+
+class AllStudents extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ResponsiveLayout(
-      largeScreen: HandleStudentsPage( ),
+      largeScreen: HandleStudentsPage(),
     );
   }
 }
 
 class HandleStudentsPage extends StatefulWidget {
   final void customFunction;
-  HandleStudentsPage({Key key, this.customFunction}): super(key: key);
+  HandleStudentsPage({Key key, this.customFunction}) : super(key: key);
   @override
   _HandleStudentsPageState createState() => _HandleStudentsPageState();
 }
 
-class _HandleStudentsPageState extends State<HandleStudentsPage>
-{
+class _HandleStudentsPageState extends State<HandleStudentsPage> {
   String email;
 
-  void getEmail(str)
-  {
+  void getEmail(str) {
     setState(() {
       email = str;
     });
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -130,16 +120,15 @@ class _HandleStudentsPageState extends State<HandleStudentsPage>
 
               ],
             )
-
-
           ]
+
       ),
     );
 
   }
 }
-class Profile extends StatelessWidget
-{
+
+class Profile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ResponsiveLayout(
@@ -159,7 +148,6 @@ class ProfileState extends StatelessWidget {
   }
 }
 
-
 class ProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -170,11 +158,12 @@ class ProfilePage extends StatelessWidget {
         alignment: Alignment.topCenter,
         fit: StackFit.expand,
         children: <Widget>[
-          Text("Profile", style: TextStyle(fontFamily: 'Montserrat'),)
+          Text(
+            "Profile",
+            style: TextStyle(fontFamily: 'Montserrat'),
+          )
         ],
       ),
     );
   }
 }
-
-
