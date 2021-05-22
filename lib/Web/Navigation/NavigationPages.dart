@@ -40,6 +40,7 @@ class verticalWidget extends StatelessWidget {
     return Padding(
         padding: EdgeInsets.all(70.0),
         child: Container(
+          color: Colors.red,
           height: size  * 1.8,
           child: Scaffold(
             body: Stack(
@@ -48,6 +49,7 @@ class verticalWidget extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
+                    CreateProjectButton(),
                     Flexible(
                       child: HandleProjects()
                           .constructProjectsList(size * 2, context),
