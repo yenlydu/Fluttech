@@ -3,6 +3,8 @@ import 'package:flutter2/Web/Navigation/HandleProjects/HandleProjects.dart';
 import 'package:flutter2/Web/WebConstants/WebConstants.dart';
 import 'package:flutter2/Mobile/Page/Admin/FindUsersPage/FindUsersPage.dart';
 import 'package:flutter2/Web/WebConstants/responsiveLayout.dart';
+import 'package:flutter2/Web/Navigation/HandleProjects/ButtonsActions/CreateProjectButton.dart';
+import 'package:flutter2/Web/Navigation/HandleStudents/DisplayHandleStudents.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 
 class AllProjects extends StatelessWidget {
@@ -36,28 +38,27 @@ class verticalWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     double size = MediaQuery.of(context).size.height / 3;
     return Padding(
-        padding: EdgeInsets.all(25.0),
+        padding: EdgeInsets.all(70.0),
         child: Container(
-          height: size * 2,
+          height: size  * 1.8,
           child: Scaffold(
             body: Stack(
               children: [
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Flexible(
                       child: HandleProjects()
                           .constructProjectsList(size * 2, context),
                     ),
-
-//                  RightSideWidget()
                   ],
                 ),
               ],
             ),
           ),
-        ));
+        )
+    );
   }
 }
 
@@ -89,56 +90,41 @@ class _HandleStudentsPageState extends State<HandleStudentsPage> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: MediaQuery.of(context).size.width / 1.1,
-      height: MediaQuery.of(context).size.height / 1.5,
-      child: Stack(
-        alignment: Alignment.topCenter,
-        fit: StackFit.expand,
-        children: <Widget>[
-          Container(
-            child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-                  Expanded(
-                    child: FindUsersPage(
-                      getStudentSelected: getEmail,
-                    ),
+      width: MediaQuery.of(context).size.width/1.1,
+      height: MediaQuery.of(context).size.height/1.5,
+      child:
+      Stack(
+          alignment: Alignment.center,
+          fit: StackFit.expand,
+          children: <Widget>[
+            Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start
+              ,
+              children: [
+                Expanded(
+                  child: Container(
+                    alignment: Alignment.center,
+
+                    height: 100,
+                    child:       FindUsersPage(getStudentSelected: getEmail,),
+
                   ),
-            Center(
-              child: Container(
-                width: MediaQuery.of(context).size.width,
-                height: MediaQuery.of(context).size.height / 1.8,
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    color: Color(0xFFF7F8F8),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withOpacity(0.4),
-                        spreadRadius: 2,
-                        offset: Offset(0.5, 0.5),
-                        blurRadius: 2,
-                      )
-                    ]),
-                child: email != null
-                    ? Text(
-                        email,
-                        style: TextStyle(
-                          color: Color(0xFF5D1EB5),
-                          fontSize: 22,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      )
-                    : Container(),
-              ),
+                ),
+                //            email != null ? Text(email, style: TextStyle(color: Color(0xFF5D1EB5),fontSize: 22,fontWeight: FontWeight.bold, ),): Container(),
+                Container(
+                  width: MediaQuery.of(context).size.width/4,
+                  height: MediaQuery.of(context).size.height/2,
+                  child:  DisplayHandleStudent(),
+                )
+
+              ],
             )
-            ],
-            ),
-          ),
-          sizedBox(10),
-        ],
+          ]
+
       ),
     );
+
   }
 }
 

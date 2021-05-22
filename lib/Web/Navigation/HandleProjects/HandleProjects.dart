@@ -54,17 +54,8 @@ class HandleProjects {
     );
   }
 
-  Widget constructProjectsList(double size, BuildContext context) {
-    return Container(
-      width: MediaQuery.of(context).size.width / 1.5,
-      height: size,
-      child: SingleChildScrollView(
-        child: Column(
-          children: [
-            getProjectsInformation(context),
-          ],
-        ),
-      ),
-    );
+  Widget constructProjectsList(double size, BuildContext context)
+  {
+    return buildingScrollView(height: size, width: MediaQuery.of(context).size.width/1.5, context: context, child: getProjectsInformation(context));
   }
 }

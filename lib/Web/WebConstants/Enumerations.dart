@@ -6,5 +6,5 @@ enum NavigationEnum {
 enum ProjectActionsEnum {
   DELETE,
   EDIT,
-  ADD_STUDENT,
+  MEETINGS,
 }

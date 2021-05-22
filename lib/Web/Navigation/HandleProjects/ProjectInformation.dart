@@ -12,7 +12,7 @@ class ProjectInformation
 {
   String title;
   String description;
-  DateTime beginDate;
+  DateTime  beginDate;
   DateTime endDate;
   String requirements;
   String professorName;
