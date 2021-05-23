@@ -23,7 +23,7 @@ class AuthenticationService {
           email: email, password: password);
       showSimpleNotification(
           Text(
-            "Welcome !",
+            "Welcome " + email + " !",
             textAlign: TextAlign.center,
           ),
           background: Colors.green);

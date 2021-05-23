@@ -9,15 +9,31 @@ import 'package:responsive_builder/responsive_builder.dart';
 
 class AllProjects extends StatelessWidget {
   @override
-  Widget build(BuildContext context) {
-    return AllProjectsPage();
-  }
-}
-
-class AllProjectsPage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Center(child: verticalWidget());
+    Widget build(BuildContext context) {
+      double size = MediaQuery.of(context).size.height / 3;
+      return Padding(
+          padding: EdgeInsets.all(70.0),
+          child: Container(
+            height: size  * 1.8,
+            child: Scaffold(
+              body: Stack(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      CreateProjectButton(),
+                      Flexible(
+                        child: HandleProjects()
+                            .constructProjectsList(size * 2, context),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          )
+      );
   }
 }
 
@@ -29,37 +45,6 @@ class RightSideWidget extends StatelessWidget {
       width: 300,
       height: double.infinity,
       color: Colors.blueGrey,
-    );
-  }
-}
-
-class verticalWidget extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    double size = MediaQuery.of(context).size.height / 3;
-    return Padding(
-        padding: EdgeInsets.all(70.0),
-        child: Container(
-          color: Colors.red,
-          height: size  * 1.8,
-          child: Scaffold(
-            body: Stack(
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    CreateProjectButton(),
-                    Flexible(
-                      child: HandleProjects()
-                          .constructProjectsList(size * 2, context),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
-        )
     );
   }
 }

@@ -99,6 +99,15 @@ class _EditPopupState extends State<EditPopup> {
       editController = tempEditTextController;
     });
   }
+  Future<void> test()
+  {
+    showSimpleNotification(
+        Text(
+          "Welcome " + email + " !",
+          textAlign: TextAlign.center,
+        ),
+        background: Colors.green);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -109,7 +118,6 @@ class _EditPopupState extends State<EditPopup> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
-
               children: [
                 editTextFields(setTextEditingController: getEditing, editController: editController),
                 usersAutocomplete.userAutocomplete(mailAddressesList: mailAddressesList, labelName: "Professor Mail"),
