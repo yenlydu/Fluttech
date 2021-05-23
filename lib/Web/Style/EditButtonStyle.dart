@@ -6,21 +6,13 @@ Widget removeDatabaseFields(saveEdit)
 {
   return Column(
     children: [
-      Text("Remove Fields", style: TextStyle(color: Color(0xFF875BC5),fontSize: 18,fontFamily: "Montserrat-Italic", decoration: TextDecoration.underline,),),
-      SizedBox(height: 20,),
-      Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: [
-          removeFields(fieldName: "Description"),
-          removeFields(fieldName: "Teacher")
-        ],
-      ),
+
       SizedBox(height:30),
       Container(
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: [saveDatas(function: saveEdit),],
+          children: [saveDatas(),],
         )
       ),
     ],

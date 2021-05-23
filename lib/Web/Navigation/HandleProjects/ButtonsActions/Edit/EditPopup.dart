@@ -99,15 +99,6 @@ class _EditPopupState extends State<EditPopup> {
       editController = tempEditTextController;
     });
   }
-  Future<void> test()
-  {
-    showSimpleNotification(
-        Text(
-          "Welcome " + email + " !",
-          textAlign: TextAlign.center,
-        ),
-        background: Colors.green);
-  }
 
   @override
   Widget build(BuildContext context) {
