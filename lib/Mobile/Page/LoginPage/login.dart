@@ -17,6 +17,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 //File Page Includ
 import 'package:flutter2/Model/Constants.dart';
 import 'package:flutter2/Model/Constants/C_Login.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../Widget/app_icons_icons.dart';
 import '../../Tools/authentication_service.dart';
 
@@ -203,6 +204,12 @@ class _LoginPageState extends State<LoginPage> {
             newuser.firstName = user.email;
             newuser.phoneNumber = user.phoneNumber;
             locator<FireStoreUser>().registerUser(user, newuser);
+            locator<FireStoreUser>().currentUser = newuser;
+            if (_rememberme == true) {
+              final prefs = await SharedPreferences.getInstance();
+              prefs.setBool("rememberme", true);
+            }
+
             Navigator.pushReplacement(
                 context, MaterialPageRoute(builder: (context) => NavElem()));
           }

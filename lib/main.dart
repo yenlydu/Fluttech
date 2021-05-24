@@ -9,18 +9,21 @@ import 'package:overlay_support/overlay_support.dart';
 
 //File Page Includ
 import 'package:flutter2/Mobile/Tools/authentication_service.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'Mobile/Page/Homepage/Nav.dart';
 import './Mobile/Page/LoginPage/login.dart';
 
 import 'package:flutter2/Web/homeAdmin.dart';
 
 import 'Mobile/Tools/FireStore/FireStoreUser.dart';
+import 'Mobile/Tools/LocalTools.dart';
 import 'Mobile/Tools/ServiceLocator/ServiceManager.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   setupServices();
+  await locator<LocalPreferences>().init();
   runApp(MyApp());
 }
 
@@ -83,6 +86,10 @@ class AuthenticationWrapper extends StatelessWidget {
   Widget build(BuildContext context) {
     final firebaseUser = FirebaseAuth.instance.currentUser;
     if (firebaseUser != null) {
+      var remember = locator<LocalPreferences>().IsRememberUser();
+      if (!remember) {
+        return LoginPage();
+      }
       var res = locator<FireStoreUser>().getUser(firebaseUser.uid);
       res.then((value) => {
             if (value != null) {locator<FireStoreUser>().currentUser = value}
@@ -100,28 +107,30 @@ class MyMobileState extends State<MyApp> with WidgetsBindingObserver {
       DeviceOrientation.portraitUp,
     ]);
     FlutterStatusbarcolor.setStatusBarColor(Color.fromRGBO(86, 0, 232, 1));
-    return MultiProvider(
-      providers: [
-        Provider<AuthenticationService>(
-          create: (_) => AuthenticationService(FirebaseAuth.instance),
-        ),
-        StreamProvider(
-          create: (context) =>
-              context.read<AuthenticationService>().authStateChanges,
-        )
-      ],
-      child: Consumer<AuthenticationService>(
-        builder: (context, provider, _) => MaterialApp(
-          title: 'FluTECH',
-          theme: ThemeData(
-            primarySwatch: Colors.deepPurple,
-            visualDensity: VisualDensity.adaptivePlatformDensity,
+    return OverlaySupport.global(
+      child: MultiProvider(
+        providers: [
+          Provider<AuthenticationService>(
+            create: (_) => AuthenticationService(FirebaseAuth.instance),
           ),
-          home: AuthenticationWrapper(),
-          routes: <String, WidgetBuilder>{
-            '/login': (BuildContext context) => new LoginPage(),
-            '/home': (BuildContext context) => new NavElem(),
-          },
+          StreamProvider(
+            create: (context) =>
+                context.read<AuthenticationService>().authStateChanges,
+          )
+        ],
+        child: Consumer<AuthenticationService>(
+          builder: (context, provider, _) => MaterialApp(
+            title: 'FluTECH',
+            theme: ThemeData(
+              primarySwatch: Colors.deepPurple,
+              visualDensity: VisualDensity.adaptivePlatformDensity,
+            ),
+            home: AuthenticationWrapper(),
+            routes: <String, WidgetBuilder>{
+              '/login': (BuildContext context) => new LoginPage(),
+              '/home': (BuildContext context) => new NavElem(),
+            },
+          ),
         ),
       ),
     );
