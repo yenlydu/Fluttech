@@ -1,0 +1,199 @@
+// Import the firebase_core and cloud_firestore plugn
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter2/Mobile/Tools/ServiceLocator/ServiceManager.dart';
+import 'package:flutter2/Mobile/Tools/authentication_service.dart';
+import 'package:flutter2/Model/AppointementModel.dart';
+import 'package:flutter2/Model/ProjectModel.dart';
+
+//File Includ
+import '../../../Model/UnitModel.dart';
+import '../../../Model/UserModel.dart';
+import 'FireStoreAppointements.dart';
+import 'FireStoreProject.dart';
+import 'FireStoreUser.dart';
+
+// Manage Unit Info with Shared Preferences
+class FireStoreUnit {
+  FirebaseFirestore firestore = FirebaseFirestore.instance;
+  CollectionReference units;
+
+  FireStoreUnit() {
+    CollectionReference units = FirebaseFirestore.instance.collection('Unit');
+  }
+
+  Future<UnitModel> registerUnit(UnitModel data) async {
+    try {
+      var res = await units.add(data.toJson());
+      var ress = await units.doc(res.id).update({'id': res.id});
+
+      data.id = res.id;
+      return data;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  Future<bool> UpdateUnit(UnitModel data) async {
+    try {
+      units.doc(data.id).update(data.toJson());
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  Future<bool> UpdateUnitField(
+      UnitModel fireUnit, String field, String value) async {
+    try {
+      await units.doc(fireUnit.id).update({field: value});
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  Future<UnitModel> getData(String documentId) async {
+    DocumentSnapshot res = await units.doc(documentId).get();
+
+    if (res.data() != null) {
+      UnitModel Unit = UnitModel.fromJson(res.data());
+    } else {
+      return (null);
+    }
+  }
+
+  bool deleteData(String documentId) {
+    try {
+      units.doc(documentId).delete();
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  Future<UnitModel> createUnit(
+    UserModel user,
+    String name,
+    String description,
+    int creditAvailable,
+    DateTime unitStart,
+    DateTime registerEnd,
+    DateTime unitEnd,
+  ) async {
+    if (name.isNotEmpty &&
+        creditAvailable >= 0 &&
+        (unitStart.millisecondsSinceEpoch <
+                registerEnd.millisecondsSinceEpoch &&
+            unitStart.millisecondsSinceEpoch <
+                unitEnd.millisecondsSinceEpoch)) {
+      description = (description.isEmpty)
+          ? "Unit : " + name + "Start at : " + unitStart.toString()
+          : description;
+
+      UnitModel newUnit = new UnitModel(
+        name: name,
+        description: description,
+        usercreatorID: user.userid,
+        usercreatorName: user.firstName,
+        creditAvailable: creditAvailable,
+        unitStart: unitStart,
+        registerEnd: registerEnd,
+        unitEnd: unitEnd,
+      );
+
+      newUnit = await this.registerUnit(newUnit);
+
+      return newUnit;
+    } else {
+      return null;
+    }
+  }
+
+  //Subscribe to Unit
+  Future<bool> subscribeToUnit(UserModel usertosub, UnitModel unit) async {
+    try {
+      unit.usersId.add(usertosub.userid);
+      await UpdateUnit(unit);
+      usertosub.subscribeUnit.add(unit.id);
+      locator<FireStoreUser>().UpdateUser(
+          await locator<AuthenticationService>().getUserInfo(), usertosub);
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  //Create Project
+  Future<ProjectModel> createProject(
+      UserModel creator,
+      UnitModel unit,
+      String name,
+      String room,
+      DateTime projectstart,
+      DateTime registerEnd,
+      DateTime projectEnd) async {
+    try {
+      var res = await locator<FireStoreProject>().createProject(
+          creator, unit, name, room, projectstart, registerEnd, projectEnd);
+
+      unit.projectlist.add(res.id);
+      await this.UpdateUnit(unit);
+      return res;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  //Create Appointement
+  Future<AppointementModel> createAppointement(UserModel creator,
+      UnitModel unit, String name, String room, DateTime timetoAppoint) async {
+    try {
+      var res = await locator<FireStoreAppointement>()
+          .createAppointement(creator, unit, name, room, timetoAppoint);
+      unit.appointementlist.add(res.id);
+      await this.UpdateUnit(unit);
+      return res;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  //Get list of project
+
+  Future<List<ProjectModel>> getUnitProject(UnitModel unit) async {
+    try {
+      List<ProjectModel> Projectlist = [];
+
+      unit.projectlist.forEach((element) async {
+        try {
+          var firestoreproject = locator<FireStoreProject>();
+          var res = await firestoreproject.getData(element);
+          Projectlist.add(res);
+        } catch (e) {}
+      });
+
+      return Projectlist;
+    } catch (e) {
+      return [];
+    }
+  }
+  //Get list of appointement
+
+  Future<List<AppointementModel>> getUnitAppointement(UnitModel unit) async {
+    try {
+      List<AppointementModel> Aptmtlist = [];
+
+      unit.appointementlist.forEach((element) async {
+        try {
+          var firestoreappoint = locator<FireStoreAppointement>();
+          var res = await firestoreappoint.getAppointement(element);
+          Aptmtlist.add(res);
+        } catch (e) {}
+      });
+
+      return Aptmtlist;
+    } catch (e) {
+      return [];
+    }
+  }
+}

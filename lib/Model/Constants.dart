@@ -28,15 +28,38 @@ class Constants extends StatelessWidget {
   //BORDER TEMPLATE OF FRIENDS & SUBSCRIBERS
   Color friends_subscribers_border_color = new Color(0xFF664C9E);
 
-  //ICON
+  errorFieldAlert(BuildContext context) {
+    Widget okButton = FlatButton(
+      child: Text("OK"),
+      onPressed: () {Navigator.pop(context); },
+    );
 
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: Text("Fields empty"),
+      content: Text("Email or Password incorrect."),
+      actions: [
+        okButton,
+      ],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
+
+  //CHANGE USER LOGIN PAGE
   @override
   Widget build(BuildContext context) {
+
     return Container();
   }
 }
-
-//GLOBAL
 
 /* Box Decoration Gradient Background */
 final kBoxDecoration_BG = BoxDecoration(
@@ -67,4 +90,17 @@ final kSizeBox_Space20 = SizedBox(
 /* Size Box Space */
 final kSizeBox_Space30 = SizedBox(
   height: 30.0,
+);
+
+final  navigationButtons = BoxDecoration(
+  color: Colors.white70,
+    boxShadow: [
+      BoxShadow(
+        color: Colors.grey.withOpacity(0.5),
+        spreadRadius: 5,
+        blurRadius: 7,
+        offset: Offset(0, 3), // changes position of shadow
+      ),
+    ],
+    borderRadius: BorderRadius.circular(18),
 );

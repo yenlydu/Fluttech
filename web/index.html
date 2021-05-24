@@ -12,6 +12,7 @@
     * https://developer.mozilla.org/en-US/docs/Web/HTML/Element/base
   -->
   <base href="/">
+  <script src="https://www.gstatic.com/firebasejs/7.17.1/firebase-firestore.js"></script>
 
   <meta charset="UTF-8">
   <meta content="IE=Edge" http-equiv="X-UA-Compatible">
@@ -94,5 +95,29 @@
       loadMainDartJs();
     }
   </script>
+  <!-- The core Firebase JS SDK is always required and must be listed first -->
+  <script src="https://www.gstatic.com/firebasejs/8.4.2/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/7.17.1/firebase-firestore.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.4.1/firebase-auth.js"></script>
+  <!-- TODO: Add SDKs for Firebase products that you want to use
+       https://firebase.google.com/docs/web/setup#available-libraries -->
+  <script src="https://www.gstatic.com/firebasejs/8.4.2/firebase-analytics.js"></script>
+
+  <script>
+  // Your web app's Firebase configuration
+  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+  var firebaseConfig = {
+    apiKey: "AIzaSyDKB2Q8yT_r4Bzfb3qjCVQSkS8tqsH-vcw",
+    authDomain: "flutter2-f9a8c.firebaseapp.com",
+    projectId: "flutter2-f9a8c",
+    storageBucket: "flutter2-f9a8c.appspot.com",
+    messagingSenderId: "830023490975",
+    appId: "1:830023490975:web:bb6039fc746259dfbef1aa",
+    measurementId: "G-FJ5JWHZYFZ"
+  };
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+  firebase.analytics();
+</script>
 </body>
 </html>
