@@ -17,6 +17,7 @@ Widget pickRangeDate({BuildContext context, DateTime beginDate, DateTime endDate
                 lastDate: new DateTime(2030)
             );
             if (picked != null && picked.length == 2) {
+              print (picked);
               function(picked);
             }
           },

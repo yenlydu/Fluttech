@@ -1,34 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter2/Mobile/Widget/Autocomplete.dart';
-import 'package:flutter2/Web/Style/SaveDatasStyle.dart';
 
-Widget removeDatabaseFields(saveEdit)
-{
-  return Column(
-    children: [
-      Text("Remove Fields", style: TextStyle(color: Color(0xFF875BC5),fontSize: 18,fontFamily: "Montserrat-Italic", decoration: TextDecoration.underline,),),
-      SizedBox(height: 20,),
-      Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: [
-          removeFields(fieldName: "Description"),
-          removeFields(fieldName: "Teacher")
-        ],
-      ),
-      SizedBox(height:30),
-      Container(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [saveDatas(function: saveEdit),],
-        )
-      ),
-    ],
-  );
-}
 
-Widget editTextFields({setTextEditingController, Map<String, TextEditingController> editController})
+Widget titleDescriptionTextFields({setTextEditingController, Map<String, TextEditingController> editController})
 {
+  FocusNode _focusNode;
+
   return Column(
     mainAxisAlignment: MainAxisAlignment.start,
     crossAxisAlignment: CrossAxisAlignment.start,
@@ -46,9 +23,12 @@ Widget editTextFields({setTextEditingController, Map<String, TextEditingControll
       Container(
 
         child:       TextField(
+          focusNode: _focusNode,
+
           onSubmitted: (value) {setTextEditingController(editController);},
           controller: editController["description"],
           maxLines: null,
+          keyboardType: TextInputType.multiline,
           minLines: 4,
           decoration: InputDecoration(
             border: OutlineInputBorder(borderRadius: BorderRadius.circular(20.0),),

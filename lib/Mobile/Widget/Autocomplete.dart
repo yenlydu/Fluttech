@@ -15,10 +15,10 @@ class UsersAutocomplete extends StatelessWidget {
     return Container();
   }
 
-  Widget userAutocomplete({@required List mailAddressesList, String labelName }) {
+  Widget userAutocomplete({@required List mailAddressesList, String labelName, @required bool clear }) {
     return AutoCompleteTextField(
         key: key,
-        clearOnSubmit: false,
+        clearOnSubmit: clear,
         controller: suggestionsTextFieldController,
         suggestions: mailAddressesList,
         style: TextStyle(color: Colors.deepPurple,

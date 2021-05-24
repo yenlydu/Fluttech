@@ -4,6 +4,8 @@ import 'package:flutter2/Web/Style/EditButtonStyle.dart';
 import 'package:flutter2/Web/Navigation/HandleProjects/ButtonsActions/Constants/ProjectsActionsConstants.dart';
 import 'package:flutter2/Web/Navigation/HandleProjects/ButtonsActions/Constants/PickRangeDate.dart';
 import 'package:flutter2/Mobile/Widget/Autocomplete.dart';
+import 'package:overlay_support/overlay_support.dart';
+import 'package:flutter2/Web/Style/SaveDatasStyle.dart';
 
 class EditPopup extends StatefulWidget {
   final ProjectInformation currentProject;
@@ -33,22 +35,13 @@ class _EditPopupState extends State<EditPopup> {
 
   void saveEdit()
   {
+
     //MAXIME : this function checks the fields that have been changed for the Edit button
-    if (temProjectDates["begin"] != null) {
-      //save data
-      setState(() {
-        widget.currentProject.beginDate = temProjectDates["begin"];
-        temProjectDates = null;
+    if (temProjectDates != null) {
+      widget.currentProject.beginDate = temProjectDates["begin"];
+      widget.currentProject.endDate = temProjectDates["end"];
+      temProjectDates = null;
         //MAXIME : SAVE BEGIN PROJECT DATE
-      });
-    };
-    if (temProjectDates["end"] != null) {
-      setState(() {
-        widget.currentProject.endDate = temProjectDates["end"];
-        temProjectDates = null;
-        //MAXIME : SAVE END PROJECT DATE
-      });
-      print ("end date not null");
     };
     if (selectedMail != null) {
       print("mail address not null");
@@ -74,6 +67,7 @@ class _EditPopupState extends State<EditPopup> {
     setState(() {
       temProjectDates['begin'] = picked[0];
       temProjectDates['end'] = picked[1];
+      print ("testing" + temProjectDates['begin'].toString());
     });
   }
 
@@ -99,14 +93,14 @@ class _EditPopupState extends State<EditPopup> {
       editController = tempEditTextController;
     });
   }
-  Future<void> test()
+  OverlaySupportEntry test()
   {
     showSimpleNotification(
         Text(
-          "Welcome " + email + " !",
+          "Nothing to save !",
           textAlign: TextAlign.center,
         ),
-        background: Colors.green);
+        background: Colors.red);
   }
 
   @override
@@ -119,8 +113,8 @@ class _EditPopupState extends State<EditPopup> {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                editTextFields(setTextEditingController: getEditing, editController: editController),
-                usersAutocomplete.userAutocomplete(mailAddressesList: mailAddressesList, labelName: "Professor Mail"),
+                titleDescriptionTextFields(setTextEditingController: getEditing, editController: editController),
+                usersAutocomplete.userAutocomplete(mailAddressesList: mailAddressesList, labelName: "Professor Mail", clear: false),
                 SizedBox(height:20),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -134,7 +128,7 @@ class _EditPopupState extends State<EditPopup> {
                 SizedBox(height:10),
                 pickRangeDate(context: context, beginDate: widget.currentProject.beginDate, endDate: widget.currentProject.endDate, function: setProjectDates),
                 SizedBox(height:35),
-                removeDatabaseFields(saveEdit),
+                saveDatas(function: saveEdit, text: "Save Datas"),
               ],
             )
         )
