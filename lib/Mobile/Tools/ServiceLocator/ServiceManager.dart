@@ -1,3 +1,4 @@
+import 'package:flutter2/Mobile/Tools/LocalTools.dart';
 import 'package:get_it/get_it.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -20,6 +21,9 @@ void setupServices() {
   //Image Service
   locator.registerSingleton<ImageProfileFireManager>(ImageProfileFireManager());
   locator.registerSingleton<ImagePickerManager>(ImagePickerManager());
+
+  //SharedPreference
+  locator.registerSingleton<LocalPreferences>(LocalPreferences());
 
   //FireStore Service
   locator.registerSingleton<FireStoreUser>(FireStoreUser());

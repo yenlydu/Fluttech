@@ -81,10 +81,15 @@ class FireStoreAppointement {
 
   Future<bool> subscribeToAppointement(
       UserModel user, AppointementModel appointement) async {
-    appointement.subscribedusersId.add(user.userid);
-    this.UpdateAppointement(appointement);
-    user.appointementlist.add(appointement.id);
-    locator<FireStoreUser>()
-        .UpdateUser(await locator<AuthenticationService>().getUserInfo(), user);
+    try {
+      appointement.subscribedusersId.add(user.userid);
+      this.UpdateAppointement(appointement);
+      user.appointementlist.add(appointement.id);
+      locator<FireStoreUser>().UpdateUser(
+          await locator<AuthenticationService>().getUserInfo(), user);
+      return true;
+    } catch (e) {
+      return false;
+    }
   }
 }

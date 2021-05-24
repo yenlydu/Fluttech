@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter2/Mobile/Tools/FireStore/FireStoreUser.dart';
+import 'package:flutter2/Mobile/Tools/ServiceLocator/ServiceManager.dart';
+import 'package:flutter2/Model/UserModel.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 import 'package:path_provider/path_provider.dart';
@@ -28,9 +31,11 @@ class _ProfilePageState extends State<ProfilePage> {
   //End Manager
 
   fireauth.User user;
+  UserModel currentuser;
 
   _initUser(BuildContext context) async {
     user = auth.currentUser;
+    currentuser = locator<FireStoreUser>().currentUser;
     fireimagemanager = new ImageProfileFireManager();
   }
 

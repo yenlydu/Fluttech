@@ -1,9 +1,16 @@
 // Import the firebase_core and cloud_firestore plugn
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter2/Mobile/Tools/ServiceLocator/ServiceManager.dart';
+import 'package:flutter2/Mobile/Tools/authentication_service.dart';
+import 'package:flutter2/Model/AppointementModel.dart';
+import 'package:flutter2/Model/ProjectModel.dart';
 
 //File Includ
 import '../../../Model/UnitModel.dart';
 import '../../../Model/UserModel.dart';
+import 'FireStoreAppointements.dart';
+import 'FireStoreProject.dart';
+import 'FireStoreUser.dart';
 
 // Manage Unit Info with Shared Preferences
 class FireStoreUnit {
@@ -103,10 +110,13 @@ class FireStoreUnit {
   }
 
   //Subscribe to Unit
-  bool subscribeToUnit(UserModel usertosub, UnitModel unit) {
+  Future<bool> subscribeToUnit(UserModel usertosub, UnitModel unit) async {
     try {
       unit.usersId.add(usertosub.userid);
-      UpdateUnit(unit);
+      await UpdateUnit(unit);
+      usertosub.subscribeUnit.add(unit.id);
+      locator<FireStoreUser>().UpdateUser(
+          await locator<AuthenticationService>().getUserInfo(), usertosub);
       return true;
     } catch (e) {
       return false;
@@ -114,5 +124,76 @@ class FireStoreUnit {
   }
 
   //Create Project
+  Future<ProjectModel> createProject(
+      UserModel creator,
+      UnitModel unit,
+      String name,
+      String room,
+      DateTime projectstart,
+      DateTime registerEnd,
+      DateTime projectEnd) async {
+    try {
+      var res = await locator<FireStoreProject>().createProject(
+          creator, unit, name, room, projectstart, registerEnd, projectEnd);
+
+      unit.projectlist.add(res.id);
+      await this.UpdateUnit(unit);
+      return res;
+    } catch (e) {
+      return null;
+    }
+  }
+
   //Create Appointement
+  Future<AppointementModel> createAppointement(UserModel creator,
+      UnitModel unit, String name, String room, DateTime timetoAppoint) async {
+    try {
+      var res = await locator<FireStoreAppointement>()
+          .createAppointement(creator, unit, name, room, timetoAppoint);
+      unit.appointementlist.add(res.id);
+      await this.UpdateUnit(unit);
+      return res;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  //Get list of project
+
+  Future<List<ProjectModel>> getUnitProject(UnitModel unit) async {
+    try {
+      List<ProjectModel> Projectlist = [];
+
+      unit.projectlist.forEach((element) async {
+        try {
+          var firestoreproject = locator<FireStoreProject>();
+          var res = await firestoreproject.getData(element);
+          Projectlist.add(res);
+        } catch (e) {}
+      });
+
+      return Projectlist;
+    } catch (e) {
+      return [];
+    }
+  }
+  //Get list of appointement
+
+  Future<List<AppointementModel>> getUnitAppointement(UnitModel unit) async {
+    try {
+      List<AppointementModel> Aptmtlist = [];
+
+      unit.appointementlist.forEach((element) async {
+        try {
+          var firestoreappoint = locator<FireStoreAppointement>();
+          var res = await firestoreappoint.getAppointement(element);
+          Aptmtlist.add(res);
+        } catch (e) {}
+      });
+
+      return Aptmtlist;
+    } catch (e) {
+      return [];
+    }
+  }
 }

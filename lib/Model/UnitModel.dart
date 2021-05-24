@@ -21,6 +21,7 @@ class UnitModel {
 
   // Init Unit Data (avoid null Reference Exception)
   UnitModel({
+    this.id = '',
     this.name = '',
     this.description = '',
     this.skillstobeacquired = const <String>[],
@@ -39,6 +40,7 @@ class UnitModel {
   // get Unit object from json encoding
   factory UnitModel.fromJson(Map<String, dynamic> parsedJson) {
     return new UnitModel(
+      id: parsedJson['id'] ?? '',
       name: parsedJson['name'] ?? '',
       description: parsedJson['description'] ?? '',
       skillstobeacquired: parsedJson['skillstobeacquired'] ?? const <String>[],
@@ -58,6 +60,7 @@ class UnitModel {
   // Create an json encode version of the Unit Class (for Data saving)
   Map<String, dynamic> toJson() {
     return {
+      'id': this.id,
       'name': this.name,
       'description': this.description,
       'skillstobeacquired': this.skillstobeacquired,
