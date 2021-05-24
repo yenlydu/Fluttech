@@ -21,6 +21,10 @@ class Constants extends StatelessWidget {
   //POST
   Color posts_color = new Color(0xFFE0E0E0);
 
+  //CALENDAR
+  Color selected_color = new Color(0xFF856ABE);
+  Color focused_color = new Color(0xFFA293C0);
+
   //BORDER TEMPLATE OF FRIENDS & SUBSCRIBERS
   Color friends_subscribers_border_color = new Color(0xFF664C9E);
 
