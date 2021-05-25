@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter2/Web/WebConstants/Enumerations.dart';
 class CustomDropDown extends StatefulWidget {
   final String text;
-
-  CustomDropDown({Key key, this.text}) : super(key: key);
+  final getUserRole;
+  CustomDropDown({Key key, this.text, this.getUserRole}) : super(key: key);
   @override
   _CustomDropDownState createState() => _CustomDropDownState();
 }
@@ -17,8 +17,13 @@ class _CustomDropDownState extends State<CustomDropDown> {
   double height, width, xPosition, yPosition ;
   OverlayEntry floatingDropDown;
 
-  void didSelected()
+  void didSelected(Roles selectedRole)
   {
+    setState(() {
+      select = selectedRole;
+    });
+    widget.getUserRole(select);
+    print (selectedRole.toString());
     hideHelp();
   }
 
@@ -43,24 +48,10 @@ class _CustomDropDownState extends State<CustomDropDown> {
             ),],
           )
 ,          onTap: () {
-        setState(() {
-          iconData = Icons.arrow_drop_down_outlined;
-        });
-
         hideHelp();
           },
         ),
       );
-/*
-
-    return OverlayEntry(builder: (context){
-
-          return  Positioned(
-            child:
-          );
-    }
-    );
-*/
   }
 
   void findDropDownDate()
@@ -72,6 +63,7 @@ class _CustomDropDownState extends State<CustomDropDown> {
     xPosition = offset.dx;
     yPosition = offset.dy;
   }
+
   Widget content()
   {
     return Container(
@@ -109,6 +101,9 @@ class _CustomDropDownState extends State<CustomDropDown> {
   }
 
   void hideHelp() {
+    setState(() {
+      iconData = Icons.arrow_drop_down_outlined;
+    });
     isDropDownOpened = false;
     floatingDropDown.remove();
   }
@@ -188,6 +183,7 @@ class DropDown extends StatelessWidget {
 
   void function(Roles string)
   {
+/*
     if (string == Roles.STUDENT) {
       print("Student");
     }
@@ -197,11 +193,11 @@ class DropDown extends StatelessWidget {
     } else {
       print("teacher");
     }
-    this.didSelected();
+*/
+    this.didSelected(string);
   }
   @override
   Widget build(BuildContext context) {
-    print("etner");
     return Column(
       children: [
         SizedBox(height: 5,),
@@ -220,7 +216,9 @@ class DropDown extends StatelessWidget {
           )
           ,
         ),
-    Container(
+          Material(
+          type: MaterialType.transparency,
+   child: Container(
       height: 4*itemHeight,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(18),
@@ -233,7 +231,9 @@ class DropDown extends StatelessWidget {
         ],
       ),
     )
+          ),
       ],
+
     );
   }
 }
@@ -283,7 +283,6 @@ class DropDownItem extends StatelessWidget {
     return  GestureDetector(
       onTap: ()=> {
         function(currentRole),
-        print (currentRole)
       },
      child:       Container(
        decoration: BoxDecoration(

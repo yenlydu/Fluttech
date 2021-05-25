@@ -8,6 +8,7 @@ import 'package:flutter2/Web/Navigation/HandleStudents/DisplayHandleStudents.dar
 import 'package:responsive_builder/responsive_builder.dart';
 import 'package:flutter2/Web/CreateUser.dart';
 import 'package:flutter2/Mobile/Widget/Autocomplete.dart';
+import 'package:flutter2/Web/WebConstants/Enumerations.dart';
 import 'package:flutter2/Web/Navigation/HandleStudents/CustomDropDown/CustomDropDown.dart';
 class AllProjects extends StatelessWidget {
   @override
@@ -73,6 +74,8 @@ class HandleStudentsPage extends StatefulWidget {
 
 class _HandleStudentsPageState extends State<HandleStudentsPage> {
   String email;
+  Roles userRole;
+  String currentRole = "Student";
   UsersAutocomplete usersAutocomplete;
 
   void getEmail(str) {
@@ -96,8 +99,22 @@ class _HandleStudentsPageState extends State<HandleStudentsPage> {
     super.initState();
     setState(() {
       usersAutocomplete = new UsersAutocomplete(getStudentSelected: getEmail,);
+      userRole = Roles.STUDENT;
     });
 
+  }
+  void getSelectedRole(Roles selectedRole)
+  {
+    setState(() {
+      userRole = selectedRole;
+      if (userRole == Roles.STUDENT) {
+        currentRole = "Student";
+      } else if (userRole == Roles.TEACHER) {
+        currentRole = "Teacher";
+      } else {
+        currentRole = "Administrator";
+      }
+    });
   }
   Widget displayStudent()
   {
@@ -135,8 +152,8 @@ class _HandleStudentsPageState extends State<HandleStudentsPage> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Text("email"),
-                CustomDropDown(text: "Change User Role",),
+                Text(currentRole),
+                CustomDropDown(text: "Change User Role", getUserRole: getSelectedRole,),
 
               ],
             ),
@@ -172,7 +189,6 @@ class _HandleStudentsPageState extends State<HandleStudentsPage> {
                   ],
                 ),
                 SizedBox(height: 20),
-
                 email != null ? displayStudent() : Container(),
                 Expanded(
                     child: Align(
