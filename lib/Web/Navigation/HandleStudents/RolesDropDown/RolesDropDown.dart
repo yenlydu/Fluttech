@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter2/Web/WebConstants/Enumerations.dart';
-class CustomDropDown extends StatefulWidget {
+class RolesDropDown extends StatefulWidget {
   final String text;
   final getUserRole;
-  CustomDropDown({Key key, this.text, this.getUserRole}) : super(key: key);
+  RolesDropDown({Key key, this.text, this.getUserRole}) : super(key: key);
   @override
-  _CustomDropDownState createState() => _CustomDropDownState();
+  _RolesDropDownState createState() => _RolesDropDownState();
 }
 
-class _CustomDropDownState extends State<CustomDropDown> {
+class _RolesDropDownState extends State<RolesDropDown> {
   bool isDropDownOpened = false;
   GlobalKey key;
   OverlayState _overlayState;

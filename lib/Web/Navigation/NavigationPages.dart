@@ -1,42 +1,42 @@
 import 'package:flutter/material.dart';
-import 'package:flutter2/Web/Navigation/HandleProjects/HandleProjects.dart';
+import 'package:flutter2/Web/Navigation/HandleProjects/DisplayAllProjects.dart';
 import 'package:flutter2/Web/Style/ButtonsStyle.dart';
 import 'package:flutter2/Web/WebConstants/WebConstants.dart';
 import 'package:flutter2/Web/WebConstants/responsiveLayout.dart';
-import 'package:flutter2/Web/Navigation/HandleProjects/ButtonsActions/CreateProjectButton.dart';
+import 'package:flutter2/Web/Navigation/HandleProjects/ButtonsActions/CreateProject/CreateProjectButton.dart';
 import 'package:flutter2/Web/Navigation/HandleStudents/DisplayHandleStudents.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 import 'package:flutter2/Web/CreateUser.dart';
 import 'package:flutter2/Mobile/Widget/Autocomplete.dart';
 import 'package:flutter2/Web/WebConstants/Enumerations.dart';
-import 'package:flutter2/Web/Navigation/HandleStudents/CustomDropDown/CustomDropDown.dart';
+import 'package:flutter2/Web/Navigation/HandleStudents/RolesDropDown/RolesDropDown.dart';
 class AllProjects extends StatelessWidget {
   @override
-    Widget build(BuildContext context) {
-      double size = MediaQuery.of(context).size.height / 3;
-      return Padding(
-          padding: EdgeInsets.all(40.0),
-          child: Container(
-            height: size  * 1.8,
-            child: Scaffold(
-              body: Stack(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      CreateProjectButton(),
-                      Flexible(
-                        child: HandleProjects()
-                            .constructProjectsList(size * 2, context),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
+  Widget build(BuildContext context) {
+    double size = MediaQuery.of(context).size.height / 3;
+    return Padding(
+        padding: EdgeInsets.all(40.0),
+        child: Container(
+          height: size  * 1.8,
+          child: Scaffold(
+            body: Stack(
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    CreateProjectButton(),
+                    Flexible(
+                      child: HandleProjects()
+                          .constructProjectsList(size * 2, context),
+                    ),
+                  ],
+                ),
+              ],
             ),
-          )
-      );
+          ),
+        )
+    );
   }
 }
 
@@ -81,6 +81,8 @@ class _HandleStudentsPageState extends State<HandleStudentsPage> {
   void getEmail(str) {
     setState(() {
       email = str;
+      userRole = Roles.STUDENT;
+      getSelectedRole(userRole);
     });
   }
   List mailAddressesList = [
@@ -100,6 +102,7 @@ class _HandleStudentsPageState extends State<HandleStudentsPage> {
     setState(() {
       usersAutocomplete = new UsersAutocomplete(getStudentSelected: getEmail,);
       userRole = Roles.STUDENT;
+      getSelectedRole(userRole);
     });
 
   }
@@ -128,7 +131,7 @@ class _HandleStudentsPageState extends State<HandleStudentsPage> {
             children: [
               Container(
                 padding: EdgeInsets.symmetric(horizontal: 16),
-                child:               Text(email, style: TextStyle(color: Color(0xFF875BC5),fontSize: 21,fontFamily: "Montserrat"),),
+                child: Text(email, style: TextStyle(color: Color(0xFF875BC5),fontSize: 21,fontFamily: "Montserrat"),),
               )
             ],
           ),
@@ -153,7 +156,7 @@ class _HandleStudentsPageState extends State<HandleStudentsPage> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Text(currentRole),
-                CustomDropDown(text: "Change User Role", getUserRole: getSelectedRole,),
+                RolesDropDown(text: "Change User Role", getUserRole: getSelectedRole,),
 
               ],
             ),
@@ -167,12 +170,12 @@ class _HandleStudentsPageState extends State<HandleStudentsPage> {
   @override
   Widget build(BuildContext context) {
     return  SingleChildScrollView(
-      child:
-      Container(
-        margin: const EdgeInsets.only(top: 20.0),
-          width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height/1.4,
         child:
+        Container(
+            margin: const EdgeInsets.only(top: 20.0),
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height/1.4,
+            child:
             Column(
               children: [
                 SizedBox(height: 30),
@@ -189,7 +192,7 @@ class _HandleStudentsPageState extends State<HandleStudentsPage> {
                   ],
                 ),
                 SizedBox(height: 20),
-                email != null ? displayStudent() : Container(),
+                email != null ? displayStudent(): Container(),
                 Expanded(
                     child: Align(
                         alignment: Alignment.bottomLeft,
@@ -213,7 +216,7 @@ class _HandleStudentsPageState extends State<HandleStudentsPage> {
 
               ],
             )
-      )
+        )
 
     );
 

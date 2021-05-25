@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter2/Web/Navigation/HandleProjects/DisplayHandleProject.dart';
+import 'package:flutter2/Web/Navigation/HandleProjects/DisplaySingleProjectContent.dart';
 import 'package:flutter2/Web/Navigation/HandleProjects/ProjectInformation.dart';
 import 'package:flutter2/Web/WebConstants/WebConstants.dart';
 

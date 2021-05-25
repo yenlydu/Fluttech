@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../ProjectInformation.dart';
+import '../../ProjectInformation.dart';
 import 'package:flutter2/Web/WebConstants/WebConstants.dart';
 
 class PopupDescription extends StatelessWidget

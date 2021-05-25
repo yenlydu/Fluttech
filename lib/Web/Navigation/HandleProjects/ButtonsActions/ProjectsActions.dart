@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter2/Web/Navigation/HandleProjects/ButtonsActions/DeleteButtons.dart';
+import 'package:flutter2/Web/Navigation/HandleProjects/ButtonsActions/Delete/DeleteButtons.dart';
 import 'package:flutter2/Web/Navigation/HandleProjects/ButtonsActions/Constants/PickRangeDate.dart';
 import 'package:flutter2/Web/Navigation/HandleProjects/ProjectInformation.dart';
 import 'package:flutter2/Web/WebConstants/Enumerations.dart';
-import 'package:flutter2/Web/Navigation/HandleProjects/ButtonsActions/AllActions.dart';
+import 'package:flutter2/Web/Navigation/HandleProjects/ButtonsActions/AddMeetings/AddMeetings.dart';
 import 'package:flutter2/Web/Navigation/HandleProjects/ButtonsActions/Edit/EditProjectButton.dart';
 
 class ProjectsActions extends StatefulWidget
