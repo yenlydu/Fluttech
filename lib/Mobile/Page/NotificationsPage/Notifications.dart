@@ -38,7 +38,7 @@ class _NotificationsPageState extends State<NotificationsPage> {
               ],
             ),
           ),
-          kSizeBox_Space10,
+          sizeBox_Spacing(10),
         ],
       ),
     );
