@@ -2,6 +2,23 @@ import 'package:flutter/material.dart';
 import 'package:flutter2/Mobile/Widget/Autocomplete.dart';
 
 
+Widget removeDatabaseFields(saveEdit)
+{
+  return Column(
+    children: [
+
+      SizedBox(height:30),
+      Container(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [saveDatas(),],
+        )
+      ),
+    ],
+  );
+}
+
 Widget titleDescriptionTextFields({setTextEditingController, Map<String, TextEditingController> editController})
 {
   FocusNode _focusNode;
