@@ -33,7 +33,8 @@ class AppointementModel {
       creatorUserName: parsedJson['creatorUserName'] ?? '',
       creatorUserid: parsedJson['creatorUserid'] ?? '',
       unitid: parsedJson['unitid'] ?? '',
-      subscribedusersId: parsedJson['subscribedusersId'] ?? const <String>[],
+      subscribedusersId:
+          List.from(parsedJson['subscribedusersId']) ?? const <String>[],
       timetoAppoint: parsedJson['timetoAppoint'] ?? null,
     );
   }

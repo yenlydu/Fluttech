@@ -8,7 +8,7 @@ class UserModel {
   String lastName;
   String phoneNumber;
 
-  double gpa;
+  int gpa;
   int currentCredits;
   int maxAvailable;
 
@@ -27,7 +27,7 @@ class UserModel {
     this.firstName = 'Template',
     this.lastName = 'Temp',
     this.phoneNumber = '217 329 314',
-    this.gpa = 0.0,
+    this.gpa = 0,
     this.currentCredits = 0,
     this.maxAvailable = 0,
     this.role = 'user',
@@ -50,12 +50,12 @@ class UserModel {
       firstName: parsedJson['firstName'] ?? '',
       lastName: parsedJson['lastName'] ?? '',
       phoneNumber: parsedJson['phoneNumber'] ?? '',
-      gpa: parsedJson['gpa'] ?? 0.0,
+      gpa: parsedJson['gpa'] ?? 0,
       currentCredits: parsedJson['currentCredits'] ?? 0,
       maxAvailable: parsedJson['maxAvailable'] ?? 0,
-      subscribeProject: parsedJson['subscribeProject'] ?? const <String>[],
-      subscribeUnit: parsedJson['subscribeUnit'] ?? const <String>[],
-      appointementlist: parsedJson['appointementlist'] ?? const <String>[],
+      subscribeProject: List.from(parsedJson['subscribeProject']) ?? <String>[],
+      subscribeUnit: List.from(parsedJson['subscribeUnit']) ?? <String>[],
+      appointementlist: List.from(parsedJson['appointementlist']) ?? <String>[],
     );
   }
 

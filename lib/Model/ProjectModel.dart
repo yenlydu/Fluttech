@@ -29,7 +29,7 @@ class ProjectModel {
       id: parsedJson['id'] ?? '',
       name: parsedJson['name'] ?? '',
       unitid: parsedJson['unitid'] ?? '',
-      groups: parsedJson['groups'] ?? const <Group>[],
+      groups: List.from(parsedJson['groups']) ?? const <Group>[],
       projectstart: parsedJson['projectstart'] ?? null,
       registerEnd: parsedJson['registerEnd'] ?? null,
       projectEnd: parsedJson['projectEnd'] ?? null,
