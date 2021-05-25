@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:getwidget/getwidget.dart';
 
+//import '../../../../Mobile/Page/Projectspage/DetailedPage.dart';
 import '../../../../Model/Constants.dart';
 import '../../../../Model/Constants/C_Projects.dart';
 
 class T_Modules extends StatelessWidget {
   const T_Modules({Key key}) : super(key: key);
+  //TextEditingController _moduleTitleController = TextEditingController();
 
   // Accordion Head Template
   @override
@@ -139,25 +141,67 @@ class T_Modules extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      children: <Widget>[
-        Container(
-          padding: EdgeInsets.all(10),
-          child: Column(
-            children: <Widget>[
-              _buildAccordionModulesTemplate(
-                Text(
-                    "M - Flutter II : Flutter & Firebase Cloud Firestore Advanced"),
-                Text(
-                    "Flutter is Google’s UI toolkit for building beautiful, natively compiled applications for mobile, web, and desktop from a single codebase.\nOrganizations around the world are building apps with Flutter.\nFlutter Advantages: Fast Development, Expressive and Flexible UI, Native Performance\nFirebase: Helps You Build, Improve, & Grow Your Mobile Apps. Check It Out Today! Find All The Docs You Need To Get Started With Firebase In Minutes. Learn More! Automatic & secure login. Custom Domain Support. Build Fast For Any Device. "),
-                Text("12"),
-                Text("14/04/2021, 00h00"),
-                Text("02/06/2021, 00h00"),
+    return Scaffold(
+      body: ListView(
+        children: <Widget>[
+          Container(
+            padding: EdgeInsets.all(10),
+            child: Column(
+              children: <Widget>[
+                _buildAccordionModulesTemplate(
+                  Text(
+                      "M - Flutter II : Flutter & Firebase Cloud Firestore Advanced"),
+                  Text(
+                      "Flutter is Google’s UI toolkit for building beautiful, natively compiled applications for mobile, web, and desktop from a single codebase.\nOrganizations around the world are building apps with Flutter.\nFlutter Advantages: Fast Development, Expressive and Flexible UI, Native Performance\nFirebase: Helps You Build, Improve, & Grow Your Mobile Apps. Check It Out Today! Find All The Docs You Need To Get Started With Firebase In Minutes. Learn More! Automatic & secure login. Custom Domain Support. Build Fast For Any Device. "),
+                  Text("12"),
+                  Text("14/04/2021, 00h00"),
+                  Text("02/06/2021, 00h00"),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.add),
+        onPressed: () => showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            title: Text("Add Module"),
+            content: Align(
+              alignment: Alignment.topLeft,
+              child: Column(
+                children: <Widget>[
+                  Text("Enter Module Title"),
+                  TextFormField(),
+                  kSizeBox_Space30,
+                  Text("Enter Module Description"),
+                  TextFormField(),
+                  kSizeBox_Space30,
+                  Text("Enter Module Credits"),
+                  TextFormField(),
+                  kSizeBox_Space30,
+                  Text("Enter Module Start Date"),
+                  TextFormField(),
+                  kSizeBox_Space30,
+                  Text("Enter Module End Date"),
+                  TextFormField(),
+                ],
+              ),
+            ), //Text("Enter Module Title"),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: Text("Cancel"),
+              ),
+              TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: Text("Save"),
               ),
             ],
           ),
-        )
-      ],
+        ),
+      ),
     );
   }
 }

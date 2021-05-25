@@ -49,33 +49,6 @@ class _ProjectsPageState extends State<ProjectsPage> {
       ),
     );
   }
-/*
-  // Projects Page
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Projects'),
-      ),
-      body: ListView(
-        children: <Widget>[
-          Container(
-            height: 50,
-            width: 50,
-            color: Colors.orange,
-            padding: new EdgeInsets.only(top: 25),
-            child: Center(
-              child: Container(
-                child: Column(
-                  children: <Widget>[_buildStructure()],
-                ),
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }*/
 
   // Projects Page
   @override
