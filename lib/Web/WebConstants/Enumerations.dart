@@ -8,3 +8,9 @@ enum ProjectActionsEnum {
   EDIT,
   MEETINGS,
 }
+
+enum Roles {
+  STUDENT,
+  TEACHER,
+  ADMINISTRATOR,
+}

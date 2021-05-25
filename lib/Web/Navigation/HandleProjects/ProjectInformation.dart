@@ -18,5 +18,6 @@ class ProjectInformation
   String professorName;
   int allowedStudents = 1;
   List<Reunion> reunions;
-  ProjectInformation({@required this.title, @required this.description, @required this.beginDate, @required this.endDate, this.requirements, this.allowedStudents, this.reunions, this.professorName});
+
+  ProjectInformation({ this.title,  this.description,  this.beginDate,  this.endDate, this.requirements, this.allowedStudents, this.reunions, this.professorName});
 }

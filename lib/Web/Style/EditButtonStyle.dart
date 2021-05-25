@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter2/Mobile/Widget/Autocomplete.dart';
-import 'package:flutter2/Web/Style/SaveDatasStyle.dart';
+
 
 Widget removeDatabaseFields(saveEdit)
 {
@@ -19,8 +19,10 @@ Widget removeDatabaseFields(saveEdit)
   );
 }
 
-Widget editTextFields({setTextEditingController, Map<String, TextEditingController> editController})
+Widget titleDescriptionTextFields({setTextEditingController, Map<String, TextEditingController> editController})
 {
+  FocusNode _focusNode;
+
   return Column(
     mainAxisAlignment: MainAxisAlignment.start,
     crossAxisAlignment: CrossAxisAlignment.start,
@@ -38,9 +40,12 @@ Widget editTextFields({setTextEditingController, Map<String, TextEditingControll
       Container(
 
         child:       TextField(
+          focusNode: _focusNode,
+
           onSubmitted: (value) {setTextEditingController(editController);},
           controller: editController["description"],
           maxLines: null,
+          keyboardType: TextInputType.multiline,
           minLines: 4,
           decoration: InputDecoration(
             border: OutlineInputBorder(borderRadius: BorderRadius.circular(20.0),),

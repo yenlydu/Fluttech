@@ -48,7 +48,7 @@ Widget addMeetings({@required BuildContext context, @required ProjectInformation
             crossAxisAlignment: CrossAxisAlignment.start,
             // MAXIME : SAVE PROJECT REUNIONS
             children: [
-              saveDatas(function: setDatas)
+              saveDatas(function: setDatas, text: "Save Datas")
             ],
           ),
         ],

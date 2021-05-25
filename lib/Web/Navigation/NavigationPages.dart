@@ -1,18 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter2/Web/Navigation/HandleProjects/HandleProjects.dart';
+import 'package:flutter2/Web/Style/ButtonsStyle.dart';
 import 'package:flutter2/Web/WebConstants/WebConstants.dart';
-import 'package:flutter2/Mobile/Page/Admin/FindUsersPage/FindUsersPage.dart';
 import 'package:flutter2/Web/WebConstants/responsiveLayout.dart';
 import 'package:flutter2/Web/Navigation/HandleProjects/ButtonsActions/CreateProjectButton.dart';
 import 'package:flutter2/Web/Navigation/HandleStudents/DisplayHandleStudents.dart';
 import 'package:responsive_builder/responsive_builder.dart';
-
+import 'package:flutter2/Web/CreateUser.dart';
+import 'package:flutter2/Mobile/Widget/Autocomplete.dart';
+import 'package:flutter2/Web/WebConstants/Enumerations.dart';
+import 'package:flutter2/Web/Navigation/HandleStudents/CustomDropDown/CustomDropDown.dart';
 class AllProjects extends StatelessWidget {
   @override
     Widget build(BuildContext context) {
       double size = MediaQuery.of(context).size.height / 3;
       return Padding(
-          padding: EdgeInsets.all(70.0),
+          padding: EdgeInsets.all(40.0),
           child: Container(
             height: size  * 1.8,
             child: Scaffold(
@@ -49,6 +52,10 @@ class RightSideWidget extends StatelessWidget {
   }
 }
 
+Widget test()
+{
+}
+
 class AllStudents extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -67,49 +74,147 @@ class HandleStudentsPage extends StatefulWidget {
 
 class _HandleStudentsPageState extends State<HandleStudentsPage> {
   String email;
+  Roles userRole;
+  String currentRole = "Student";
+  UsersAutocomplete usersAutocomplete;
 
   void getEmail(str) {
     setState(() {
       email = str;
     });
   }
+  List mailAddressesList = [
+    "yen-ly.duong@epitech.eu",
+    "y.duong@epitech.eu",
+    "maxime.le-gall@epitech.eu",
+    "max.le-gall@epitech.eu",
+    "ugo.santoro@epitech.eu",
+    "ugo.sant@epitech.eu",
+    "dylan.ferreira@epitech.eu",
+    "dyl.fe@epitech.eu",
+  ];
+
+  @override
+  void initState() {
+    super.initState();
+    setState(() {
+      usersAutocomplete = new UsersAutocomplete(getStudentSelected: getEmail,);
+      userRole = Roles.STUDENT;
+    });
+
+  }
+  void getSelectedRole(Roles selectedRole)
+  {
+    setState(() {
+      userRole = selectedRole;
+      if (userRole == Roles.STUDENT) {
+        currentRole = "Student";
+      } else if (userRole == Roles.TEACHER) {
+        currentRole = "Teacher";
+      } else {
+        currentRole = "Administrator";
+      }
+    });
+  }
+  Widget displayStudent()
+  {
+    return Container(
+      child: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+
+            children: [
+              Container(
+                padding: EdgeInsets.symmetric(horizontal: 16),
+                child:               Text(email, style: TextStyle(color: Color(0xFF875BC5),fontSize: 21,fontFamily: "Montserrat"),),
+              )
+            ],
+          ),
+          SizedBox(height: 30,),
+          Container(
+            width: 500,
+            height: 100,
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                color:  Color(0xFFF7F8F8),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.4),
+                    spreadRadius: 2,
+                    offset: Offset(0.5,0.5),
+                    blurRadius: 2,
+                  )
+                ]
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Text(currentRole),
+                CustomDropDown(text: "Change User Role", getUserRole: getSelectedRole,),
+
+              ],
+            ),
+          ),
+
+        ],
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: MediaQuery.of(context).size.width/1.1,
-      height: MediaQuery.of(context).size.height/1.5,
+    return  SingleChildScrollView(
       child:
-      Stack(
-          alignment: Alignment.center,
-          fit: StackFit.expand,
-          children: <Widget>[
+      Container(
+        margin: const EdgeInsets.only(top: 20.0),
+          width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height/1.4,
+        child:
             Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start
-              ,
               children: [
-                Expanded(
-                  child: Container(
-                    alignment: Alignment.center,
+                SizedBox(height: 30),
 
-                    height: 100,
-                    child:       FindUsersPage(getStudentSelected: getEmail,),
-
-                  ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    SizedBox(height: 40,),
+                    Container(
+                        width: 400,
+                        child: usersAutocomplete.userAutocomplete(mailAddressesList: mailAddressesList, labelName: "Student mail", clear: true)
+                    ),
+                  ],
                 ),
-                //            email != null ? Text(email, style: TextStyle(color: Color(0xFF5D1EB5),fontSize: 22,fontWeight: FontWeight.bold, ),): Container(),
-                Container(
-                  width: MediaQuery.of(context).size.width/4,
-                  height: MediaQuery.of(context).size.height/2,
-                  child:  DisplayHandleStudent(),
+                SizedBox(height: 20),
+                email != null ? displayStudent() : Container(),
+                Expanded(
+                    child: Align(
+                        alignment: Alignment.bottomLeft,
+                        child: Padding(
+                          padding: EdgeInsets.only(left: 10),
+                          child: FloatingActionButton(
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) => CreateUser()),
+                              );
+                              // Add your onPressed code here!
+                            },
+                            child: const Icon(Icons.person_add),
+                            backgroundColor: Colors.deepPurple,
+                          ),
+                        )
+
+                    )
                 )
 
               ],
             )
-          ]
+      )
 
-      ),
     );
 
   }
