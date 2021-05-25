@@ -43,10 +43,6 @@ class _NavigationBarState extends State<NavigationBar> {
     }).toList();
   }
 
-  void _goHome() {
-    Navigator.pushReplacementNamed(context, "/login");
-  }
-
   @override
   Widget build(BuildContext context) {
     return Padding(

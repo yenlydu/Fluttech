@@ -29,7 +29,7 @@ class AuthenticationService {
           background: Colors.green);
       return "Signed in";
     } on FirebaseAuthException catch (e) {
-      print(["Error can't sign in : ", e]);
+      print(["Error can't sign in :", e]);
       return e.message;
     }
   }
@@ -47,7 +47,7 @@ class AuthenticationService {
 
       return "Signed up";
     } on FirebaseAuthException catch (e) {
-      print(["Error can't sign up : ", e]);
+      print(["Error can't sign up :", e]);
       return e.message;
     }
   }

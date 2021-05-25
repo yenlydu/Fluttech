@@ -1,11 +1,11 @@
-import * as functions from 'firebase-functions';
-import * as admin from 'firebase-admin';
+import * as functions from "firebase-functions";
+import * as admin from "firebase-admin";
 
 const db = admin.firestore();
 
-export const onCreateUser = functions.firestore.document('users_registrations/{userID}').onCreate(async (snapshot) => {
+export const onCreateUser = functions.firestore.document("users_registrations/{userID}").onCreate(async (snapshot) => {
 	if (!snapshot.data()!.email || !snapshot.data()!.password) {
-		console.log('Error');
+		console.log("Error");
 	} else {
 		const data = snapshot.data();
 		const name = data!.name;
@@ -17,20 +17,22 @@ export const onCreateUser = functions.firestore.document('users_registrations/{u
 
 		if (fbUser) {
 			await db
-				.collection('users')
+				.collection("users")
 				.doc(fbUser.uid)
 				.set(
 					{
 						email: email,
 						name: name,
-						isAdmin: isAdmin
+						isAdmin: isAdmin,
 					},
 					{ merge: true }
 				)
 				.then((_) => {
-					console.log('User Created');
+					console.log("User Created");
+					// res.json({ result: `yay Test complete` });
 				})
 				.catch((err) => {
+					// res.json({ result: `Test failed` });
 					console.log(err);
 				});
 		}

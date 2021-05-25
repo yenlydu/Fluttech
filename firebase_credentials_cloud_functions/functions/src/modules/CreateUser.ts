@@ -16,6 +16,7 @@ export const onCreateUser = functions.firestore.document("users_registrations/{u
 		.then((userRecord) => {
 			// See the UserRecord reference doc for the contents of userRecord.
 			console.log("Successfully created new user:", userRecord.uid);
+			// res.json({result: `Test complete`});
 		})
 		.catch((error) => {
 			console.log("Error creating new user:", error);
