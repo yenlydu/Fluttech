@@ -40,12 +40,18 @@ class FireStoreAppointement {
   }
 
   Future<AppointementModel> getAppointement(String documentId) async {
-    DocumentSnapshot res = await appointement.doc(documentId).get();
+    try {
+      DocumentSnapshot res = await appointement.doc(documentId).get();
+      AppointementModel appoint = null;
 
-    if (res.data() != null) {
-      AppointementModel Unit = AppointementModel.fromJson(res.data());
-    } else {
-      return (null);
+      if (res.data() != null) {
+        appoint = AppointementModel.fromJson(res.data());
+      } else {
+        return (null);
+      }
+      return appoint;
+    } catch (e) {
+      return null;
     }
   }
 

@@ -5,15 +5,10 @@ import 'package:flutter2/Model/UserModel.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 import 'package:path_provider/path_provider.dart';
-import 'package:path/path.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:firebase_auth/firebase_auth.dart' as fireauth;
 
 //File Page Include
 import 'package:flutter2/Model/Constants.dart';
-import 'package:flutter2/Model/Constants/C_Profile.dart';
-import '../../Widget/app_icons_icons.dart';
-import '../../Tools/LocalTools.dart';
 import '../../Tools/Image/ImagePickerManager.dart';
 import '../../Tools/Image/ImageProfileFireManager.dart';
 
@@ -229,8 +224,10 @@ class _ProfilePageState extends State<ProfilePage> {
             padding: new EdgeInsets.symmetric(horizontal: 30.0),
             child: Align(
               child: Text(
-                (user != null && user.displayName != null)
-                    ? user.displayName
+                (currentuser != null &&
+                        currentuser.firstName != null &&
+                        currentuser.lastName != null)
+                    ? currentuser.firstName + "" + currentuser.lastName
                     : "user name".toUpperCase(),
                 style: TextStyle(fontWeight: FontWeight.w700, fontSize: 20.0),
               ),

@@ -1,7 +1,13 @@
-import 'package:firebase_database/firebase_database.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter2/Mobile/Tools/FireStore/FireStoreUser.dart';
+import 'package:flutter2/Mobile/Tools/ServiceLocator/ServiceManager.dart';
+import 'package:flutter2/Model/AppointementModel.dart';
 import 'package:flutter2/Model/Constants.dart';
+import 'package:flutter2/Model/UserModel.dart';
 import 'package:table_calendar/table_calendar.dart';
+
+import './Templates/Event.dart';
 
 class CalendarPage extends StatefulWidget {
   CalendarPage({Key key}) : super(key: key);
@@ -16,9 +22,41 @@ class _CalendarPageState extends State<CalendarPage> {
   DateTime _focusedDay = DateTime.now();
   CalendarFormat format = CalendarFormat.month;
 
+  UserModel currentuser;
+  List<AppointementModel> appointements = [];
+
+  _initData(BuildContext context) async {
+    currentuser = await locator<FireStoreUser>()
+        .getUser(FirebaseAuth.instance.currentUser.uid);
+    appointements =
+        await locator<FireStoreUser>().getUserAppointements(currentuser);
+    await fillCalendar();
+  }
+
+  Future<Map<DateTime, List<Event>>> fillCalendar() async {
+    appointements.forEach((element) {
+      var datetoappoint = DateTime(element.timetoAppoint.year,
+          element.timetoAppoint.month, element.timetoAppoint.day);
+      var original = selectedEvents[datetoappoint];
+      if (original == null) {
+        selectedEvents[datetoappoint] = [Event(title: element.name)];
+      } else {
+        selectedEvents[datetoappoint] = List.from(original)
+          ..addAll([Event(title: element.name)]);
+      }
+    });
+    return selectedEvents;
+  }
+
   @override
   void initState() {
     selectedEvents = {};
+    /*WidgetsBinding.instance.addPostFrameCallback((_) async {
+      await fillCalendar().then((val) => setState(() {
+            selectedEvents = val;
+          }));
+      //print( ' ${_events.toString()} ');
+    });*/
     super.initState();
   }
 
@@ -29,6 +67,7 @@ class _CalendarPageState extends State<CalendarPage> {
   // Calendar Page
   @override
   Widget build(BuildContext context) {
+    //_initData(context);
     return Scaffold(
       appBar: AppBar(
         title: const Text('Calendar'),

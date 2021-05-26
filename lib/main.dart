@@ -9,7 +9,6 @@ import 'package:overlay_support/overlay_support.dart';
 
 //File Page Includ
 import 'package:flutter2/Mobile/Tools/authentication_service.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'Mobile/Page/Homepage/Nav.dart';
 import './Mobile/Page/LoginPage/login.dart';
 
@@ -82,6 +81,14 @@ class WebAuthenticationWrapper extends StatelessWidget {
 }
 
 class AuthenticationWrapper extends StatelessWidget {
+  getfirestoreuser() async {
+    final firebaseUser = FirebaseAuth.instance.currentUser;
+    var res = await locator<FireStoreUser>().getUser(firebaseUser.uid);
+    if (res != null) {
+      locator<FireStoreUser>().currentUser = res;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final firebaseUser = FirebaseAuth.instance.currentUser;
@@ -90,10 +97,7 @@ class AuthenticationWrapper extends StatelessWidget {
       if (!remember) {
         return LoginPage();
       }
-      var res = locator<FireStoreUser>().getUser(firebaseUser.uid);
-      res.then((value) => {
-            if (value != null) {locator<FireStoreUser>().currentUser = value}
-          });
+      getfirestoreuser();
       return NavElem();
     }
     return LoginPage();

@@ -1,4 +1,5 @@
 // Import the firebase_core and cloud_firestore plugn
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter2/Mobile/Tools/ServiceLocator/ServiceManager.dart';
@@ -16,13 +17,11 @@ import 'FireStoreUnit.dart';
 // Manage User Info with Shared Preferences
 class FireStoreUser {
   FirebaseFirestore firestore = FirebaseFirestore.instance;
-  CollectionReference users;
+  CollectionReference users = FirebaseFirestore.instance.collection('User');
 
   UserModel currentUser = new UserModel();
 
-  FireStoreUser() {
-    CollectionReference users = FirebaseFirestore.instance.collection('User');
-  }
+  FireStoreUser() {}
 
   Future<UserModel> registerUser(User fireUser, UserModel data) async {
     try {
@@ -56,13 +55,13 @@ class FireStoreUser {
 
   Future<UserModel> getUser(String documentId) async {
     DocumentSnapshot res = await users.doc(documentId).get();
-
+    UserModel user = null;
     if (res.data() != null) {
-      UserModel user = UserModel.fromJson(res.data());
+      user = UserModel.fromJson(res.data());
     } else {
       return (null);
     }
-    return (null);
+    return (user);
   }
 
   Future<bool> deleteData(String documentId) async {
@@ -79,10 +78,12 @@ class FireStoreUser {
 
     user.appointementlist.forEach((element) async {
       try {
-        var firestoreappoint = locator<FireStoreAppointement>();
-        var res = await firestoreappoint.getAppointement(element);
+        var res =
+            await locator<FireStoreAppointement>().getAppointement(element);
         Aptmtlist.add(res);
-      } catch (e) {}
+      } catch (e) {
+        print(e);
+      }
     });
 
     return Aptmtlist;

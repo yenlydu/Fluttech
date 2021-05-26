@@ -1,11 +1,33 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter2/Mobile/Tools/FireStore/FireStoreUser.dart';
+import 'package:flutter2/Mobile/Tools/ServiceLocator/ServiceManager.dart';
+import 'package:flutter2/Model/UnitModel.dart';
+import 'package:flutter2/Model/UserModel.dart';
 import 'package:getwidget/getwidget.dart';
 
 import '../../../../Model/Constants.dart';
 import '../../../../Model/Constants/C_Projects.dart';
 
 class T_Modules extends StatelessWidget {
-  const T_Modules({Key key}) : super(key: key);
+  T_Modules({Key key}) : super(key: key);
+
+  List<Widget> unitsWidget = [];
+  List<UnitModel> units = [];
+  UserModel currentuser = null;
+  initData() async {
+    currentuser = await locator<FireStoreUser>()
+        .getUser(FirebaseAuth.instance.currentUser.uid);
+    units = await locator<FireStoreUser>().getUserUnits(currentuser);
+    units.forEach((element) {
+      unitsWidget.add(_buildAccordionModulesTemplate(
+          Text(element.name),
+          Text(element.description),
+          Text(element.creditAvailable.toString()),
+          Text(element.unitStart.toString()),
+          Text(element.unitEnd.toString())));
+    });
+  }
 
   // Accordion Head Template
   @override
@@ -133,28 +155,14 @@ class T_Modules extends StatelessWidget {
   }
 
   @override
-  Widget _test() {
-    return Container();
-  }
-
-  @override
   Widget build(BuildContext context) {
+    initData();
     return ListView(
       children: <Widget>[
         Container(
           padding: EdgeInsets.all(10),
           child: Column(
-            children: <Widget>[
-              _buildAccordionModulesTemplate(
-                Text(
-                    "M - Flutter II : Flutter & Firebase Cloud Firestore Advanced"),
-                Text(
-                    "Flutter is Google’s UI toolkit for building beautiful, natively compiled applications for mobile, web, and desktop from a single codebase.\nOrganizations around the world are building apps with Flutter.\nFlutter Advantages: Fast Development, Expressive and Flexible UI, Native Performance\nFirebase: Helps You Build, Improve, & Grow Your Mobile Apps. Check It Out Today! Find All The Docs You Need To Get Started With Firebase In Minutes. Learn More! Automatic & secure login. Custom Domain Support. Build Fast For Any Device. "),
-                Text("12"),
-                Text("14/04/2021, 00h00"),
-                Text("02/06/2021, 00h00"),
-              ),
-            ],
+            children: unitsWidget,
           ),
         )
       ],

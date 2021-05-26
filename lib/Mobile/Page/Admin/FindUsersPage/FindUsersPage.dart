@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter2/Mobile/Widget/Autocomplete.dart';
 import 'package:flutter2/Web/CreateUser.dart';
-import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 
 class FindUsersPage extends StatefulWidget {
   final getStudentSelected;
