@@ -109,7 +109,7 @@ class _LoginPageState extends State<LoginPage> {
           "Email",
           style: kLabelStyle,
         ),
-        kSizeBox_Space10,
+        sizeBox_Spacing(10),
         Container(
           alignment: Alignment.centerLeft,
           decoration: kBoxDecorationStyle,
@@ -140,7 +140,7 @@ class _LoginPageState extends State<LoginPage> {
           "Password",
           style: kLabelStyle,
         ),
-        kSizeBox_Space10,
+        sizeBox_Spacing(10),
         Container(
           alignment: Alignment.centerLeft,
           decoration: kBoxDecorationStyle,
@@ -251,9 +251,9 @@ class _LoginPageState extends State<LoginPage> {
             fontWeight: FontWeight.bold,
           ),
         ),
-        kSizeBox_Space30,
+        sizeBox_Spacing(30),
         _buildEmailTF(),
-        kSizeBox_Space30,
+        sizeBox_Spacing(30),
         _buildPasswordTF(),
         _buildForgotPasswordBT(),
         _buildRememberMeCheckBox(),
@@ -297,33 +297,6 @@ class _LoginPageState extends State<LoginPage> {
     ));
   }
 }
-
-/* OLD PAGE
-  @override
-  Widget build(BuildContext context) {
-    _context = context;
-    return Scaffold(
-      body: Column(
-        children: <Widget>[
-          //Main Icon
-          Flexible(
-            child: FractionallySizedBox(
-              heightFactor: 0.85,
-              child: Container(
-                color: Color.fromRGBO(86, 0, 232, 1),
-                child:
-                    Image.asset('assets/images/icon.png', fit: BoxFit.contain),
-              ),
-            ),
-          ),
-          Container(
-            child: Text("Hello on the login Page"),
-            height: 40,
-          ),
-        ],
-      ),
-    );
-  }*/
 
 /* HOME PAGE
 

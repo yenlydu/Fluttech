@@ -31,7 +31,9 @@ class Constants extends StatelessWidget {
   errorFieldAlert(BuildContext context) {
     Widget okButton = FlatButton(
       child: Text("OK"),
-      onPressed: () {Navigator.pop(context); },
+      onPressed: () {
+        Navigator.pop(context);
+      },
     );
 
     // set up the AlertDialog
@@ -52,15 +54,34 @@ class Constants extends StatelessWidget {
     );
   }
 
-
   //CHANGE USER LOGIN PAGE
   @override
   Widget build(BuildContext context) {
-
     return Container();
   }
 }
 
+//PAGES
+/* Box Decoration Gradient Background */
+final kBoxDecoration_BGPAGES = BoxDecoration(
+  gradient: LinearGradient(
+    begin: Alignment.topCenter,
+    end: Alignment.bottomCenter,
+    colors: [
+      Color(0xFFFFFFFF),
+      Color(0xFFFFFFFF),
+    ],
+  ),
+);
+
+/* Container Gradient Background */
+final kContainer_BGPAGES = Container(
+  height: double.infinity,
+  width: double.infinity,
+  decoration: kBoxDecoration_BGPAGES,
+);
+
+// LOGIN
 /* Box Decoration Gradient Background */
 final kBoxDecoration_BG = BoxDecoration(
   gradient: LinearGradient(
@@ -78,29 +99,60 @@ final kContainer_BG = Container(
 );
 
 /* Size Box Space */
-final kSizeBox_Space10 = SizedBox(
-  height: 10.0,
-);
+SizedBox sizeBox_Spacing(double value) {
+  return SizedBox(
+    height: value,
+  );
+}
 
-/* Size Box Space */
-final kSizeBox_Space20 = SizedBox(
-  height: 20.0,
-);
-
-/* Size Box Space */
-final kSizeBox_Space30 = SizedBox(
-  height: 30.0,
-);
-
-final  navigationButtons = BoxDecoration(
+final navigationButtons = BoxDecoration(
   color: Colors.white70,
-    boxShadow: [
-      BoxShadow(
-        color: Colors.grey.withOpacity(0.5),
-        spreadRadius: 5,
-        blurRadius: 7,
-        offset: Offset(0, 3), // changes position of shadow
-      ),
-    ],
-    borderRadius: BorderRadius.circular(18),
+  boxShadow: [
+    BoxShadow(
+      color: Colors.grey.withOpacity(0.5),
+      spreadRadius: 5,
+      blurRadius: 7,
+      offset: Offset(0, 3), // changes position of shadow
+    ),
+  ],
+  borderRadius: BorderRadius.circular(18),
+);
+
+/* Separator */
+Container separator(double value) {
+  return Container(
+    height: value,
+    color: Color(0xFF856ABE),
+  );
+}
+
+/* Text Style Title */
+final textStyle_Title = TextStyle(
+  color: Constants().selected_color,
+  fontSize: 25.0,
+  fontWeight: FontWeight.bold,
+);
+
+/* Text Style Title */
+final textStyle_Desc = TextStyle(
+  color: Colors.black,
+  fontSize: 18,
+  fontWeight: FontWeight.w400,
+  fontFamily: 'OpenSans',
+);
+
+/* Text Style Title */
+final textStyle_Credit = TextStyle(
+  color: Colors.black,
+  fontSize: 15,
+  fontWeight: FontWeight.w400,
+  fontFamily: 'OpenSans',
+);
+
+/* Text Style Title */
+final textStyle_Date = TextStyle(
+  color: Colors.black,
+  fontSize: 15,
+  fontWeight: FontWeight.w400,
+  fontFamily: 'OpenSans',
 );
