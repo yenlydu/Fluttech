@@ -9,8 +9,6 @@ import 'package:flutter2/Web/Style/NavigationStyle.dart';
 import 'package:provider/provider.dart';
 
 class NavigationBar extends StatefulWidget {
-  final customFunction;
-  NavigationBar({this.customFunction});
   @override
   _NavigationBarState createState() => _NavigationBarState();
 }
@@ -20,23 +18,10 @@ class _NavigationBarState extends State<NavigationBar>
   NavigationEnum currentPage = NavigationEnum.HANDLE_PROJECTS;
   final navLinks = ["Handle Projects", "Handle Users", "Profile"];
 
-  void checkCurrentNavPage(text)
-  {
-    if (text == "Handle Projects"){
-      currentPage = NavigationEnum.HANDLE_PROJECTS;
-    } else if (text == "Handle Users") {
-      currentPage = NavigationEnum.HANDLE_USERS;
-    } else {
-      currentPage = NavigationEnum.PROFILE;
-    }
-    widget.customFunction(currentPage);
-  }
-
   List<Widget> navItem ()
   {
     return navLinks.map((text) {
       return NavigationButtonsStyle(
-              () => checkCurrentNavPage(text),
           Text(text, style: TextStyle(fontFamily: "Montserrat-Italic",
               backgroundColor: Colors.transparent)),
           navigationButtons, 120).button();
