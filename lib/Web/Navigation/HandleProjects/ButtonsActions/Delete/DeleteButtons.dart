@@ -1,12 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter2/Web/Navigation/HandleProjects/ProjectInformation.dart';
-import 'package:flutter2/Web/WebConstants/WebConstants.dart';
 import 'package:flutter2/Web/Style/ButtonsStyle.dart';
-import 'package:flutter2/Web/Navigation/HandleProjects/Actions/ProjectsActions.dart';
-import 'package:flutter2/Web/WebConstants/Enumerations.dart';
 
-
-Widget actionDeletingProject(BuildContext context)
+Widget dismissDeletePopup(BuildContext context)
 {
   Navigator.of(context).pop();
   Navigator.pop(context);
@@ -20,8 +16,8 @@ Widget deleteAction(ProjectInformation project, BuildContext context)
       mainAxisSize: MainAxisSize.min,
       children: [
         Text("Are you sure you want to delete " + project.title + "?", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 21),),
-        sizedBox(20),
-        ActionButtonsStyle(color: Colors.red, text: "Delete", customFunction: () => actionDeletingProject(context), icon: Icons.delete),
+        SizedBox(height: 20),
+        ActionButtonsStyle(color: Colors.red, text: "Delete Project", customFunction: () => dismissDeletePopup(context), icon: Icons.delete),
       ],
     ),
   );

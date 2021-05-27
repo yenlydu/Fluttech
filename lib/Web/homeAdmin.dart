@@ -30,13 +30,6 @@ class _HomeAdminState extends State<HomeAdmin> {
             Center(child: AllStudents(),),
           ],
         ));
-        screens.add(Column(
-          children: <Widget>[
-            Text("Profile", style: TextStyle(fontSize: 30,fontFamily: 'Butler'),),
-            Center(child: Profile(),),
-          ],
-        )
-        );
   }
 
   _HomeAdminState({@required this.email});
@@ -68,9 +61,8 @@ class _HomeAdminState extends State<HomeAdmin> {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              NavigationBar(customFunction: navigationChange),
-              Text(email),
-              screens[currentPage.index]
+              NavigationBar(),
+              //screens[currentPage.index]
             ],
           ),
         ),

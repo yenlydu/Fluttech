@@ -3,11 +3,33 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter2/Model/Constants.dart';
 import 'package:overlay_support/overlay_support.dart';
+import 'package:flutter2/Web/WebConstants/Enumerations.dart';
+import 'package:flutter2/Web/Navigation/HandleStudents/RolesDropDown/RolesDropDown.dart';
+class CreateUser extends StatefulWidget {
+  const CreateUser({Key key}) : super(key: key);
 
-class CreateUser extends StatelessWidget {
+  @override
+  _CreateUserState createState() => _CreateUserState();
+}
+
+class _CreateUserState extends State<CreateUser> {
+  Roles selectedRole = Roles.STUDENT;
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   TextEditingController confirmPasswordController = TextEditingController();
+  void getSelectedRole(Roles selectedRole)
+  {
+    setState(() {
+      selectedRole = selectedRole;
+      if (selectedRole == Roles.STUDENT) {
+        print ("selectedRole " + selectedRole.toString());
+      } else if (selectedRole == Roles.TEACHER) {
+        print ("selectedRole " + selectedRole.toString());
+      } else {
+        print ("selectedRole " + selectedRole.toString());
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -50,8 +72,10 @@ class CreateUser extends StatelessWidget {
                   SizedBox(
                     height: 20,
                   ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
+
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+
                     child: Container(
                       decoration: BoxDecoration(
                         color: Colors.grey[200],
@@ -68,7 +92,7 @@ class CreateUser extends StatelessWidget {
                         ),
                       ),
                     ),
-                  ),
+            ),
                   SizedBox(
                     height: 20,
                   ),
@@ -118,6 +142,7 @@ class CreateUser extends StatelessWidget {
                   SizedBox(
                     height: 5,
                   ),
+
                   Padding(
                     padding: const EdgeInsets.only(right: 20),
                     child: Row(
@@ -125,6 +150,11 @@ class CreateUser extends StatelessWidget {
                       children: [Text("Forgot password?")],
                     ),
                   ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  RolesDropDown(text: "User Role", getUserRole: getSelectedRole,),
+
                   SizedBox(
                     height: 40,
                   ),

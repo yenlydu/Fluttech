@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter2/Web/Navigation/HandleProjects/DisplayAllProjects.dart';
 import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
 import 'package:flutter2/Web/CreateUser.dart';
 import 'package:flutter2/Web/Login.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:provider/provider.dart';
-import 'package:overlay_support/overlay_support.dart';
-
 //File Page Includ
 import 'package:flutter2/Mobile/Tools/authentication_service.dart';
 import 'Mobile/Page/Homepage/Nav.dart';
@@ -15,26 +14,71 @@ import './Mobile/Page/LoginPage/login.dart';
 import './Mobile/Page/Admin/LoginPage/adminLoginPage.dart';
 import './Mobile/Page/LoginPage/LoginPending.dart';
 import 'package:flutter2/Model/Constants.dart';
+import 'package:url_strategy/url_strategy.dart';
+import 'package:overlay_support/overlay_support.dart';
 
 import 'package:flutter2/Web/homeAdmin.dart';
 
 import 'Mobile/Tools/ServiceLocator/ServiceManager.dart';
-
+import 'package:flutter2/Web/Navigation/NavigationBar.dart';
+import 'package:flutter2/Web/Navigation/NavigationPages.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   setupServices();
+  setPathUrlStrategy();
+
   runApp(MyApp());
 }
+class MyApp extends StatelessWidget {
+  @override
 
-class MyApp extends StatefulWidget {
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    return OverlaySupport.global(
+      child: MultiProvider(
+        providers: [
+          Provider<AuthenticationService>(
+            create: (_) => AuthenticationService(FirebaseAuth.instance),
+          ),
+          StreamProvider(
+            create: (context) =>
+            context.read<AuthenticationService>().authStateChanges,
+          )
+        ],
+        child: Consumer<AuthenticationService>(
+          builder: (context, provider, _) => MaterialApp(
+            debugShowCheckedModeBanner: false,
+            title: "FluTECH",
+            theme: ThemeData(
+              fontFamily: 'Montserrat',
+              primarySwatch: Colors.blue,
+            ),
+            routes: <String, WidgetBuilder>{
+              '/': (BuildContext context) => new LoginP(),
+              '/my': (BuildContext context) => MyAppTest(),
+              '/handleUnits': (BuildContext context) => MyAppTest(),
+              '/handleUsers': (BuildContext context) => MyAppTest(),
+            },
+          ),
+        ),
+      ),
+    );
+  }
+
+}
+
+
+/*
+class Testing extends StatefulWidget {
   @override
   // MyMobileState createState() => MyMobileState();
   //Launch web
   MyWebState createState() => MyWebState();
 }
 
-class MyWebState extends State<MyApp> {
+*/
+class MyWebState extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -46,7 +90,7 @@ class MyWebState extends State<MyApp> {
           ),
           StreamProvider(
             create: (context) =>
-                context.read<AuthenticationService>().authStateChanges,
+            context.read<AuthenticationService>().authStateChanges,
           )
         ],
         child: Consumer<AuthenticationService>(
@@ -59,6 +103,7 @@ class MyWebState extends State<MyApp> {
             ),
             routes: <String, WidgetBuilder>{
               '/login': (BuildContext context) => new LoginP(),
+              '/handleUnits': (BuildContext context) => new AllStudents(),
             },
             home: WebAuthenticationWrapper(),
           ),
@@ -92,6 +137,7 @@ class AuthenticationWrapper extends StatelessWidget {
     return LoginPage();
   }
 }
+/*
 
 class MyMobileState extends State<MyApp> with WidgetsBindingObserver {
   @override
@@ -146,3 +192,4 @@ class MyMobileState extends State<MyApp> with WidgetsBindingObserver {
   //   );
   // }
 }
+*/
