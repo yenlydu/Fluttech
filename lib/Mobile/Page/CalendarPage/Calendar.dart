@@ -1,6 +1,7 @@
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter2/Model/Constants.dart';
+import 'package:flutter2/Model/Constants/C_Calendar.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class CalendarPage extends StatefulWidget {
@@ -64,23 +65,8 @@ class _CalendarPageState extends State<CalendarPage> {
                         });
                       },
                       eventLoader: _getEventsfromDay,
-                      calendarStyle: CalendarStyle(
-                        isTodayHighlighted: true,
-                        todayDecoration: BoxDecoration(
-                          color: Constants().focused_color,
-                          shape: BoxShape.rectangle,
-                          //borderRadius: BorderRadius.circular(5.0),
-                        ),
-                        selectedDecoration: BoxDecoration(
-                          color: Constants().selected_color,
-                          shape: BoxShape.rectangle,
-                          //borderRadius: BorderRadius.circular(5.0),
-                        ),
-                      ),
-                      headerStyle: HeaderStyle(
-                        titleCentered: true,
-                        formatButtonShowsNext: false,
-                      ),
+                      calendarStyle: kCalendarStyle,
+                      headerStyle: kHeaderStyle,
                     )
                   ],
                 ),

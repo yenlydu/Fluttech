@@ -156,24 +156,6 @@ class _ProfilePageState extends State<ProfilePage> {
     }
   }
 
-  //Display icon (Profile image bottom right)
-  Widget _photoicon() {
-    return Container(
-      width: 50,
-      height: 50,
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(150),
-        child: Container(
-          color: Constants().app_color,
-          child: Icon(
-            Icons.photo_camera,
-            color: Constants().icon_photo_profile,
-          ),
-        ),
-      ),
-    );
-  }
-
   //Profile Image
   Widget _imageprofile(BuildContext context) {
     return Container(
@@ -208,7 +190,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
-                    _photoicon(),
+                    photoicon(),
                   ],
                 ),
               ),
@@ -232,7 +214,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 (user != null && user.displayName != null)
                     ? user.displayName
                     : "user name".toUpperCase(),
-                style: TextStyle(fontWeight: FontWeight.w700, fontSize: 20.0),
+                style: kTextStyle_name,
               ),
             ),
           ),
@@ -249,8 +231,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           ((user != null && user.email != null)
                               ? user.email
                               : "your.email@epitech.eu"),
-                      style: TextStyle(
-                          fontWeight: FontWeight.w400, fontSize: 15.0),
+                      style: kTextStyle_mail,
                     ),
                   ),
                   Align(
@@ -260,8 +241,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           ((user != null && user.displayName != null)
                               ? user.displayName
                               : "0"),
-                      style: TextStyle(
-                          fontWeight: FontWeight.w400, fontSize: 15.0),
+                      style: kTextStyle_mail,
                     ),
                   ),
                   Align(
@@ -271,8 +251,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           ((user != null && user.displayName != null)
                               ? user.displayName
                               : "0"),
-                      style: TextStyle(
-                          fontWeight: FontWeight.w400, fontSize: 15.0),
+                      style: kTextStyle_mail,
                     ),
                   ),
                 ],

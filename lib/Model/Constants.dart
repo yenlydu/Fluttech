@@ -156,3 +156,12 @@ final textStyle_Date = TextStyle(
   fontWeight: FontWeight.w400,
   fontFamily: 'OpenSans',
 );
+
+// DETAILED PAGE
+/* Text Style Title */
+final textStyle_DetailedPage = TextStyle(
+  color: Colors.white,
+  fontSize: 18,
+  fontWeight: FontWeight.w400,
+  fontFamily: 'OpenSans',
+);

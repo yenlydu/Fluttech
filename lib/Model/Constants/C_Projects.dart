@@ -47,3 +47,41 @@ final kProject_AccordionDescStyle = TextStyle(
   fontWeight: FontWeight.w400,
   fontFamily: 'OpenSans',
 );
+
+/* Accordion Label Text Style */
+final kProject_AccordionAppointmentsStyle = TextStyle(
+  color: Colors.black,
+  fontSize: 15,
+  fontWeight: FontWeight.w400,
+  fontFamily: 'OpenSans',
+);
+
+Widget accordionInfoProject_Elem1(Text txt, TextStyle style) {
+  return Container(
+    padding: EdgeInsets.only(left: 15, top: 15, right: 15),
+    alignment: Alignment.topLeft,
+    child: Column(
+      children: <Widget>[
+        Text(
+          txt.data,
+          style: style,
+        ),
+      ],
+    ),
+  );
+}
+
+Widget accordionInfoProject_Elem2(Text txt, TextStyle style) {
+  return Container(
+    padding: EdgeInsets.only(left: 15, right: 15),
+    alignment: Alignment.topLeft,
+    child: Column(
+      children: <Widget>[
+        Text(
+          txt.data,
+          style: style,
+        ),
+      ],
+    ),
+  );
+}
