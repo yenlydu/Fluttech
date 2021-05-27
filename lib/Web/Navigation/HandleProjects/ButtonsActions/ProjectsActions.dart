@@ -83,12 +83,15 @@ class ProjectsActionsState extends State<ProjectsActions>
         return deleteAction(widget.currrentProject, context);
       }
       break;
-
       case 1: {
-        return EditProjectButton(currentProject: widget.currrentProject,getSelectedMail: getSelectedMail,);
+        return EditProjectButton(editType: ProjectActionsEnum.EDIT_UNIT,currentProject: widget.currrentProject,getSelectedMail: getSelectedMail, text:"Editing Unit");
+      }
+
+      case 2: {
+        return EditProjectButton(editType: ProjectActionsEnum.EDIT_PROJECT,currentProject: widget.currrentProject,getSelectedMail: getSelectedMail,text:"Editing Project");
       }
       break;
-      case 2: {
+      case 3: {
         return AddMeetings(currrentProject: widget.currrentProject);
       }
     }

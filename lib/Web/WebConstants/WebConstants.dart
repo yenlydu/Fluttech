@@ -35,7 +35,6 @@ Widget buildingSingleItemConstant({BuildContext context, Widget onTapPopup, Widg
     hoverColor: Colors.transparent,
     onTap: ()=> {
       if (firebaseModuleId != null) {
-        print ("firebaseModuleId" + firebaseModuleId),
         Navigator.pushNamed(
           context,
           '/handleUnits/' + firebaseModuleId ,

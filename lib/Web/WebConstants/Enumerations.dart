@@ -4,8 +4,11 @@ enum NavigationEnum {
 }
 enum ProjectActionsEnum {
   DELETE,
-  EDIT,
-  MEETINGS,
+  EDIT_UNIT,
+  EDIT_PROJECT,
+  ADD_MEETINGS,
+  EDIT_NOTES,
+  EDIT_GROUP,
   CREATE_UNITS,
   CREATE_PROJECT,
 }

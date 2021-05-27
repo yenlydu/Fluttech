@@ -6,9 +6,11 @@ import 'package:date_range_picker/date_range_picker.dart' as DateRangePicker;
 import 'package:flutter2/Web/Navigation/HandleProjects/ProjectInformation.dart';
 import 'package:flutter2/Mobile/Widget/Autocomplete.dart';
 import 'package:flutter2/Web/Navigation/HandleProjects/ButtonsActions/Constants/ProjectsActionsConstants.dart';
+import 'package:flutter2/Web/WebConstants/Enumerations.dart';
 class CreateProjectPopup extends StatefulWidget {
   final List mailAddressesList;
-  const CreateProjectPopup({Key key, @required this.mailAddressesList}) : super(key: key);
+  final ProjectActionsEnum createType;
+  const CreateProjectPopup({Key key, @required this.mailAddressesList, this.createType}) : super(key: key);
 
   @override
   _CreateProjectPopupState createState() => _CreateProjectPopupState();
@@ -62,7 +64,30 @@ class _CreateProjectPopupState extends State<CreateProjectPopup> {
     });
   }
 
-  void getting()
+
+  void createProjects()
+  {
+    if (selectedMail != null) {
+      usersAutocomplete.suggestionsTextFieldController.clear();
+      createdProject.professorName = selectedMail;
+      selectedMail = null;
+    }
+    if (editController["title"].text.isNotEmpty){
+      createdProject.title = editController["title"].text;
+      editController["title"].clear();
+    }
+    if (editController["description"].text.isNotEmpty) {
+      createdProject.description = editController["description"].text;
+      editController["description"].clear();
+    }
+    if (pickedDates != null) {
+      createdProject.beginDate = tempDateRange["begin"];
+      createdProject.endDate = tempDateRange["end"];
+      tempDateRange.clear();
+    }
+
+  }
+  void createUnits()
   {
     if (editController["title"].text.isNotEmpty){
       createdProject.title = editController["title"].text;
@@ -78,10 +103,16 @@ class _CreateProjectPopupState extends State<CreateProjectPopup> {
       tempDateRange.clear();
       print("created project endsnot null");
     }
-    if (selectedMail != null) {
-      usersAutocomplete.suggestionsTextFieldController.clear();
-      createdProject.professorName = selectedMail;
-      selectedMail = null;
+
+  }
+
+  Widget checkCreateType()
+  {
+    if (widget.createType == ProjectActionsEnum.CREATE_PROJECT) {
+      return saveDatas(function: createProjects, text: "Save Projects Datas");
+    }
+    else {
+      return saveDatas(function: createUnits, text: "Save Units Datas");
     }
   }
 
@@ -102,7 +133,7 @@ class _CreateProjectPopupState extends State<CreateProjectPopup> {
                     Text("Creating Project", style: TextStyle(color: Color(0xFF875BC5),fontSize: 21,fontFamily: "Montserrat", fontWeight: FontWeight.bold,    decoration: TextDecoration.underline,),),
                     SizedBox(height: 30,),
                     titleDescriptionTextFields(editController: editController, setTextEditingController: getEditing),
-                    usersAutocomplete.userAutocomplete(mailAddressesList: widget.mailAddressesList, labelName: "Professor Mail", clear: false),
+                    widget.createType == ProjectActionsEnum.CREATE_UNITS? usersAutocomplete.userAutocomplete(mailAddressesList: widget.mailAddressesList, labelName: "Professor Mail", clear: false) : Container(),
                     SizedBox(height:20),
                   ],
                 ),
@@ -110,8 +141,7 @@ class _CreateProjectPopupState extends State<CreateProjectPopup> {
 
                 tempDateRange["begin"] == null? pickRangeDate(context: context, beginDate: DateTime.now(), endDate: DateTime.now(), function: getTimeRange) : pickRangeDate(context: context, beginDate: tempDateRange["begin"], endDate: tempDateRange["end"], function: getTimeRange),
                 SizedBox(height: 20,),
-
-                saveDatas(function: getting, text: "Save Datas"),
+                checkCreateType()
               ]
           ),
         )

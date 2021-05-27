@@ -182,13 +182,11 @@ class _LoginPState extends State<LoginP> {
                       ),
                       child: FlatButton(
                         onPressed: ()=> {
-/*
                           context.read<AuthenticationService>().signIn(
                             context: context,
                           email: email.text.trim(),
                           password: password.text.trim(),
                           ),
-*/      Navigator.pushNamed(context, "/my")
 
 
 

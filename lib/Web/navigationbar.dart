@@ -63,7 +63,6 @@ class _NavigationItemState extends State<NavigationItem> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        print ("widget" + widget.namedRoute);
         navKey.currentState.pushNamed( widget.namedRoute);
       },
       child: Padding(

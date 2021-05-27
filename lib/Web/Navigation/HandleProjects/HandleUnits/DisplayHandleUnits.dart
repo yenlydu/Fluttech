@@ -63,8 +63,8 @@ class  _DisplayHandleUnitsState extends State<DisplayHandleUnits>
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               ActionButtonsStyle(color: Colors.red, text: "Delete", customFunction: () => ProjectsActions(currrentProject: project,actions: ProjectActionsEnum.DELETE, ), icon: Icons.delete),
-              ActionButtonsStyle(color: Colors.orange, text: "Edit",customFunction: () => ProjectsActions(currrentProject: project,actions: ProjectActionsEnum.EDIT,), icon: Icons.edit),
-              ActionButtonsStyle(color: Colors.lightGreen, text: "Create Project",customFunction: () => CreateProjectPopup(mailAddressesList: mailAddressesList, ), icon: Icons.add,),
+              ActionButtonsStyle(color: Colors.orange, text: "Edit",customFunction: () => ProjectsActions(currrentProject: project,actions: ProjectActionsEnum.EDIT_UNIT,), icon: Icons.edit),
+              ActionButtonsStyle(color: Colors.lightGreen, text: "Create Project",customFunction: () => CreateProjectPopup(createType: ProjectActionsEnum.CREATE_PROJECT,mailAddressesList: mailAddressesList, ), icon: Icons.add,),
             ],
           ),
           SizedBox(height:5),

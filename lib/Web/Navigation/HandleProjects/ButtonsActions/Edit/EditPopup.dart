@@ -4,12 +4,14 @@ import 'package:flutter2/Web/Style/EditButtonStyle.dart';
 import 'package:flutter2/Web/Navigation/HandleProjects/ButtonsActions/Constants/ProjectsActionsConstants.dart';
 import 'package:flutter2/Web/Navigation/HandleProjects/ButtonsActions/Constants/PickRangeDate.dart';
 import 'package:flutter2/Mobile/Widget/Autocomplete.dart';
+import 'package:flutter2/Web/WebConstants/Enumerations.dart';
 import 'package:overlay_support/overlay_support.dart';
 import 'package:flutter2/Web/Style/SaveDatasStyle.dart';
 
 class EditPopup extends StatefulWidget {
   final ProjectInformation currentProject;
-  EditPopup({this.currentProject});
+  final ProjectActionsEnum editType;
+  EditPopup({this.currentProject, this.editType});
 
   @override
   _EditPopupState createState() => _EditPopupState();
@@ -33,7 +35,7 @@ class _EditPopupState extends State<EditPopup> {
     "prof@epitech.eu",
   ];
 
-  void saveEdit()
+  void saveProject()
   {
 
     //MAXIME : this function checks the fields that have been changed for the Edit button
@@ -42,6 +44,28 @@ class _EditPopupState extends State<EditPopup> {
       widget.currentProject.endDate = temProjectDates["end"];
       temProjectDates = null;
         //MAXIME : SAVE BEGIN PROJECT DATE
+    };
+
+    if (editController["description"].text.isNotEmpty){
+      print("description not null");
+      editController["description"].clear();
+      //MAXIME : SAVE PROJECT DESCRIPTION
+
+    };
+    if (editController["title"].text.isNotEmpty) {
+      print("title not null");
+      editController["title"].clear();
+      //MAXIME : SAVE PROJECT TITLE
+    }
+  }
+  void saveUnit()
+  {
+    //MAXIME : this function checks the fields that have been changed for the Edit button
+    if (temProjectDates != null) {
+      widget.currentProject.beginDate = temProjectDates["begin"];
+      widget.currentProject.endDate = temProjectDates["end"];
+      temProjectDates = null;
+      //MAXIME : SAVE BEGIN PROJECT DATE
     };
     if (selectedMail != null) {
       print("mail address not null");
@@ -67,7 +91,6 @@ class _EditPopupState extends State<EditPopup> {
     setState(() {
       temProjectDates['begin'] = picked[0];
       temProjectDates['end'] = picked[1];
-      print ("testing" + temProjectDates['begin'].toString());
     });
   }
 
@@ -103,6 +126,15 @@ class _EditPopupState extends State<EditPopup> {
         background: Colors.red);
   }
 
+  Widget checkEditType()
+  {
+    if (widget.editType == ProjectActionsEnum.EDIT_PROJECT)
+      return saveDatas(function: saveProject, text: "Save Project Datas");
+    if (widget.editType == ProjectActionsEnum.EDIT_UNIT)
+      return saveDatas(function: saveUnit, text: "Save Units Datas");
+
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -114,7 +146,7 @@ class _EditPopupState extends State<EditPopup> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 titleDescriptionTextFields(setTextEditingController: getEditing, editController: editController),
-                usersAutocomplete.userAutocomplete(mailAddressesList: mailAddressesList, labelName: "Professor Mail", clear: false),
+                widget.editType == ProjectActionsEnum.EDIT_UNIT ? usersAutocomplete.userAutocomplete(mailAddressesList: mailAddressesList, labelName: "Professor Mail", clear: false) : Container(),
                 SizedBox(height:20),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -128,7 +160,7 @@ class _EditPopupState extends State<EditPopup> {
                 SizedBox(height:10),
                 pickRangeDate(context: context, beginDate: widget.currentProject.beginDate, endDate: widget.currentProject.endDate, function: setProjectDates),
                 SizedBox(height:35),
-                saveDatas(function: saveEdit, text: "Save Datas"),
+                checkEditType()
               ],
             )
         )

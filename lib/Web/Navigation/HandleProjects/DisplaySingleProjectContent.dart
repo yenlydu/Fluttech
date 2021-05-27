@@ -51,8 +51,8 @@ class  _DisplayHandleProjectState extends State<DisplayHandleProject>
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               ActionButtonsStyle(color: Colors.red, text: "Delete", customFunction: () => ProjectsActions(currrentProject: project,actions: ProjectActionsEnum.DELETE, ), icon: Icons.delete),
-              ActionButtonsStyle(color: Colors.orange, text: "Edit",customFunction: () => ProjectsActions(currrentProject: project,actions: ProjectActionsEnum.EDIT,), icon: Icons.edit),
-              ActionButtonsStyle(color: Colors.indigoAccent, text: "Create Meetings",customFunction: () => ProjectsActions(currrentProject: project,actions: ProjectActionsEnum.MEETINGS,), icon: Icons.access_time,),
+              ActionButtonsStyle(color: Colors.orange, text: "Edit",customFunction: () => ProjectsActions(currrentProject: project,actions: ProjectActionsEnum.EDIT_PROJECT,), icon: Icons.edit),
+              ActionButtonsStyle(color: Colors.indigoAccent, text: "Create Meetings",customFunction: () => ProjectsActions(currrentProject: project,actions: ProjectActionsEnum.ADD_MEETINGS,), icon: Icons.access_time,),
             ],
           ),
           SizedBox(height:5),

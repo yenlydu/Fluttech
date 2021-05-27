@@ -119,7 +119,6 @@ class _HandleStudentsPageState extends State<HandleStudentsPage> {
 
   @override
   void initState() {
-    print("enter");
     super.initState();
     setState(() {
       usersAutocomplete = new UsersAutocomplete(getStudentSelected: getEmail,);
