@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 class Reunion
 {
   String reunionName;
-  DateTime date;
+  List<DateTime> date;
 //  TimeOfDay releaseTime = TimeOfDay(hour: 15, minute: 0);
-  Reunion({@required this.reunionName, @required this.date});
+  Reunion({ this.reunionName, this.date});
 }
 
 class ProjectInformation

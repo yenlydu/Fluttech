@@ -1,18 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter2/Web/Style/ActionsButtons.dart';
 import 'package:flutter2/Web/Navigation/HandleProjects/ProjectInformation.dart';
+import 'package:flutter2/Web/WebConstants/Enumerations.dart';
 class NavigationButtonsStyle {
-  final callback;
   Widget content;
   BoxDecoration boxDecoration;
   double width;
 
-  NavigationButtonsStyle(this.callback, this.content, this.boxDecoration, this.width);
+  NavigationButtonsStyle(this.content, this.boxDecoration, this.width);
 
   Widget button() {
     // TODO: implement build
     return InkWell(
-      onTap: callback,
       splashColor: Colors.transparent,
       hoverColor: Colors.transparent,
       highlightColor: Colors.transparent,
@@ -35,7 +34,7 @@ class NavigationButtonsStyle {
 
 Widget logOut(_goHome)
 {
-  return NavigationButtonsStyle(_goHome, Icon(
+  return NavigationButtonsStyle(Icon(
     Icons.power_settings_new,
     color: Colors.deepPurple,
     size: 30.0,
@@ -50,10 +49,10 @@ class ActionButtonsStyle extends StatefulWidget
   final customFunction;
   final Color color;
   final String text;
-  final setProjectEdited;
   final IconData icon;
   final TextStyle textStyle;
-  ActionButtonsStyle({@required this.color, @required this.text, this.customFunction, this.icon, this.setProjectEdited, this.textStyle});
+
+  ActionButtonsStyle({@required this.color, @required this.text, this.customFunction, this.icon, this.textStyle});
   @override
   _ActionsButtonsStyleState createState() => _ActionsButtonsStyleState();
 }
@@ -63,7 +62,6 @@ class _ActionsButtonsStyleState extends State<ActionButtonsStyle> {
   Widget build(BuildContext context) {
     return RaisedButton(
       onPressed: ()=>{
-//        widget.setProjectEdited(PROJECT)
       showDialog(
         context: context,
         builder: (context) {

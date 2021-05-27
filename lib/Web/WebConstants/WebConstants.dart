@@ -29,15 +29,24 @@ Widget buildingScrollView({BuildContext context, double width, double height, Wi
 
 }
 
-Widget buildingSingleItemConstant({BuildContext context, Widget onTapPopup, Widget itemDisplay})
+Widget buildingSingleItemConstant({BuildContext context, Widget onTapPopup, Widget itemDisplay, String firebaseModuleId})
 {
   return InkWell(
+    hoverColor: Colors.transparent,
     onTap: ()=> {
+      if (firebaseModuleId != null) {
+        print ("firebaseModuleId" + firebaseModuleId),
+        Navigator.pushNamed(
+          context,
+          '/handleUnits/' + firebaseModuleId ,
+        ),
+      } else {
       showDialog(
           context: context,
           builder: (BuildContext context) {
             return onTapPopup != null ? onTapPopup : Container();
           })
+      }
     },
     child: Container(
       width: MediaQuery.of(context).size.width/1.6,

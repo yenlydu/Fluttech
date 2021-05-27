@@ -89,7 +89,7 @@ class ProjectsActionsState extends State<ProjectsActions>
       }
       break;
       case 2: {
-        return addMeetings(context: context, currrentProject: widget.currrentProject);
+        return AddMeetings(currrentProject: widget.currrentProject);
       }
     }
     return Container();

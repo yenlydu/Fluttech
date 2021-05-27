@@ -1,33 +1,23 @@
 import 'package:flutter/material.dart';
+
+import 'package:flutter/material.dart';
 import 'package:flutter2/Web/WebConstants/Enumerations.dart';
 class RolesDropDown extends StatefulWidget {
   final String text;
   final getUserRole;
-  RolesDropDown({Key key, @required this.text, this.getUserRole}) : super(key: key);
+  RolesDropDown({Key key, this.text, this.getUserRole}) : super(key: key);
   @override
   _RolesDropDownState createState() => _RolesDropDownState();
 }
 
 class _RolesDropDownState extends State<RolesDropDown> {
+  bool isDropDownOpened = false;
   GlobalKey key;
   OverlayState _overlayState;
-  OverlayEntry floatingDropDown;
-
-  double height, width, xPosition, yPosition ;
-  bool isDropDowned = false;
   Roles select = Roles.STUDENT;
-  @override
-  void initState() {
-    // TODO: implement initState
-    key = LabeledGlobalKey(widget.text);
-    super.initState();
-  }
-  void hideHelp() {
-    setState(() {
-    });
-    isDropDowned = false;
-    floatingDropDown.remove();
-  }
+  IconData iconData= Icons.arrow_drop_down_outlined;
+  double height, width, xPosition, yPosition ;
+  OverlayEntry floatingDropDown;
 
   void didSelected(Roles selectedRole)
   {
@@ -41,51 +31,28 @@ class _RolesDropDownState extends State<RolesDropDown> {
 
   OverlayEntry _createFloatingDropdown()
   {
+    return OverlayEntry(
+      builder: (context) =>GestureDetector(
 
-    return OverlayEntry(      builder: (context) =>GestureDetector(
+        behavior: HitTestBehavior.translucent,
+        child: Stack(
+          children: [
+            Positioned(        left: xPosition,
+              width: width,
+              top: yPosition + height,
+              height: 4 * height + 40,
 
-
-      behavior: HitTestBehavior.translucent,
-      child: Stack(
-        children: [
-
-          Positioned(
-            left: xPosition,
-            width: width,
-            top:  yPosition-height-15,
-            height: 4*height+40,
-
-            child:DropDown(
-              didSelected: didSelected,
-              itemHeight: height,
-            ),
-          ),],
-      )
-      ,          onTap: () {
-      hideHelp();
-    },
-    ),
+              child:DropDown(
+                didSelected: didSelected,
+                itemHeight: height,
+              ),
+            ),],
+        )
+        ,          onTap: () {
+        hideHelp();
+      },
+      ),
     );
-
-  }
-
-
-  void findDropDownData()
-  {
-    RenderBox renderBox = key.currentContext.findRenderObject();
-    height = renderBox.size.height;
-    width = renderBox.size.width;
-    Offset offset = renderBox.localToGlobal(Offset.zero);
-    xPosition = offset.dx;
-    yPosition = offset.dy;
-  }
-  showHelp() async {
-    if (!isDropDowned) {
-      _overlayState = Overlay.of(context);
-      floatingDropDown = _createFloatingDropdown();
-      _overlayState.insert(floatingDropDown);
-      isDropDowned = true;
-    }
   }
 
   void findDropDownDate()
@@ -96,47 +63,123 @@ class _RolesDropDownState extends State<RolesDropDown> {
     Offset offset = renderBox.localToGlobal(Offset.zero);
     xPosition = offset.dx;
     yPosition = offset.dy;
+    print(height);
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return  GestureDetector(
-        key: key,
-        onTap: (){
-          setState(() {
-            findDropDownDate();
-            showHelp();
-          });
-        },
-        child:       Container(
-          width: MediaQuery.of(context).size.width/6,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(17),
-
-//            borderRadius: BorderRadius.vertical(top: isFirstItem?Radius.circular(10): Radius.zero, bottom: isLastItem?Radius.circular(10): Radius.zero),
-            gradient: LinearGradient(
-              begin: Alignment.topLeft,
-
-              end: Alignment.bottomRight,
-              colors: [Color(0xFF693D92), Color(0xFFAC84D1), Color(0xFFD9CEE3)],
+  Widget content()
+  {
+    return Container(
+        width: 270,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10),
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [Color(0xFF693D92), Color(0xFFAC84D1), Color(0xFFD9CEE3)],
+          ),
+        ),
+        padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        child: Row(
+          children: [
+            Text(
+              widget.text.toUpperCase(),
+              style: TextStyle(color: Colors.white, fontSize: 14),
             ),
-          ),
-          padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-          child: Row(
-            children: [
-              Text(
-                widget.text.toUpperCase(),
-                style: TextStyle(color: Colors.white, fontSize: 14),
-              ),
-              Spacer(),
-              Icon(Icons.arrow_drop_down, color: Colors.white,)
-            ],
-          ),
-
+            Spacer(),
+            Icon(iconData, color: Colors.white,)
+          ],
         )
+
     );
   }
-}class DropDown extends StatelessWidget {
+
+  showHelp() async {
+    if (!isDropDownOpened) {
+      _overlayState = Overlay.of(context);
+      floatingDropDown = _createFloatingDropdown();
+      _overlayState.insert(floatingDropDown);
+      isDropDownOpened = true;
+    }
+  }
+
+  void hideHelp() {
+    setState(() {
+      iconData = Icons.arrow_drop_down_outlined;
+    });
+    isDropDownOpened = false;
+    floatingDropDown.remove();
+  }
+  @override
+  void initState() {
+    super.initState();
+    // TODO: implement initState
+    key = LabeledGlobalKey(widget.text);
+  }
+  Widget build(BuildContext context) {
+    return Row(
+      key: key,
+      children: [
+        Center(
+          child: GestureDetector(
+            child: content(),
+            onTap: () {
+              setState(() {
+                iconData = Icons.arrow_left_outlined;
+              });
+              findDropDownDate();
+              showHelp();
+            },
+          ),
+        )
+      ],
+      mainAxisAlignment: MainAxisAlignment.end,
+    );
+  }
+
+
+/*
+    return GestureDetector(
+      key: key,
+      onTap: () {
+        setState(() {
+          if (isDropDownOpened)
+            {
+              floatingDropDown.remove();
+            }
+          else{
+            findDropDownDate();
+            floatingDropDown = _createFloatingDropdown();
+            Overlay.of(context).insert(floatingDropDown );
+          }
+
+          isDropDownOpened = !isDropDownOpened;
+        });
+      },
+      child:     Container(
+        width: 250,
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        height: 35,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(18),
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [Color(0xFF693D92), Color(0xFFAC84D1), Color(0xFFD9CEE3)],
+          ),
+        ),
+        child: Row(
+          children: [
+            Text(widget.text.toUpperCase(), style: TextStyle(color: Colors.white),),
+            Spacer(),
+            Icon(Icons.arrow_drop_down_sharp, color: Colors.white,),
+          ],
+        ),
+      )
+    );
+*/
+}
+
+class DropDown extends StatelessWidget {
   final double itemHeight;
   final didSelected;
   DropDown({Key key, this.itemHeight, this.didSelected}): super(key: key);

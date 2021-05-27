@@ -111,7 +111,7 @@ class _CreateProjectPopupState extends State<CreateProjectPopup> {
                 tempDateRange["begin"] == null? pickRangeDate(context: context, beginDate: DateTime.now(), endDate: DateTime.now(), function: getTimeRange) : pickRangeDate(context: context, beginDate: tempDateRange["begin"], endDate: tempDateRange["end"], function: getTimeRange),
                 SizedBox(height: 20,),
 
-                saveDatas(function: getting , text: "Save Datas"),
+                saveDatas(function: getting, text: "Save Datas"),
               ]
           ),
         )

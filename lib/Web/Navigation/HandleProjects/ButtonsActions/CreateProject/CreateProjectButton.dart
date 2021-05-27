@@ -27,7 +27,7 @@ class _CreateProjectButtonState extends State<CreateProjectButton> {
     return  SizedBox(
       width: 140,
       height: 50,
-      child: ActionButtonsStyle(color: Colors.lightGreen, customFunction: ()=> CreateProjectPopup(mailAddressesList: mailAddressesList, ),text: "Create Project", icon: Icons.add, textStyle: TextStyle(fontSize: 15)),
+      child: ActionButtonsStyle(color: Colors.green, customFunction: ()=> CreateProjectPopup(mailAddressesList: mailAddressesList, ),text: "Create Module", icon: Icons.add, textStyle: TextStyle(fontSize: 15)),
     );
   }
 }

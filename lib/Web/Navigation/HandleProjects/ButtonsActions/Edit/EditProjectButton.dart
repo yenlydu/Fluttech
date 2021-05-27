@@ -30,7 +30,7 @@ class _EditProjectButtonState extends State<EditProjectButton> {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children:[
-                popUpTitle(context: context, project: widget.currentProject),
+                popUpTitle(context: context, project: widget.currentProject, text: "Editing Module"),
                 SizedBox(height:30),
                 Container(
                   child: Column(

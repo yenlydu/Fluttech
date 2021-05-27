@@ -1,12 +1,13 @@
 enum NavigationEnum {
   HANDLE_PROJECTS,
   HANDLE_USERS,
-  PROFILE,
 }
 enum ProjectActionsEnum {
   DELETE,
   EDIT,
   MEETINGS,
+  CREATE_UNITS,
+  CREATE_PROJECT,
 }
 
 enum Roles {
