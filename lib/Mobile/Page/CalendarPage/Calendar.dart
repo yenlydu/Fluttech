@@ -6,124 +6,173 @@ import 'package:flutter2/Model/AppointementModel.dart';
 import 'package:flutter2/Model/Constants.dart';
 import 'package:flutter2/Model/UserModel.dart';
 import 'package:table_calendar/table_calendar.dart';
+import 'dart:collection';
 
 import './Templates/Event.dart';
 
 class CalendarPage extends StatefulWidget {
-  CalendarPage({Key key}) : super(key: key);
   @override
   _CalendarPageState createState() => _CalendarPageState();
 }
 
 class _CalendarPageState extends State<CalendarPage> {
-  Map<DateTime, List<Event>> selectedEvents;
-  DateTime day;
-  DateTime _selectedDay = DateTime.now();
+  ValueNotifier<List<Event>> _selectedEvents;
+  CalendarFormat _calendarFormat = CalendarFormat.month;
+  RangeSelectionMode _rangeSelectionMode = RangeSelectionMode
+      .toggledOff; // Can be toggled on/off by longpressing a date
   DateTime _focusedDay = DateTime.now();
-  CalendarFormat format = CalendarFormat.month;
+  DateTime _selectedDay;
+  DateTime _rangeStart;
+  DateTime _rangeEnd;
 
-  UserModel currentuser;
-  List<AppointementModel> appointements = [];
-
-  _initData(BuildContext context) async {
-    currentuser = await locator<FireStoreUser>()
-        .getUser(FirebaseAuth.instance.currentUser.uid);
-    appointements =
-        await locator<FireStoreUser>().getUserAppointements(currentuser);
-    await fillCalendar();
-  }
-
-  Future<Map<DateTime, List<Event>>> fillCalendar() async {
-    appointements.forEach((element) {
-      var datetoappoint = DateTime(element.timetoAppoint.year,
-          element.timetoAppoint.month, element.timetoAppoint.day);
-      var original = selectedEvents[datetoappoint];
-      if (original == null) {
-        selectedEvents[datetoappoint] = [Event(title: element.name)];
-      } else {
-        selectedEvents[datetoappoint] = List.from(original)
-          ..addAll([Event(title: element.name)]);
-      }
-    });
-    return selectedEvents;
-  }
+  //LinkedHashMap<DateTime, List<Event>> kEvents =
+  //    new Map<DateTime, List<Event>>();
 
   @override
   void initState() {
-    selectedEvents = {};
-    /*WidgetsBinding.instance.addPostFrameCallback((_) async {
-      await fillCalendar().then((val) => setState(() {
-            selectedEvents = val;
-          }));
-      //print( ' ${_events.toString()} ');
-    });*/
     super.initState();
+
+    _selectedDay = _focusedDay;
+    _selectedEvents = ValueNotifier(_getEventsForDay(_selectedDay));
+    registeruserappointement();
   }
 
-  List<Event> _getEventsfromDay(DateTime date) {
-    return selectedEvents[date] ?? [];
+  void registeruserappointement() async {
+    Map<DateTime, List<Event>> list = {};
+    List<AppointementModel> appoint = await locator<FireStoreUser>()
+        .getUserAppointements(locator<FireStoreUser>().currentUser);
+    appoint.forEach((element) {
+      var datetoappoint = DateTime(element.timetoAppoint.year,
+          element.timetoAppoint.month, element.timetoAppoint.day + 1);
+      var original = kEvents[datetoappoint];
+      if (original == null) {
+        setState(() {
+          kEvents[datetoappoint] = [Event(element.name)];
+        });
+      } else {
+        var newelemnt = List<Event>.from(original)
+          ..addAll([Event(element.name)]);
+        setState(() {
+          kEvents[datetoappoint] = newelemnt;
+        });
+      }
+    });
   }
 
-  // Calendar Page
+  @override
+  void dispose() {
+    _selectedEvents.dispose();
+    super.dispose();
+  }
+
+  List<Event> _getEventsForDay(DateTime day) {
+    // Implementation example
+    return kEvents[day] ?? [];
+  }
+
+  List<Event> _getEventsForRange(DateTime start, DateTime end) {
+    // Implementation example
+    final days = daysInRange(start, end);
+
+    return [
+      for (final d in days) ..._getEventsForDay(d),
+    ];
+  }
+
+  void _onDaySelected(DateTime selectedDay, DateTime focusedDay) {
+    if (!isSameDay(_selectedDay, selectedDay)) {
+      setState(() {
+        _selectedDay = selectedDay;
+        _focusedDay = focusedDay;
+        _rangeStart = null; // Important to clean those
+        _rangeEnd = null;
+        _rangeSelectionMode = RangeSelectionMode.toggledOff;
+      });
+
+      _selectedEvents.value = _getEventsForDay(selectedDay);
+    }
+  }
+
+  void _onRangeSelected(DateTime start, DateTime end, DateTime focusedDay) {
+    setState(() {
+      _selectedDay = null;
+      _focusedDay = focusedDay;
+      _rangeStart = start;
+      _rangeEnd = end;
+      _rangeSelectionMode = RangeSelectionMode.toggledOn;
+    });
+
+    // `start` or `end` could be null
+    if (start != null && end != null) {
+      _selectedEvents.value = _getEventsForRange(start, end);
+    } else if (start != null) {
+      _selectedEvents.value = _getEventsForDay(start);
+    } else if (end != null) {
+      _selectedEvents.value = _getEventsForDay(end);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    //_initData(context);
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Calendar'),
+        title: Text('Calendar'),
       ),
-      body: ListView(
-        children: <Widget>[
-          Container(
-            padding: new EdgeInsets.only(top: 25),
-            child: Center(
-              child: Container(
-                child: Column(
-                  children: <Widget>[
-                    TableCalendar(
-                      firstDay: DateTime.utc(2010, 10, 16),
-                      lastDay: DateTime.utc(2030, 3, 14),
-                      focusedDay: _focusedDay,
-                      calendarFormat: format,
-                      startingDayOfWeek: StartingDayOfWeek.monday,
-                      daysOfWeekVisible: true,
-                      onFormatChanged: (CalendarFormat _format) {
-                        setState(() {
-                          format = _format;
-                        });
-                      },
-                      selectedDayPredicate: (day) {
-                        return isSameDay(_selectedDay, day);
-                      },
-                      onDaySelected:
-                          (DateTime selectedDay, DateTime focusedDay) {
-                        setState(() {
-                          _selectedDay = selectedDay;
-                          _focusedDay = focusedDay;
-                        });
-                      },
-                      eventLoader: _getEventsfromDay,
-                      calendarStyle: CalendarStyle(
-                        isTodayHighlighted: true,
-                        todayDecoration: BoxDecoration(
-                          color: Constants().focused_color,
-                          shape: BoxShape.rectangle,
-                          //borderRadius: BorderRadius.circular(5.0),
-                        ),
-                        selectedDecoration: BoxDecoration(
-                          color: Constants().selected_color,
-                          shape: BoxShape.rectangle,
-                          //borderRadius: BorderRadius.circular(5.0),
-                        ),
+      body: Column(
+        children: [
+          TableCalendar<Event>(
+            firstDay: kFirstDay,
+            lastDay: kLastDay,
+            focusedDay: _focusedDay,
+            selectedDayPredicate: (day) => isSameDay(_selectedDay, day),
+            rangeStartDay: _rangeStart,
+            rangeEndDay: _rangeEnd,
+            calendarFormat: _calendarFormat,
+            rangeSelectionMode: _rangeSelectionMode,
+            eventLoader: _getEventsForDay,
+            startingDayOfWeek: StartingDayOfWeek.monday,
+            calendarStyle: CalendarStyle(
+              // Use `CalendarStyle` to customize the UI
+              outsideDaysVisible: false,
+            ),
+            onDaySelected: _onDaySelected,
+            onRangeSelected: _onRangeSelected,
+            onFormatChanged: (format) {
+              if (_calendarFormat != format) {
+                setState(() {
+                  _calendarFormat = format;
+                });
+              }
+            },
+            onPageChanged: (focusedDay) {
+              _focusedDay = focusedDay;
+            },
+          ),
+          const SizedBox(height: 8.0),
+          Expanded(
+            child: ValueListenableBuilder<List<Event>>(
+              valueListenable: _selectedEvents,
+              builder: (context, value, _) {
+                return ListView.builder(
+                  itemCount: value.length,
+                  itemBuilder: (context, index) {
+                    return Container(
+                      margin: const EdgeInsets.symmetric(
+                        horizontal: 12.0,
+                        vertical: 4.0,
                       ),
-                      headerStyle: HeaderStyle(
-                        titleCentered: true,
-                        formatButtonShowsNext: false,
+                      decoration: BoxDecoration(
+                        border: Border.all(),
+                        borderRadius: BorderRadius.circular(12.0),
                       ),
-                    )
-                  ],
-                ),
-              ),
+                      child: ListTile(
+                        onTap: () => print('${value[index]}'),
+                        title: Text('${value[index]}'),
+                      ),
+                    );
+                  },
+                );
+              },
             ),
           ),
         ],

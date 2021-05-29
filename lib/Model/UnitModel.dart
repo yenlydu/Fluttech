@@ -1,4 +1,6 @@
 // Local Unit Data
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class UnitModel {
   String id;
   String name;
@@ -53,9 +55,9 @@ class UnitModel {
       usersId: List.from(parsedJson['usersId']) ?? const <String>[],
       appointementlist:
           List.from(parsedJson['appointementlist']) ?? const <String>[],
-      unitStart: parsedJson['unitStart'] ?? null,
-      registerEnd: parsedJson['registerEnd'] ?? null,
-      unitEnd: parsedJson['unitEnd'] ?? null,
+      unitStart: (parsedJson['unitStart'] as Timestamp).toDate() ?? null,
+      registerEnd: (parsedJson['registerEnd'] as Timestamp).toDate() ?? null,
+      unitEnd: (parsedJson['unitEnd'] as Timestamp).toDate() ?? null,
     );
   }
 

@@ -13,11 +13,10 @@ import 'FireStoreUser.dart';
 // Manage Unit Info with Shared Preferences
 class FireStoreAppointement {
   FirebaseFirestore firestore = FirebaseFirestore.instance;
-  CollectionReference appointement;
+  CollectionReference appointement =
+      FirebaseFirestore.instance.collection('Appointement');
 
-  FireStoreAppointement() {
-    appointement = FirebaseFirestore.instance.collection('Appointement');
-  }
+  FireStoreAppointement() {}
 
   Future<AppointementModel> registerAppointement(AppointementModel data) async {
     try {
@@ -44,7 +43,7 @@ class FireStoreAppointement {
       DocumentSnapshot res = await appointement.doc(documentId).get();
       AppointementModel appoint = null;
 
-      if (res.data() != null) {
+      if (res != null && res.data() != null) {
         appoint = AppointementModel.fromJson(res.data());
       } else {
         return (null);
@@ -91,8 +90,7 @@ class FireStoreAppointement {
       appointement.subscribedusersId.add(user.userid);
       this.UpdateAppointement(appointement);
       user.appointementlist.add(appointement.id);
-      locator<FireStoreUser>().UpdateUser(
-          await locator<AuthenticationService>().getUserInfo(), user);
+      locator<FireStoreUser>().UpdateUser(user);
       return true;
     } catch (e) {
       return false;

@@ -2,14 +2,10 @@ import 'dart:ui';
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter2/Mobile/Page/Admin/LoginPage/adminLoginPage.dart';
-import 'package:flutter2/Mobile/Page/CommonBackground.dart';
 import 'package:flutter2/Mobile/Page/Homepage/Nav.dart';
-import 'package:flutter2/Mobile/Page/Homepage/home.dart';
-import 'package:flutter2/Mobile/Page/ProfilePage/Profile.dart';
 import 'package:flutter2/Mobile/Tools/FireStore/FireStoreUser.dart';
 import 'package:flutter2/Mobile/Tools/ServiceLocator/ServiceManager.dart';
 import 'package:flutter2/Model/UserModel.dart';
-import 'package:lite_rolling_switch/lite_rolling_switch.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -18,7 +14,6 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter2/Model/Constants.dart';
 import 'package:flutter2/Model/Constants/C_Login.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../../Widget/app_icons_icons.dart';
 import '../../Tools/authentication_service.dart';
 
 class LoginPage extends StatefulWidget {

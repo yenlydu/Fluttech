@@ -1,4 +1,6 @@
 // Local User Data
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class AppointementModel {
   String id;
   String name;
@@ -35,7 +37,8 @@ class AppointementModel {
       unitid: parsedJson['unitid'] ?? '',
       subscribedusersId:
           List.from(parsedJson['subscribedusersId']) ?? const <String>[],
-      timetoAppoint: parsedJson['timetoAppoint'] ?? null,
+      timetoAppoint:
+          (parsedJson['timetoAppoint'] as Timestamp).toDate() ?? null,
     );
   }
 
