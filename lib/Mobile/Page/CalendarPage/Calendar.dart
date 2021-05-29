@@ -38,7 +38,10 @@ class _CalendarPageState extends State<CalendarPage> {
   }
 
   void registeruserappointement() async {
-    Map<DateTime, List<Event>> list = {};
+    kEvents.forEach((key, value) {
+      kEvents[key] = null;
+    });
+
     List<AppointementModel> appoint = await locator<FireStoreUser>()
         .getUserAppointements(locator<FireStoreUser>().currentUser);
     appoint.forEach((element) {

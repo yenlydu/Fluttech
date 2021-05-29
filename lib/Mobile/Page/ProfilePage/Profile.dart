@@ -254,8 +254,9 @@ class _ProfilePageState extends State<ProfilePage> {
                     alignment: Alignment.topLeft,
                     child: Text(
                       "Credits : " +
-                          ((user != null && user.displayName != null)
-                              ? user.displayName
+                          ((currentuser != null &&
+                                  currentuser.currentCredits != null)
+                              ? currentuser.currentCredits.toString()
                               : "0"),
                       style: TextStyle(
                           fontWeight: FontWeight.w400, fontSize: 15.0),
@@ -265,9 +266,9 @@ class _ProfilePageState extends State<ProfilePage> {
                     alignment: Alignment.topLeft,
                     child: Text(
                       "G.P.A : " +
-                          ((user != null && user.displayName != null)
-                              ? user.displayName
-                              : "0"),
+                          ((user != null && currentuser.gpa != null)
+                              ? currentuser.gpa.toDouble().toString()
+                              : "2.0"),
                       style: TextStyle(
                           fontWeight: FontWeight.w400, fontSize: 15.0),
                     ),
