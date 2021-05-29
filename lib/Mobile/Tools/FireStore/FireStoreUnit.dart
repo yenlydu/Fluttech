@@ -113,6 +113,19 @@ class FireStoreUnit {
     }
   }
 
+  //Get all unit
+  Future<List<UnitModel>> getallunit() async {
+    List<UnitModel> unitlist = [];
+    QuerySnapshot querySnapshot = await units.get();
+
+    unitlist = querySnapshot.docs
+        .map((doc) => UnitModel.fromJson(doc.data()))
+        .toList();
+
+    await Future.delayed(Duration(milliseconds: 100));
+    return unitlist;
+  }
+
   //Subscribe to Unit
   Future<bool> subscribeToUnit(UnitModel unit) async {
     try {

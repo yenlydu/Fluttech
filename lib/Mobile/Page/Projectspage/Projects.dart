@@ -17,7 +17,7 @@ class _ProjectsPageState extends State<ProjectsPage> {
   UserModel currentuser;
 
   _initData(BuildContext context) {
-    currentuser = locator<FireStoreUser>().currentUser;
+    locator<FireStoreUser>().currentUser;
   }
 
   @override
