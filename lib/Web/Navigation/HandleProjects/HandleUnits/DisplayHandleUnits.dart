@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 
 
 import 'package:flutter/material.dart';
-import 'package:flutter2/Web/Navigation/HandleProjects/ButtonsActions/Constants/PopupDescription.dart';
-import 'package:flutter2/Web/Navigation/HandleProjects/ButtonsActions/ProjectsActions.dart';
+import 'package:flutter2/Web/Navigation/ButtonsActions/Constants/PopupDescription.dart';
+import 'package:flutter2/Web/Navigation/ButtonsActions/ProjectsActions.dart';
 import 'package:flutter2/Web/WebConstants/Enumerations.dart';
 import 'package:flutter2/Web/WebConstants/WebConstants.dart';
 import 'package:flutter2/Web/Navigation/HandleProjects/ProjectInformation.dart';
 import 'package:flutter2/Web/Style/ButtonsStyle.dart';
-import 'package:flutter2/Web/Navigation/HandleProjects/ButtonsActions/CreateProject/CreateProjectPopup.dart';
+import 'package:flutter2/Web/Navigation/ButtonsActions/CreateProject/CreateProjectPopup.dart';
 
 class DisplayHandleUnits extends StatefulWidget {
   final ProjectInformation project;
@@ -62,7 +62,7 @@ class  _DisplayHandleUnitsState extends State<DisplayHandleUnits>
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              ActionButtonsStyle(color: Colors.red, text: "Delete", customFunction: () => ProjectsActions(currrentProject: project,actions: ProjectActionsEnum.DELETE, ), icon: Icons.delete),
+              ActionButtonsStyle(color: Colors.red, text: "Delete units", customFunction: () => ProjectsActions(currrentProject: project,actions: ProjectActionsEnum.DELETE_UNITS, ), icon: Icons.delete),
               ActionButtonsStyle(color: Colors.orange, text: "Edit",customFunction: () => ProjectsActions(currrentProject: project,actions: ProjectActionsEnum.EDIT_UNIT,), icon: Icons.edit),
               ActionButtonsStyle(color: Colors.lightGreen, text: "Create Project",customFunction: () => CreateProjectPopup(createType: ProjectActionsEnum.CREATE_PROJECT,mailAddressesList: mailAddressesList, ), icon: Icons.add,),
             ],

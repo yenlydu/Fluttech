@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter2/Web/Navigation/HandleProjects/ButtonsActions/Constants/PopupDescription.dart';
-import 'package:flutter2/Web/Navigation/HandleProjects/ButtonsActions/ProjectsActions.dart';
+import 'package:flutter2/Web/Navigation/ButtonsActions/Constants/PopupDescription.dart';
+import 'package:flutter2/Web/Navigation/ButtonsActions/ProjectsActions.dart';
 import 'package:flutter2/Web/WebConstants/Enumerations.dart';
 import 'package:flutter2/Web/WebConstants/WebConstants.dart';
 import 'package:flutter2/Web/Navigation/HandleProjects/ProjectInformation.dart';
@@ -81,8 +81,7 @@ class  _DisplayHandleStudentState extends State<DisplayHandleStudent>
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                //
-                ActionButtonsStyle(color: Colors.red, text: "Unregister", customFunction: () => ProjectsActions(currrentProject: project,actions: ProjectActionsEnum.DELETE, ), icon: Icons.app_registration,),
+                ActionButtonsStyle(color: Colors.red, text: "Unregister", customFunction: () => ProjectsActions(currrentProject: project,actions: ProjectActionsEnum.UNREGISTER_STUDENT, ), icon: Icons.app_registration,),
                 ActionButtonsStyle(color: Colors.orange, text: "Edit group",customFunction: () => ProjectsActions(currrentProject: project,actions: ProjectActionsEnum.EDIT_GROUP,), icon: Icons.group_rounded,),
                 ActionButtonsStyle(color: Colors.orange, text: "Edit notes",customFunction: () => ProjectsActions(currrentProject: project,actions: ProjectActionsEnum.EDIT_NOTES,), icon: Icons.insert_drive_file_rounded,),
                 //ActionButtonsStyle(color: Colors.green, text: "Add Student",customFunction: () => ProjectsActions(project: project,actions: ProjectActionsEnum.ADD_STUDENT,), icon: Icons.add,),

@@ -13,6 +13,7 @@ class HandleProjects extends StatefulWidget {
 
 class _HandleProjectsState extends State<HandleProjects> {
   Widget getProjectsInformation(BuildContext context) {
+    //MAXIME: ICI, RECUPÉRER LES PROJETS (PAS LES UNITS) ET LES PASSER EN PARAMETRE
     ProjectInformation firstProject = new ProjectInformation(
         title: "First project",
         description:

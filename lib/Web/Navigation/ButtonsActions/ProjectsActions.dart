@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter2/Web/Navigation/HandleProjects/ButtonsActions/Delete/DeleteButtons.dart';
-import 'package:flutter2/Web/Navigation/HandleProjects/ButtonsActions/Constants/PickRangeDate.dart';
+import 'package:flutter2/Web/Navigation/ButtonsActions/Delete/DeleteButtons.dart';
+import 'package:flutter2/Web/Navigation/ButtonsActions/Edit/EditGroup.dart';
 import 'package:flutter2/Web/Navigation/HandleProjects/ProjectInformation.dart';
 import 'package:flutter2/Web/WebConstants/Enumerations.dart';
-import 'package:flutter2/Web/Navigation/HandleProjects/ButtonsActions/AddMeetings/AddMeetings.dart';
-import 'package:flutter2/Web/Navigation/HandleProjects/ButtonsActions/Edit/EditProjectButton.dart';
+import 'package:flutter2/Web/Navigation/ButtonsActions/AddMeetings/AddMeetings.dart';
+import 'package:flutter2/Web/Navigation/ButtonsActions/Edit/EditProjectButton.dart';
 
 class ProjectsActions extends StatefulWidget
 {
@@ -78,22 +78,37 @@ class ProjectsActionsState extends State<ProjectsActions>
   @override
   Widget build(BuildContext context)
   {
-    switch(widget.actions.index) {
-      case 0: {
-        return deleteAction(widget.currrentProject, context);
+
+    switch(widget.actions) {
+      case ProjectActionsEnum.DELETE_UNITS: {
+        return deleteAction(project: widget.currrentProject, context: context, projectEnum: ProjectActionsEnum.DELETE_UNITS,);
       }
       break;
-      case 1: {
+      case ProjectActionsEnum.EDIT_UNIT: {
         return EditProjectButton(editType: ProjectActionsEnum.EDIT_UNIT,currentProject: widget.currrentProject,getSelectedMail: getSelectedMail, text:"Editing Unit");
       }
 
-      case 2: {
+      case ProjectActionsEnum.EDIT_PROJECT: {
         return EditProjectButton(editType: ProjectActionsEnum.EDIT_PROJECT,currentProject: widget.currrentProject,getSelectedMail: getSelectedMail,text:"Editing Project");
       }
       break;
-      case 3: {
+      case ProjectActionsEnum.ADD_MEETINGS: {
         return AddMeetings(currrentProject: widget.currrentProject);
       }
+      break;
+      case ProjectActionsEnum.DELETE_PROJECT: {
+        return deleteAction(project: widget.currrentProject, context: context, projectEnum: ProjectActionsEnum.DELETE_PROJECT,);
+      }
+      break;
+      case ProjectActionsEnum.UNREGISTER_STUDENT: {
+        return deleteAction(project: widget.currrentProject, context: context, projectEnum: ProjectActionsEnum.UNREGISTER_STUDENT,);
+      }
+      break;
+      case ProjectActionsEnum.EDIT_GROUP: {
+        return EditGroup();
+      }
+      break;
+
     }
     return Container();
   }

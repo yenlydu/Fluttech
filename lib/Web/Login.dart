@@ -182,19 +182,16 @@ class _LoginPState extends State<LoginP> {
                       ),
                       child: FlatButton(
                         onPressed: ()=> {
-                          context.read<AuthenticationService>().signIn(
+/*                          context.read<AuthenticationService>().signIn(
                             context: context,
                           email: email.text.trim(),
                           password: password.text.trim(),
-                          ),
-
-
-
+                          ),*/
+                        Navigator.pushNamed(context, "/my")
                       },
                           child: Text("Sign in",
                               style: TextStyle(color: Colors.white)),
-                          /*onPressed: () {
-                          }*/
+
 /*                            // TEXT FOR INVALID LOGIN
                         onPressed:() {
                           if (email.text.isEmpty || password.text.isEmpty) {

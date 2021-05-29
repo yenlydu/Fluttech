@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter2/Web/Navigation/HandleProjects/ButtonsActions/Constants/PopupDescription.dart';
-import 'package:flutter2/Web/Navigation/HandleProjects/ButtonsActions/ProjectsActions.dart';
+import 'package:flutter2/Web/Navigation/ButtonsActions/Constants/PopupDescription.dart';
+import 'package:flutter2/Web/Navigation/ButtonsActions/ProjectsActions.dart';
 import 'package:flutter2/Web/WebConstants/Enumerations.dart';
 import 'package:flutter2/Web/WebConstants/WebConstants.dart';
 import 'package:flutter2/Web/Navigation/HandleProjects/ProjectInformation.dart';
@@ -50,7 +50,7 @@ class  _DisplayHandleProjectState extends State<DisplayHandleProject>
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              ActionButtonsStyle(color: Colors.red, text: "Delete", customFunction: () => ProjectsActions(currrentProject: project,actions: ProjectActionsEnum.DELETE, ), icon: Icons.delete),
+              ActionButtonsStyle(color: Colors.red, text: "Delete project", customFunction: () => ProjectsActions(currrentProject: project,actions: ProjectActionsEnum.DELETE_PROJECT, ), icon: Icons.delete),
               ActionButtonsStyle(color: Colors.orange, text: "Edit",customFunction: () => ProjectsActions(currrentProject: project,actions: ProjectActionsEnum.EDIT_PROJECT,), icon: Icons.edit),
               ActionButtonsStyle(color: Colors.indigoAccent, text: "Create Meetings",customFunction: () => ProjectsActions(currrentProject: project,actions: ProjectActionsEnum.ADD_MEETINGS,), icon: Icons.access_time,),
             ],
