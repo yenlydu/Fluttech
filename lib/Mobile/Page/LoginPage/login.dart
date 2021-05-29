@@ -29,36 +29,7 @@ class _LoginPageState extends State<LoginPage> {
 
   bool _visible = false;
   bool _loginvisible = false;
-/*
-  // Show Message in case of error (Not Use)
-  Future<void> _showMessage(String message) {
-    return showDialog<void>(
-      context: _context,
-      barrierDismissible: false, // user must tap button!
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('AlertDialog Title'),
-          content: SingleChildScrollView(
-            child: ListBody(
-              children: <Widget>[
-                Text('This is a demo alert dialog.'),
-                Text('Would you like to approve of this message?'),
-              ],
-            ),
-          ),
-          actions: <Widget>[
-            TextButton(
-              child: Text('Approve'),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        );
-      },
-    );
-  }
-*/
+
   _LoginPageState() {
     Timer _timer;
     _timer = new Timer(const Duration(milliseconds: 400), () {
@@ -113,13 +84,7 @@ class _LoginPageState extends State<LoginPage> {
             keyboardType: TextInputType.emailAddress,
             style: TextStyle(color: Colors.white),
             controller: emailController,
-            decoration: InputDecoration(
-              border: InputBorder.none,
-              contentPadding: EdgeInsets.only(top: 14.0),
-              prefixIcon: Icon(Icons.email, color: Colors.white),
-              hintText: "Enter your Email",
-              hintStyle: kHintTextStyle,
-            ),
+            decoration: kInputDeco_email,
           ),
         ),
       ],
@@ -144,13 +109,7 @@ class _LoginPageState extends State<LoginPage> {
             obscureText: true,
             style: TextStyle(color: Colors.white),
             controller: passwordController,
-            decoration: InputDecoration(
-              border: InputBorder.none,
-              contentPadding: EdgeInsets.only(top: 14.0),
-              prefixIcon: Icon(Icons.lock, color: Colors.white),
-              hintText: "Enter your Password",
-              hintStyle: kHintTextStyle,
-            ),
+            decoration: kInputDeco_pwd,
           ),
         ),
       ],
@@ -193,13 +152,19 @@ class _LoginPageState extends State<LoginPage> {
           if (res == "Signed in") {
             var user =
                 await context.read<AuthenticationService>().getUserInfo();
-            UserModel newuser = UserModel();
-            newuser.email = user.email;
-            newuser.firebaseid = user.uid;
-            newuser.firstName = user.email;
-            newuser.phoneNumber = user.phoneNumber;
-            locator<FireStoreUser>().registerUser(user, newuser);
-            locator<FireStoreUser>().currentUser = newuser;
+
+            var isexituser = await locator<FireStoreUser>().getUser(user.uid);
+            if (isexituser == null) {
+              UserModel newuser = UserModel();
+              newuser.email = user.email;
+              newuser.firebaseid = user.uid;
+              newuser.firstName = user.email;
+              newuser.phoneNumber = user.phoneNumber;
+              locator<FireStoreUser>().registerUser(user, newuser);
+              locator<FireStoreUser>().currentUser = newuser;
+            } else {
+              locator<FireStoreUser>().currentUser = isexituser;
+            }
             if (_rememberme == true) {
               final prefs = await SharedPreferences.getInstance();
               prefs.setBool("rememberme", true);
@@ -219,16 +184,7 @@ class _LoginPageState extends State<LoginPage> {
           borderRadius: BorderRadius.circular(30.0),
         ),
         color: Colors.white,
-        child: Text(
-          'LOGIN',
-          style: TextStyle(
-            color: Color(0xFF527DAA),
-            letterSpacing: 1.5,
-            fontSize: 15.0,
-            fontWeight: FontWeight.bold,
-            fontFamily: 'OpenSans',
-          ),
-        ),
+        child: login_Button(),
       ),
     );
   }
@@ -238,14 +194,7 @@ class _LoginPageState extends State<LoginPage> {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
-        Text(
-          "Log In",
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: 30.0,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
+        login_Title(),
         sizeBox_Spacing(30),
         _buildEmailTF(),
         sizeBox_Spacing(30),

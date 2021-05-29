@@ -7,9 +7,10 @@ import 'package:flutter2/Model/UnitModel.dart';
 import 'package:flutter2/Model/UserModel.dart';
 import 'package:getwidget/getwidget.dart';
 
-import '../../../../Mobile/Page/Projectspage/DetailedPage.dart';
+import '../OtherPages/DetailedPageModules.dart';
 import '../../../../Model/Constants.dart';
 import '../../../../Model/Constants/C_Projects.dart';
+import '../../../../Model/Constants/C_Accordion.dart';
 
 class T_Modules extends StatefulWidget {
   T_Modules({Key key}) : super(key: key);
@@ -88,7 +89,7 @@ class _T_ModulesState extends State<T_Modules> {
         Navigator.push(
           _context,
           MaterialPageRoute(
-              builder: (_context) => DetailedPage(
+              builder: (_context) => DetailedPageModules(
                     title: title,
                     desc: desc,
                     credit: credit,
@@ -102,69 +103,15 @@ class _T_ModulesState extends State<T_Modules> {
         decoration: kProject_AccordionBoxDecorationStyle,
         child: Column(
           children: <Widget>[
-            Container(
-              padding: EdgeInsets.only(left: 15, top: 15, right: 15),
-              alignment: Alignment.topLeft,
-              child: Column(
-                children: <Widget>[
-                  Text(
-                    title.data,
-                    style: kProject_AccordionStyle,
-                  ),
-                ],
-              ),
-            ),
-            Container(
-              padding: EdgeInsets.only(left: 15, top: 15, right: 15),
-              alignment: Alignment.topLeft,
-              child: Column(
-                children: <Widget>[
-                  Text(
-                    desc.data,
-                    style: kProject_AccordionDescStyle,
-                  ),
-                ],
-              ),
-            ),
-            Container(
-              padding: EdgeInsets.only(left: 15, top: 15, right: 15),
-              alignment: Alignment.topLeft,
-              child: Column(
-                children: <Widget>[
-                  Text(
-                    "Available credits " + credit.data,
-                    style: kProject_AccordionDescStyle,
-                  ),
-                ],
-              ),
-            ),
-            Container(
-              padding: EdgeInsets.only(left: 15, top: 15, right: 15),
-              alignment: Alignment.topLeft,
-              child: Column(
-                children: <Widget>[
-                  Text(
-                    "Between " + start.data,
-                    style: kProject_AccordionDescStyle,
-                  ),
-                ],
-              ),
-            ),
-            Container(
-              padding: EdgeInsets.only(left: 15, right: 15),
-              alignment: Alignment.topLeft,
-              child: Column(
-                children: <Widget>[
-                  Text(
-                    "and " + end.data,
-                    style: kProject_AccordionDescStyle,
-                  ),
-                ],
-              ),
-            ),
-            Container(
-              padding: EdgeInsets.only(bottom: 15),
-            ),
+            accordionInfoProject_Elem1(title, kProject_AccordionStyle),
+            accordionInfoProject_Elem1(desc, kProject_AccordionDescStyle),
+            accordionInfoProject_Elem1(Text("Available credits " + credit.data),
+                kProject_AccordionDescStyle),
+            accordionInfoProject_Elem1(
+                Text("Between " + start.data), kProject_AccordionDescStyle),
+            accordionInfoProject_Elem2(
+                Text("and " + end.data), kProject_AccordionDescStyle),
+            sizeBox_Spacing(15),
           ],
         ),
       ),
@@ -176,7 +123,7 @@ class _T_ModulesState extends State<T_Modules> {
       Text p_credit, Text p_start, Text p_end, UnitModel unit) {
     return GFAccordion(
       titlePadding: EdgeInsets.all(0),
-      titleChild: _buildAccordionHeadModulesTemplate(Text(p_title.data)),
+      titleChild: accordionHeadTemplate(p_title, kProject_Style),
       contentPadding: EdgeInsets.all(0),
       contentChild: _buildAccordionContentModulesTemplate(
           Text(p_title.data),

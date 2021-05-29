@@ -85,11 +85,14 @@ class WebAuthenticationWrapper extends StatelessWidget {
 class AuthenticationWrapper extends StatelessWidget {
   Future<UserModel> getfirestoreuser() async {
     final firebaseUser = FirebaseAuth.instance.currentUser;
-    var res = await locator<FireStoreUser>().getUser(firebaseUser.uid);
-    if (res != null) {
-      locator<FireStoreUser>().currentUser = res;
+    if (firebaseUser != null && firebaseUser.uid != null) {
+      var res = await locator<FireStoreUser>().getUser(firebaseUser.uid);
+      if (res != null) {
+        locator<FireStoreUser>().currentUser = res;
+      }
+      return res;
     }
-    return res;
+    return null;
   }
 
   @override

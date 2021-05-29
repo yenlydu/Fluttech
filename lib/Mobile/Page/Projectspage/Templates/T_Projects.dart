@@ -5,9 +5,10 @@ import 'package:flutter2/Model/ProjectModel.dart';
 import 'package:flutter2/Model/UserModel.dart';
 import 'package:getwidget/getwidget.dart';
 
-import '../../../../Mobile/Page/Projectspage/DetailedPage.dart';
+import '../OtherPages/DetailedPageProjects.dart';
 import '../../../../Model/Constants.dart';
 import '../../../../Model/Constants/C_Projects.dart';
+import '../../../../Model/Constants/C_Accordion.dart';
 
 class T_Projects extends StatelessWidget {
   T_Projects({Key key}) : super(key: key);
@@ -22,8 +23,6 @@ class T_Projects extends StatelessWidget {
     units = await locator<FireStoreUser>().getUserProjects(currentuser);
     units.forEach((element) {
       unitsWidget.add(_buildAccordionProjectsTemplate(
-          Text(element.name),
-          Text(element.unitid),
           Text(element.name),
           Text(element.projectstart.toString()),
           Text(element.projectEnd.toString())));
@@ -66,17 +65,15 @@ class T_Projects extends StatelessWidget {
   // Accordion Content Template
   @override
   Widget _buildAccordionContentProjectsTemplate(
-      Text title, Text desc, Text credit, Text start, Text end) {
+      Text title, Text start, Text end) {
     return InkWell(
       onTap: () {
         print("Clicked");
         Navigator.push(
           _context,
           MaterialPageRoute(
-              builder: (_context) => DetailedPage(
+              builder: (_context) => DetailedPageProjects(
                     title: title,
-                    desc: desc,
-                    credit: credit,
                     start: start,
                     end: end,
                   )),
@@ -86,69 +83,12 @@ class T_Projects extends StatelessWidget {
         decoration: kProject_AccordionBoxDecorationStyle,
         child: Column(
           children: <Widget>[
-            Container(
-              padding: EdgeInsets.only(left: 15, top: 15, right: 15),
-              alignment: Alignment.topLeft,
-              child: Column(
-                children: <Widget>[
-                  Text(
-                    title.data,
-                    style: kProject_AccordionStyle,
-                  ),
-                ],
-              ),
-            ),
-            Container(
-              padding: EdgeInsets.only(left: 15, top: 15, right: 15),
-              alignment: Alignment.topLeft,
-              child: Column(
-                children: <Widget>[
-                  Text(
-                    desc.data,
-                    style: kProject_AccordionDescStyle,
-                  ),
-                ],
-              ),
-            ),
-            Container(
-              padding: EdgeInsets.only(left: 15, top: 15, right: 15),
-              alignment: Alignment.topLeft,
-              child: Column(
-                children: <Widget>[
-                  Text(
-                    "Available credits " + credit.data,
-                    style: kProject_AccordionDescStyle,
-                  ),
-                ],
-              ),
-            ),
-            Container(
-              padding: EdgeInsets.only(left: 15, top: 15, right: 15),
-              alignment: Alignment.topLeft,
-              child: Column(
-                children: <Widget>[
-                  Text(
-                    "Between " + start.data,
-                    style: kProject_AccordionDescStyle,
-                  ),
-                ],
-              ),
-            ),
-            Container(
-              padding: EdgeInsets.only(left: 15, right: 15),
-              alignment: Alignment.topLeft,
-              child: Column(
-                children: <Widget>[
-                  Text(
-                    "and " + end.data,
-                    style: kProject_AccordionDescStyle,
-                  ),
-                ],
-              ),
-            ),
-            Container(
-              padding: EdgeInsets.only(bottom: 15),
-            ),
+            accordionInfoProject_Elem1(title, kProject_AccordionStyle),
+            accordionInfoProject_Elem1(
+                Text("Between " + start.data), kProject_AccordionDescStyle),
+            accordionInfoProject_Elem2(
+                Text("and " + end.data), kProject_AccordionDescStyle),
+            sizeBox_Spacing(15),
           ],
         ),
       ),
@@ -158,23 +98,14 @@ class T_Projects extends StatelessWidget {
   // Accordion Head Template
   @override
   Widget _buildAccordionProjectsTemplate(
-      Text p_title, Text p_desc, Text p_credit, Text p_start, Text p_end) {
+      Text p_title, Text p_start, Text p_end) {
     return GFAccordion(
       titlePadding: EdgeInsets.all(0),
-      titleChild: _buildAccordionHeadProjectsTemplate(Text(p_title.data)),
+      titleChild: accordionHeadTemplate(p_title, kProject_Style),
       contentPadding: EdgeInsets.all(0),
       contentChild: _buildAccordionContentProjectsTemplate(
-          Text(p_title.data),
-          Text(p_desc.data),
-          Text(p_credit.data),
-          Text(p_start.data),
-          Text(p_end.data)),
+          Text(p_title.data), Text(p_start.data), Text(p_end.data)),
     );
-  }
-
-  @override
-  Widget _test() {
-    return Container();
   }
 
   @override
@@ -193,9 +124,6 @@ class T_Projects extends StatelessWidget {
                     _buildAccordionProjectsTemplate(
                       Text(
                           "M - Flutter II : Flutter & Firebase Cloud Firestore Advanced"),
-                      Text(
-                          "Flutter is Google’s UI toolkit for building beautiful, natively compiled applications for mobile, web, and desktop from a single codebase.\nOrganizations around the world are building apps with Flutter.\nFlutter Advantages: Fast Development, Expressive and Flexible UI, Native Performance\nFirebase: Helps You Build, Improve, & Grow Your Mobile Apps. Check It Out Today! Find All The Docs You Need To Get Started With Firebase In Minutes. Learn More! Automatic & secure login. Custom Domain Support. Build Fast For Any Device. "),
-                      Text("12"),
                       Text("14/04/2021, 00h00"),
                       Text("02/06/2021, 00h00"),
                     ),
@@ -205,46 +133,6 @@ class T_Projects extends StatelessWidget {
             ],
           )
         ],
-      ),
-      floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.add),
-        onPressed: () => showDialog(
-          context: context,
-          builder: (context) => AlertDialog(
-            title: Text("Add Project"),
-            content: Align(
-              alignment: Alignment.topLeft,
-              child: Column(
-                children: <Widget>[
-                  Text("Enter Project Title"),
-                  TextFormField(),
-                  sizeBox_Spacing(30),
-                  Text("Enter Project Description"),
-                  TextFormField(),
-                  sizeBox_Spacing(30),
-                  Text("Enter Project Credits"),
-                  TextFormField(),
-                  sizeBox_Spacing(30),
-                  Text("Enter Project Start Date"),
-                  TextFormField(),
-                  sizeBox_Spacing(30),
-                  Text("Enter Project End Date"),
-                  TextFormField(),
-                ],
-              ),
-            ), //Text("Enter Module Title"),
-            actions: [
-              TextButton(
-                onPressed: () => Navigator.pop(context),
-                child: Text("Cancel"),
-              ),
-              TextButton(
-                onPressed: () => Navigator.pop(context),
-                child: Text("Save"),
-              ),
-            ],
-          ),
-        ),
       ),
     );
   }

@@ -14,8 +14,13 @@ class ImageProfileFireManager {
   // Get Saved User Image
   Future<String> getUserPhoto() async {
     var user = FirebaseAuth.instance.currentUser;
-    var storef = storage.ref().child("user/profile/" + user.uid);
-    return await storef.getDownloadURL();
+
+    if (user != null && user.uid != null) {
+      var storef = storage.ref().child("user/profile/" + user.uid);
+      return await storef.getDownloadURL();
+    } else {
+      return null;
+    }
   }
 
   // Set User Image
