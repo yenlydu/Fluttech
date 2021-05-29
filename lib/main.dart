@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter2/Model/UserModel.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
 import 'package:flutter2/Web/Login.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -81,26 +83,45 @@ class WebAuthenticationWrapper extends StatelessWidget {
 }
 
 class AuthenticationWrapper extends StatelessWidget {
-  getfirestoreuser() async {
+  Future<UserModel> getfirestoreuser() async {
     final firebaseUser = FirebaseAuth.instance.currentUser;
     var res = await locator<FireStoreUser>().getUser(firebaseUser.uid);
     if (res != null) {
       locator<FireStoreUser>().currentUser = res;
     }
+    return res;
   }
 
   @override
   Widget build(BuildContext context) {
-    final firebaseUser = FirebaseAuth.instance.currentUser;
-    if (firebaseUser != null) {
-      var remember = locator<LocalPreferences>().IsRememberUser();
-      if (!remember) {
-        return LoginPage();
-      }
-      getfirestoreuser();
-      return NavElem();
-    }
-    return LoginPage();
+    return (FutureBuilder(
+        future: getfirestoreuser(),
+        builder: (BuildContext context, AsyncSnapshot snapshot) {
+          switch (snapshot.connectionState) {
+            case ConnectionState.done:
+              if (snapshot.hasError)
+                return new Text('Error: ${snapshot.error}');
+              else {
+                final firebaseUser = FirebaseAuth.instance.currentUser;
+                if (firebaseUser != null && snapshot.data != null) {
+                  var remember = locator<LocalPreferences>().IsRememberUser();
+                  if (!remember) {
+                    return LoginPage();
+                  }
+                  return NavElem();
+                }
+                return LoginPage();
+              }
+              break;
+
+            default:
+              debugPrint("Snapshot " + snapshot.toString());
+              return Container(
+                color: Colors.white,
+                child: SpinKitFadingCube(color: Colors.deepPurple),
+              ); // also check your listWidget(snapshot) as it may return null.
+          }
+        }));
   }
 }
 
