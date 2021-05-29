@@ -225,10 +225,9 @@ class MyAppTest extends StatefulWidget {
 class MyAppState extends State<MyAppTest> {
   @override
   Widget build(BuildContext context) {
-    print("enter");
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Navigation Bar Web',
+      title: 'FluTECH',
       theme: ThemeData(
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
