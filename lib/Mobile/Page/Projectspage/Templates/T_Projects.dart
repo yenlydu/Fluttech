@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter2/Mobile/Tools/FireStore/FireStoreUser.dart';
+import 'package:flutter2/Mobile/Tools/ServiceLocator/ServiceManager.dart';
+import 'package:flutter2/Model/ProjectModel.dart';
+import 'package:flutter2/Model/UserModel.dart';
 import 'package:getwidget/getwidget.dart';
 
 import '../../../../Mobile/Page/Projectspage/DetailedPage.dart';
@@ -8,6 +12,24 @@ import '../../../../Model/Constants/C_Projects.dart';
 class T_Projects extends StatelessWidget {
   T_Projects({Key key}) : super(key: key);
   BuildContext _context;
+
+  List<Widget> unitsWidget = [];
+  List<ProjectModel> units = [];
+  UserModel currentuser = null;
+
+  Future<List<Widget>> initData() async {
+    currentuser = await locator<FireStoreUser>().currentUser;
+    units = await locator<FireStoreUser>().getUserProjects(currentuser);
+    units.forEach((element) {
+      unitsWidget.add(_buildAccordionProjectsTemplate(
+          Text(element.name),
+          Text(element.unitid),
+          Text(element.name),
+          Text(element.projectstart.toString()),
+          Text(element.projectEnd.toString())));
+    });
+    return unitsWidget;
+  }
 
   // Accordion Head Template
   @override

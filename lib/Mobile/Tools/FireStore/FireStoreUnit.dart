@@ -15,11 +15,9 @@ import 'FireStoreUser.dart';
 // Manage Unit Info with Shared Preferences
 class FireStoreUnit {
   FirebaseFirestore firestore = FirebaseFirestore.instance;
-  CollectionReference units;
+  CollectionReference units = FirebaseFirestore.instance.collection('Unit');
 
-  FireStoreUnit() {
-    CollectionReference units = FirebaseFirestore.instance.collection('Unit');
-  }
+  FireStoreUnit() {}
 
   Future<UnitModel> registerUnit(UnitModel data) async {
     try {
@@ -53,12 +51,18 @@ class FireStoreUnit {
   }
 
   Future<UnitModel> getData(String documentId) async {
-    DocumentSnapshot res = await units.doc(documentId).get();
+    try {
+      DocumentSnapshot res = await units.doc(documentId).get();
+      UnitModel Unit = null;
 
-    if (res.data() != null) {
-      UnitModel Unit = UnitModel.fromJson(res.data());
-    } else {
-      return (null);
+      if (res != null && res.data() != null) {
+        Unit = UnitModel.fromJson(res.data());
+      } else {
+        return (null);
+      }
+      return Unit;
+    } catch (e) {
+      return null;
     }
   }
 
@@ -110,13 +114,29 @@ class FireStoreUnit {
   }
 
   //Subscribe to Unit
-  Future<bool> subscribeToUnit(UserModel usertosub, UnitModel unit) async {
+  Future<bool> subscribeToUnit(UnitModel unit) async {
     try {
-      unit.usersId.add(usertosub.userid);
+      unit.usersId.add(locator<FireStoreUser>().currentUser.userid);
       await UpdateUnit(unit);
-      usertosub.subscribeUnit.add(unit.id);
-      locator<FireStoreUser>().UpdateUser(
-          await locator<AuthenticationService>().getUserInfo(), usertosub);
+
+      locator<FireStoreUser>().currentUser.subscribeUnit.add(unit.id);
+      locator<FireStoreUser>().UpdateUser(locator<FireStoreUser>().currentUser);
+
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  //Unsaubscribe to Unit
+  Future<bool> unsubscribeToUnit(UnitModel unit) async {
+    try {
+      unit.usersId.remove(locator<FireStoreUser>().currentUser.userid);
+      await UpdateUnit(unit);
+
+      locator<FireStoreUser>().currentUser.subscribeUnit.remove(unit.id);
+      locator<FireStoreUser>().UpdateUser(locator<FireStoreUser>().currentUser);
+
       return true;
     } catch (e) {
       return false;

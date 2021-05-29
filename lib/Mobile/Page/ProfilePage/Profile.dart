@@ -35,7 +35,7 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   //Image && Profile Selection
-  NetworkImage imageFile;
+  NetworkImage imageFile = null;
   // check if local image exist and select it
   _initImage(BuildContext context) async {
     String image = await fireimagemanager.getUserPhoto();

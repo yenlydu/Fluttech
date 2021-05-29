@@ -35,18 +35,19 @@ class FireStoreUser {
     }
   }
 
-  Future<bool> UpdateUser(User fireUser, UserModel data) async {
+  Future<bool> UpdateUser(UserModel data) async {
     try {
-      var res = await users.doc(fireUser.uid).update(data.toJson());
+      var res = await users.doc(data.firebaseid).update(data.toJson());
+
       return true;
     } catch (e) {
       return false;
     }
   }
 
-  Future<bool> UpdateUserField(User fireUser, UserModel data) async {
+  Future<bool> UpdateUserField(UserModel data) async {
     try {
-      var res = await users.doc(fireUser.uid).update(data.toJson());
+      var res = await users.doc(data.firebaseid).update(data.toJson());
       return true;
     } catch (e) {
       return false;
@@ -76,30 +77,23 @@ class FireStoreUser {
   Future<List<AppointementModel>> getUserAppointements(UserModel user) async {
     List<AppointementModel> Aptmtlist = [];
 
-    user.appointementlist.forEach((element) async {
-      try {
-        var res =
-            await locator<FireStoreAppointement>().getAppointement(element);
-        Aptmtlist.add(res);
-      } catch (e) {
-        print(e);
-      }
+    await user.appointementlist.forEach((element) async {
+      var res = await locator<FireStoreAppointement>().getAppointement(element);
+      Aptmtlist.add(res);
     });
 
+    await Future.delayed(Duration(milliseconds: 100));
     return Aptmtlist;
   }
 
   Future<List<UnitModel>> getUserUnits(UserModel user) async {
     List<UnitModel> Unitlist = [];
 
-    user.subscribeUnit.forEach((element) async {
-      try {
-        var firestoreunit = locator<FireStoreUnit>();
-        var res = await firestoreunit.getData(element);
-        Unitlist.add(res);
-      } catch (e) {}
+    await user.subscribeUnit.forEach((element) async {
+      var res = await locator<FireStoreUnit>().getData(element);
+      Unitlist.add(res);
     });
-
+    await Future.delayed(Duration(milliseconds: 100));
     return Unitlist;
   }
 

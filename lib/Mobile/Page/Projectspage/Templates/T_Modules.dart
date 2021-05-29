@@ -10,30 +10,34 @@ import '../../../../Mobile/Page/Projectspage/DetailedPage.dart';
 import '../../../../Model/Constants.dart';
 import '../../../../Model/Constants/C_Projects.dart';
 
-class T_Modules extends StatelessWidget {
+class T_Modules extends StatefulWidget {
   T_Modules({Key key}) : super(key: key);
+  @override
+  _T_ModulesState createState() => _T_ModulesState();
+}
+
+class _T_ModulesState extends State<T_Modules> {
   BuildContext _context;
   //TextEditingController _moduleTitleController = TextEditingController();
 
-  List<Widget> unitsWidget = [];
-  List<UnitModel> units = [];
+  Future<List<UnitModel>> units;
   UserModel currentuser = null;
-  initData() async {
-    currentuser = await locator<FireStoreUser>()
-        .getUser(FirebaseAuth.instance.currentUser.uid);
-    units = await locator<FireStoreUser>().getUserUnits(currentuser);
-    units.forEach((element) {
-      unitsWidget.add(_buildAccordionModulesTemplate(
-          Text(element.name),
-          Text(element.description),
-          Text(element.creditAvailable.toString()),
-          Text(element.unitStart.toString()),
-          Text(element.unitEnd.toString())));
-    });
+  bool _isadmin;
+  ScrollController _controller;
+
+  @override
+  void initState() {
+    _controller = ScrollController();
+    _controller.addListener(_scrollListener); //the listener for up and down.
+    units = locator<FireStoreUser>()
+        .getUserUnits(locator<FireStoreUser>().currentUser);
+    //_controller.addListener(listener);
+    super.initState();
   }
 
+  _scrollListener() {}
+
   // Accordion Head Template
-  @override
   Widget _buildAccordionHeadModulesTemplate(Text str) {
     return Container(
       child: Column(
@@ -66,8 +70,8 @@ class T_Modules extends StatelessWidget {
 
   // Accordion Content Template
   @override
-  Widget _buildAccordionContentModulesTemplate(
-      Text title, Text desc, Text credit, Text start, Text end) {
+  Widget _buildAccordionContentModulesTemplate(Text title, Text desc,
+      Text credit, Text start, Text end, UnitModel unit) {
     return InkWell(
       onTap: () {
         print("Clicked");
@@ -80,6 +84,7 @@ class T_Modules extends StatelessWidget {
                     credit: credit,
                     start: start,
                     end: end,
+                    unitinfo: unit,
                   )),
         );
       },
@@ -157,9 +162,8 @@ class T_Modules extends StatelessWidget {
   }
 
   // Accordion Head Template
-  @override
-  Widget _buildAccordionModulesTemplate(
-      Text p_title, Text p_desc, Text p_credit, Text p_start, Text p_end) {
+  Widget _buildAccordionModulesTemplate(Text p_title, Text p_desc,
+      Text p_credit, Text p_start, Text p_end, UnitModel unit) {
     return GFAccordion(
       titlePadding: EdgeInsets.all(0),
       titleChild: _buildAccordionHeadModulesTemplate(Text(p_title.data)),
@@ -169,79 +173,106 @@ class T_Modules extends StatelessWidget {
           Text(p_desc.data),
           Text(p_credit.data),
           Text(p_start.data),
-          Text(p_end.data)),
+          Text(p_end.data),
+          unit),
+    );
+  }
+
+  //FAB Template
+
+  @override
+  Widget _buildFloatingActionButtonModulesTemplate(BuildContext context) {
+    return FloatingActionButton(
+      child: Icon(Icons.add),
+      onPressed: () => showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: Text("Add Module"),
+          content: Align(
+            alignment: Alignment.topLeft,
+            child: Column(
+              children: <Widget>[
+                Text("Enter Module Title"),
+                TextFormField(),
+                sizeBox_Spacing(30),
+                Text("Enter Module Description"),
+                TextFormField(),
+                sizeBox_Spacing(30),
+                Text("Enter Module Credits"),
+                TextFormField(),
+                sizeBox_Spacing(30),
+                Text("Enter Module Start Date"),
+                TextFormField(),
+                sizeBox_Spacing(30),
+                Text("Enter Module End Date"),
+                TextFormField(),
+              ],
+            ),
+          ), //Text("Enter Module Title"),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: Text("Cancel"),
+            ),
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: Text("Save"),
+            ),
+          ],
+        ),
+      ),
     );
   }
 
   @override
   Widget build(BuildContext context) {
     _context = context;
-    return Scaffold(
-      body: Stack(
-        children: <Widget>[
-          kContainer_BGPAGES,
-          ListView(
-            children: <Widget>[
-              Container(
-                padding: EdgeInsets.all(10),
-                child: Column(
-                  children: <Widget>[
-                    _buildAccordionModulesTemplate(
-                      Text(
-                          "M - Flutter II : Flutter & Firebase Cloud Firestore Advanced"),
-                      Text(
-                          "Flutter is Google’s UI toolkit for building beautiful, natively compiled applications for mobile, web, and desktop from a single codebase.\nOrganizations around the world are building apps with Flutter.\nFlutter Advantages: Fast Development, Expressive and Flexible UI, Native Performance\nFirebase: Helps You Build, Improve, & Grow Your Mobile Apps. Check It Out Today! Find All The Docs You Need To Get Started With Firebase In Minutes. Learn More! Automatic & secure login. Custom Domain Support. Build Fast For Any Device. "),
-                      Text("12"),
-                      Text("14/04/2021, 00h00"),
-                      Text("02/06/2021, 00h00"),
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ],
-      ),
-      floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.add),
-        onPressed: () => showDialog(
-          context: context,
-          builder: (context) => AlertDialog(
-            title: Text("Add Module"),
-            content: Align(
-              alignment: Alignment.topLeft,
-              child: Column(
+    return FutureBuilder(
+        future: units,
+        builder: (BuildContext context, AsyncSnapshot snapshot) {
+          if (!snapshot.hasData) {
+            print("no data");
+            return new Center(
+              child: new CircularProgressIndicator(),
+            );
+          } else {
+            print("list of data is : " +
+                ((snapshot.data.length > 0)
+                    ? snapshot.data[0].toString()
+                    : "empty"));
+            return Scaffold(
+              body: Stack(
                 children: <Widget>[
-                  Text("Enter Module Title"),
-                  TextFormField(),
-                  sizeBox_Spacing(30),
-                  Text("Enter Module Description"),
-                  TextFormField(),
-                  sizeBox_Spacing(30),
-                  Text("Enter Module Credits"),
-                  TextFormField(),
-                  sizeBox_Spacing(30),
-                  Text("Enter Module Start Date"),
-                  TextFormField(),
-                  sizeBox_Spacing(30),
-                  Text("Enter Module End Date"),
-                  TextFormField(),
+                  kContainer_BGPAGES,
+                  ListView(
+                    children: <Widget>[
+                      Container(
+                        padding: EdgeInsets.all(10),
+                        child: ListView.builder(
+                          controller: _controller, //new line
+                          itemCount: snapshot.data.length,
+                          shrinkWrap: true, // use this
+                          itemBuilder: (BuildContext context, int index) {
+                            if (snapshot.data[index] != null) {
+                              UnitModel element = snapshot.data[index];
+                              return _buildAccordionModulesTemplate(
+                                  Text(element.name),
+                                  Text(element.description),
+                                  Text(element.creditAvailable.toString()),
+                                  Text(element.unitStart.toString()),
+                                  Text(element.unitEnd.toString()),
+                                  element);
+                            }
+                            return null;
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
                 ],
               ),
-            ), //Text("Enter Module Title"),
-            actions: [
-              TextButton(
-                onPressed: () => Navigator.pop(context),
-                child: Text("Cancel"),
-              ),
-              TextButton(
-                onPressed: () => Navigator.pop(context),
-                child: Text("Save"),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
+            );
+          }
+        });
   }
 }
