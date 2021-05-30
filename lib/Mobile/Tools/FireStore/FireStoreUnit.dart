@@ -213,20 +213,14 @@ class FireStoreUnit {
   //Get list of appointement
 
   Future<List<AppointementModel>> getUnitAppointement(UnitModel unit) async {
-    try {
-      List<AppointementModel> Aptmtlist = [];
+    List<AppointementModel> Aptmtlist = [];
 
-      unit.appointementlist.forEach((element) async {
-        try {
-          var firestoreappoint = locator<FireStoreAppointement>();
-          var res = await firestoreappoint.getAppointement(element);
-          Aptmtlist.add(res);
-        } catch (e) {}
-      });
+    unit.appointementlist.forEach((element) async {
+      var res = await locator<FireStoreAppointement>().getAppointement(element);
+      Aptmtlist.add(res);
+    });
 
-      return Aptmtlist;
-    } catch (e) {
-      return [];
-    }
+    await Future.delayed(Duration(milliseconds: 100));
+    return Aptmtlist;
   }
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter2/Mobile/Tools/FireStore/FireStoreUnit.dart';
 import 'package:flutter2/Mobile/Tools/FireStore/FireStoreUser.dart';
 import 'package:flutter2/Mobile/Tools/ServiceLocator/ServiceManager.dart';
 import 'package:flutter2/Model/UnitModel.dart';
@@ -34,6 +35,8 @@ class DetailedPageModules extends StatefulWidget {
 
 class DetailedPageModulesState extends State<DetailedPageModules> {
   BuildContext _context;
+  bool _ismanager;
+  bool _isuser;
   bool _showsub;
   bool _showunsub;
 
@@ -54,22 +57,66 @@ class DetailedPageModulesState extends State<DetailedPageModules> {
     return Container(
       child: Column(
         children: <Widget>[
-          TextButton.icon(
-            onPressed: () {
-              // Respond to button press
-            },
-            icon: Icon(Icons.check, size: 18),
-            label: Text("Register"),
+          Visibility(
+            visible: _isuser,
+            child: Column(
+              children: <Widget>[
+                Visibility(
+                  visible: _showsub,
+                  child: TextButton.icon(
+                    onPressed: () {
+                      locator<FireStoreUnit>().subscribeToUnit(widget.unitinfo);
+                      setState(() {
+                        _showsub = !_showsub;
+                        _showunsub = !_showunsub;
+                      });
+                    },
+                    icon: Icon(Icons.check, size: 18),
+                    label: Text("Register"),
+                  ),
+                ),
+                Visibility(
+                  visible: _showunsub,
+                  child: TextButton.icon(
+                    onPressed: () {
+                      locator<FireStoreUnit>()
+                          .unsubscribeToUnit(widget.unitinfo);
+                      setState(() {
+                        _showsub = !_showsub;
+                        _showunsub = !_showunsub;
+                      });
+                    },
+                    icon: Icon(Icons.cancel, size: 18),
+                    label: Text("Unregister"),
+                  ),
+                ),
+              ],
+            ),
           ),
           TextButton.icon(
             onPressed: () {
               Navigator.push(
                 _context,
-                MaterialPageRoute(builder: (_context) => AppointmentsPage()),
+                MaterialPageRoute(
+                    builder: (_context) => AppointmentsPage(
+                          unitinfo: widget.unitinfo,
+                        )),
               );
             },
             icon: Icon(Icons.calendar_today, size: 18),
             label: Text("Appointments"),
+          ),
+          TextButton.icon(
+            onPressed: () {
+              Navigator.push(
+                _context,
+                MaterialPageRoute(
+                    builder: (_context) =>
+                        AppointmentsPage(unitinfo: widget.unitinfo)),
+              );
+            },
+            icon: Icon(Icons.group_work, size: 18),
+            label: Text("Projects"),
           ),
         ],
       ),
@@ -79,6 +126,9 @@ class DetailedPageModulesState extends State<DetailedPageModules> {
   @override
   Widget build(BuildContext context) {
     _context = context;
+    var role = locator<FireStoreUser>().currentUser.role;
+    _ismanager = (role == "manager" || role == "admin") ? true : false;
+    _isuser = (role == "user") ? true : false;
     _showsub = widget.unitinfo.usersId
             .contains(locator<FireStoreUser>().currentUser.userid)
         ? false
@@ -113,7 +163,10 @@ class DetailedPageModulesState extends State<DetailedPageModules> {
                 textDP_elem2(Text("and " + widget.end.data), textStyle_Date),
                 sizeBox_Spacing(25),
                 _groupButtons(),
-                _buttonsWithAlert(),
+                Visibility(
+                  visible: _ismanager,
+                  child: _buttonsWithAlert(),
+                ),
               ],
             ),
           ),

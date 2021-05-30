@@ -84,13 +84,36 @@ class FireStoreAppointement {
     }
   }
 
-  Future<bool> subscribeToAppointement(
-      UserModel user, AppointementModel appointement) async {
+  Future<bool> subscribeToAppointement(AppointementModel appointement) async {
     try {
-      appointement.subscribedusersId.add(user.userid);
+      appointement.subscribedusersId
+          .add(locator<FireStoreUser>().currentUser.userid);
       this.UpdateAppointement(appointement);
-      user.appointementlist.add(appointement.id);
-      locator<FireStoreUser>().UpdateUser(user);
+
+      locator<FireStoreUser>()
+          .currentUser
+          .appointementlist
+          .add(appointement.id);
+      locator<FireStoreUser>().UpdateUser(locator<FireStoreUser>().currentUser);
+
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  Future<bool> unsubscribeToAppointement(AppointementModel appointement) async {
+    try {
+      appointement.subscribedusersId
+          .remove(locator<FireStoreUser>().currentUser.userid);
+      this.UpdateAppointement(appointement);
+
+      locator<FireStoreUser>()
+          .currentUser
+          .appointementlist
+          .remove(appointement.id);
+      locator<FireStoreUser>().UpdateUser(locator<FireStoreUser>().currentUser);
+
       return true;
     } catch (e) {
       return false;
