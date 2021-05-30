@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 import 'Group.dart';
 
 // Local Data
@@ -30,9 +32,9 @@ class ProjectModel {
       name: parsedJson['name'] ?? '',
       unitid: parsedJson['unitid'] ?? '',
       groups: List.from(parsedJson['groups']) ?? const <Group>[],
-      projectstart: parsedJson['projectstart'] ?? null,
-      registerEnd: parsedJson['registerEnd'] ?? null,
-      projectEnd: parsedJson['projectEnd'] ?? null,
+      projectstart: (parsedJson['projectstart'] as Timestamp).toDate() ?? null,
+      registerEnd: (parsedJson['registerEnd'] as Timestamp).toDate() ?? null,
+      projectEnd: (parsedJson['projectEnd'] as Timestamp).toDate() ?? null,
     );
   }
 

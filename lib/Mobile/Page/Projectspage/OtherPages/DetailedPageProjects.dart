@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter2/Model/ProjectModel.dart';
 import 'package:getwidget/getwidget.dart';
 
 import '../OtherPages/AppointmentsPage.dart';
@@ -8,12 +9,14 @@ import '../../../../Model/Constants/C_Accordion.dart';
 import '../../../../Model/Constants/C_DetailedPage.dart';
 
 class DetailedPageProjects extends StatelessWidget {
-  DetailedPageProjects({Key key, this.title, this.start, this.end})
+  DetailedPageProjects(
+      {Key key, this.title, this.start, this.end, this.projectinfo})
       : super(key: key);
   BuildContext _context;
   final Text title;
   final Text start;
   final Text end;
+  final ProjectModel projectinfo;
 
   // Accordion Content Template
   @override

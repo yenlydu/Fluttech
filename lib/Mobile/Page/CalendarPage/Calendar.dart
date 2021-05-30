@@ -46,6 +46,7 @@ class _CalendarPageState extends State<CalendarPage> {
     List<AppointementModel> appoint = await locator<FireStoreUser>()
         .getUserAppointements(locator<FireStoreUser>().currentUser);
     appoint.forEach((element) {
+      if (element == null) return;
       var datetoappoint = DateTime(element.timetoAppoint.year,
           element.timetoAppoint.month, element.timetoAppoint.day + 1);
       var original = kEvents[datetoappoint];

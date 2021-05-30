@@ -161,13 +161,12 @@ class FireStoreUnit {
       UserModel creator,
       UnitModel unit,
       String name,
-      String room,
       DateTime projectstart,
       DateTime registerEnd,
       DateTime projectEnd) async {
     try {
       var res = await locator<FireStoreProject>().createProject(
-          creator, unit, name, room, projectstart, registerEnd, projectEnd);
+          creator, unit, name, projectstart, registerEnd, projectEnd);
 
       unit.projectlist.add(res.id);
       await this.UpdateUnit(unit);
@@ -198,16 +197,14 @@ class FireStoreUnit {
       List<ProjectModel> Projectlist = [];
 
       unit.projectlist.forEach((element) async {
-        try {
-          var firestoreproject = locator<FireStoreProject>();
-          var res = await firestoreproject.getData(element);
-          Projectlist.add(res);
-        } catch (e) {}
+        var res = await locator<FireStoreProject>().getData(element);
+        Projectlist.add(res);
       });
 
+      await Future.delayed(Duration(milliseconds: 100));
       return Projectlist;
     } catch (e) {
-      return [];
+      return null;
     }
   }
   //Get list of appointement

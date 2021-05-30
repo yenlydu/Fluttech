@@ -172,8 +172,6 @@ class AppointmentsPageState extends State<AppointmentsPage> {
                       itemBuilder: (BuildContext context, int index) {
                         if (snapshot.data[index] != null) {
                           AppointementModel element = snapshot.data[index];
-                          var test =
-                              locator<FireStoreUser>().currentUser.userid;
                           _showsub[index] = element.subscribedusersId.contains(
                                   locator<FireStoreUser>().currentUser.userid)
                               ? false

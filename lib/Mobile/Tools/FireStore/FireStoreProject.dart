@@ -10,11 +10,10 @@ import '../../../Model/ProjectModel.dart';
 // Manage User Info with Shared Preferences
 class FireStoreProject {
   FirebaseFirestore firestore = FirebaseFirestore.instance;
-  CollectionReference project;
+  CollectionReference project =
+      FirebaseFirestore.instance.collection('Project');
 
-  FireStoreProject() {
-    project = FirebaseFirestore.instance.collection('Project');
-  }
+  FireStoreProject() {}
 
   Future<ProjectModel> registerProject(ProjectModel data) async {
     try {
@@ -37,15 +36,24 @@ class FireStoreProject {
     }
   }
 
-  Future<bool> UpdateProjectField(User fireUser, ProjectModel data) {}
+  Future<bool> UpdateProjectField(
+      User fireUser, ProjectModel data, String field, String value) {
+    project.doc(data.id).update({field: value});
+  }
 
   Future<ProjectModel> getData(String documentId) async {
-    DocumentSnapshot res = await project.doc(documentId).get();
+    try {
+      DocumentSnapshot res = await project.doc(documentId).get();
+      ProjectModel getproject = null;
 
-    if (res.data() != null) {
-      ProjectModel user = ProjectModel.fromJson(res.data());
-    } else {
-      return (null);
+      if (res != null && res.data() != null) {
+        getproject = ProjectModel.fromJson(res.data());
+      } else {
+        return (null);
+      }
+      return getproject;
+    } catch (e) {
+      return null;
     }
   }
 
@@ -62,7 +70,6 @@ class FireStoreProject {
       UserModel creator,
       UnitModel unit,
       String name,
-      String room,
       DateTime projectstart,
       DateTime registerEnd,
       DateTime projectEnd) async {
@@ -78,6 +85,7 @@ class FireStoreProject {
       ProjectModel newUnit = new ProjectModel(
           name: name,
           projectstart: projectstart,
+          registerEnd: registerEnd,
           projectEnd: projectEnd,
           unitid: unit.id);
       var res = await registerProject(newUnit);

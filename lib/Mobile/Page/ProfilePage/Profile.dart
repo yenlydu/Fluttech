@@ -75,16 +75,15 @@ class _ProfilePageState extends State<ProfilePage> {
     final fireStore = ImageProfileFireManager();
 
     PickedFile pickedFile = await picker.getImage(source: ImageSource.camera);
-
-    var file = File(pickedFile.path);
-    var res = await locator<ImageProfileFireManager>().uploadPhoto(file);
-    setState(() {
-      if (pickedFile != null) {
+    if (pickedFile != null) {
+      var file = File(pickedFile.path);
+      var res = await locator<ImageProfileFireManager>().uploadPhoto(file);
+      setState(() {
         imageFile = NetworkImage(res);
-      } else {
-        print('No image selected.');
-      }
-    });
+      });
+    } else {
+      print('No image selected.');
+    }
     Navigator.of(context).pop();
   }
 

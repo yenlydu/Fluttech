@@ -23,6 +23,7 @@ class FireStoreAppointement {
       var res = await appointement.add(data.toJson());
       var ress = await appointement.doc(res.id).update({'id': res.id});
 
+      data.id = res.id;
       return data;
     } catch (e) {
       return null;
@@ -72,11 +73,14 @@ class FireStoreAppointement {
                 unit.unitEnd.millisecondsSinceEpoch)) {
       AppointementModel newUnit = new AppointementModel(
         name: name,
-        creatorUserName: creator.firstName,
+        room: room,
+        creatorUserName: creator.email,
         creatorUserid: creator.firebaseid,
         unitid: unit.id,
         timetoAppoint: timetoAppoint,
       );
+
+      await registerAppointement(newUnit);
 
       return newUnit;
     } else {
