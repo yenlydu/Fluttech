@@ -74,10 +74,6 @@ class _NavElemState extends State<NavElem> {
             icon: Icon(Icons.calendar_today),
             label: 'Calendar',
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.notifications),
-            label: 'Notifications',
-          ),
         ],
         currentIndex: _selectedIndex,
         selectedItemColor: Colors.white,

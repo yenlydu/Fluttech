@@ -220,4 +220,17 @@ class FireStoreUnit {
     await Future.delayed(Duration(milliseconds: 100));
     return Aptmtlist;
   }
+  //Get list of User
+
+  Future<List<UserModel>> getUnitUsers(UnitModel unit) async {
+    List<UserModel> Userlist = [];
+
+    unit.usersId.forEach((element) async {
+      var res = await locator<FireStoreUser>().getUser(element);
+      Userlist.add(res);
+    });
+
+    await Future.delayed(Duration(milliseconds: 100));
+    return Userlist;
+  }
 }

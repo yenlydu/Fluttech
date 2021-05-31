@@ -9,7 +9,8 @@ class ProjectModel {
 
   String unitid;
 
-  List<Group> groups;
+  List<Group> groups = [];
+  List<String> usersId = [];
 
   DateTime projectstart = DateTime.now();
   DateTime registerEnd = DateTime.now();
@@ -20,7 +21,7 @@ class ProjectModel {
       {this.id = '',
       this.name = '',
       this.unitid = '',
-      this.groups = const <Group>[],
+      this.usersId = const <String>[],
       this.projectstart = null,
       this.registerEnd = null,
       this.projectEnd = null});
@@ -31,7 +32,7 @@ class ProjectModel {
       id: parsedJson['id'] ?? '',
       name: parsedJson['name'] ?? '',
       unitid: parsedJson['unitid'] ?? '',
-      groups: List.from(parsedJson['groups']) ?? const <Group>[],
+      usersId: List.from(parsedJson['usersId']) ?? const <String>[],
       projectstart: (parsedJson['projectstart'] as Timestamp).toDate() ?? null,
       registerEnd: (parsedJson['registerEnd'] as Timestamp).toDate() ?? null,
       projectEnd: (parsedJson['projectEnd'] as Timestamp).toDate() ?? null,
@@ -44,7 +45,7 @@ class ProjectModel {
       'id': this.id,
       'name': this.name,
       'unitid': this.unitid,
-      'groups': this.groups,
+      'usersId': this.usersId,
       'projectstart': this.projectstart,
       'registerEnd': this.registerEnd,
       'projectEnd': this.projectEnd,

@@ -1,11 +1,14 @@
 // Import the firebase_core and cloud_firestore plugn
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter2/Mobile/Tools/ServiceLocator/ServiceManager.dart';
+import 'package:flutter2/Model/Group.dart';
 import 'package:flutter2/Model/UnitModel.dart';
 import 'package:flutter2/Model/UserModel.dart';
 
 //File Includ
 import '../../../Model/ProjectModel.dart';
+import 'FireStoreUser.dart';
 
 // Manage User Info with Shared Preferences
 class FireStoreProject {
@@ -93,5 +96,31 @@ class FireStoreProject {
     } else {
       return null;
     }
+  }
+
+  // Groups
+  Future<List<Group>> getProjectGroups(ProjectModel projectdata) async {
+    List<Group> groups = [];
+
+    var res = await project.doc(projectdata.id).collection("groups").get();
+    res.docs.forEach((result) {
+      print(result.data());
+      groups.add(Group.fromJson(result.data()));
+    });
+
+    await Future.delayed(Duration(milliseconds: 100));
+    return groups;
+  }
+
+  Future<List<UserModel>> getProjectUsers(ProjectModel projectinfo) async {
+    List<UserModel> users = [];
+
+    projectinfo.usersId.forEach((result) async {
+      var res = await locator<FireStoreUser>().getUser(result);
+      users.add(res);
+    });
+
+    await Future.delayed(Duration(milliseconds: 100));
+    return users;
   }
 }

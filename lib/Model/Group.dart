@@ -19,7 +19,8 @@ class Group {
     return new Group(
         group_name: parsedJson['group_name'] ?? '',
         masterid: parsedJson['masterid'] ?? '',
-        membersid: parsedJson['membersid'] ?? const <String, bool>{},
+        membersid: Map<String, bool>.from(parsedJson['membersid']) ??
+            const <String, bool>{},
         maxnumberofmember: parsedJson['maxnumberofmember'] ?? 4);
   }
 

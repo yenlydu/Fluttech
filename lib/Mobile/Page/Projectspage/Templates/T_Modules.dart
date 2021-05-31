@@ -20,29 +20,16 @@ class T_Modules extends StatefulWidget {
 
 class _T_ModulesState extends State<T_Modules> {
   BuildContext _context;
-  //TextEditingController _moduleTitleController = TextEditingController();
 
   Future<List<UnitModel>> units;
-  UserModel currentuser = null;
-  bool _isadmin;
   ScrollController _controller;
 
   @override
   void initState() {
     _controller = ScrollController();
-    _controller.addListener(_scrollListener); //the listener for up and down.
-
-    /*locator<FireStoreUnit>().createUnit(
-        locator<FireStoreUser>().currentUser,
-        "UX/UI : User Interface",
-        "UI Module Skills:\n- User interface basics\n- Figma software fundamentals\n- Atomic Design \n- Design System \n- Designing for different app sections\n- Lo-fidelity vs Hi-Fidelity wireframes\n- Prototypes\n\nPresentation of the speaker:\nCarlos Gutiérrez - UX Manager at Oracle\nWith more than 9 years of experience in the world of User Experience, Carlos has worked in a range of corporate to startup companies, accumulating a significant amount of experience in the tech field at companies like Oracle and Accenture, as well as spending many years collaborating with fintech companies. Thanks to his educational background, Carlos combines the two fundamental elements of UX—psychology and design.   ",
-        12,
-        DateTime(2021, 1, 18),
-        DateTime(2021, 4, 8),
-        DateTime(2021, 6, 2));*/
+    _controller.addListener(_scrollListener);
 
     units = locator<FireStoreUnit>().getallunit();
-    //_controller.addListener(listener);
     super.initState();
   }
 
@@ -64,12 +51,6 @@ class _T_ModulesState extends State<T_Modules> {
                   overflow: TextOverflow.ellipsis,
                   style: kProject_Style,
                 ),
-                /*
-                Text(
-                  str.data,
-                  style: kProject_Style,
-                  overflow: TextOverflow.fade,
-                ),*/
               ],
             ),
           ),

@@ -5,11 +5,11 @@ import 'package:flutter/material.dart';
 import 'C_Projects.dart';
 import '../Constants.dart';
 
-Widget studentName(Text name) {
+Widget studentName(String name) {
   return Align(
     alignment: Alignment.bottomLeft,
     child: Text(
-      name.data,
+      name,
       style: TextStyle(
         color: Colors.black,
         fontSize: 13,

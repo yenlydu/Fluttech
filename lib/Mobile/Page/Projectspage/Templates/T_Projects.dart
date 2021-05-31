@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter2/Mobile/Tools/FireStore/FireStoreProject.dart';
+import 'package:flutter2/Mobile/Tools/FireStore/FireStoreUnit.dart';
 import 'package:flutter2/Mobile/Tools/FireStore/FireStoreUser.dart';
 import 'package:flutter2/Mobile/Tools/ServiceLocator/ServiceManager.dart';
 import 'package:flutter2/Model/ProjectModel.dart';
+import 'package:flutter2/Model/UnitModel.dart';
 import 'package:flutter2/Model/UserModel.dart';
 import 'package:getwidget/getwidget.dart';
 
@@ -10,25 +13,31 @@ import '../../../../Model/Constants.dart';
 import '../../../../Model/Constants/C_Projects.dart';
 import '../../../../Model/Constants/C_Accordion.dart';
 
-class T_Projects extends StatelessWidget {
+class T_Projects extends StatefulWidget {
   T_Projects({Key key}) : super(key: key);
+
+  @override
+  _T_ProjectsState createState() => _T_ProjectsState();
+}
+
+class _T_ProjectsState extends State<T_Projects> {
   BuildContext _context;
 
-  List<Widget> unitsWidget = [];
-  List<ProjectModel> units = [];
+  Future<List<ProjectModel>> projects;
   UserModel currentuser = null;
+  ScrollController _controller;
 
-  Future<List<Widget>> initData() async {
-    currentuser = await locator<FireStoreUser>().currentUser;
-    units = await locator<FireStoreUser>().getUserProjects(currentuser);
-    units.forEach((element) {
-      unitsWidget.add(_buildAccordionProjectsTemplate(
-          Text(element.name),
-          Text(element.projectstart.toString()),
-          Text(element.projectEnd.toString())));
-    });
-    return unitsWidget;
+  @override
+  void initState() {
+    _controller = ScrollController();
+    _controller.addListener(_scrollListener);
+
+    projects = locator<FireStoreUser>()
+        .getUserProjects(locator<FireStoreUser>().currentUser);
+    super.initState();
   }
+
+  _scrollListener() {}
 
   // Accordion Head Template
   @override
@@ -65,7 +74,7 @@ class T_Projects extends StatelessWidget {
   // Accordion Content Template
   @override
   Widget _buildAccordionContentProjectsTemplate(
-      Text title, Text start, Text end) {
+      Text title, Text start, Text end, ProjectModel project) {
     return InkWell(
       onTap: () {
         print("Clicked");
@@ -73,9 +82,7 @@ class T_Projects extends StatelessWidget {
           _context,
           MaterialPageRoute(
               builder: (_context) => DetailedPageProjects(
-                    title: title,
-                    start: start,
-                    end: end,
+                    projectinfo: project,
                   )),
         );
       },
@@ -98,42 +105,63 @@ class T_Projects extends StatelessWidget {
   // Accordion Head Template
   @override
   Widget _buildAccordionProjectsTemplate(
-      Text p_title, Text p_start, Text p_end) {
+      Text p_title, ProjectModel project, int index) {
     return GFAccordion(
       titlePadding: EdgeInsets.all(0),
       titleChild: accordionHeadTemplate(p_title, kProject_Style),
       contentPadding: EdgeInsets.all(0),
       contentChild: _buildAccordionContentProjectsTemplate(
-          Text(p_title.data), Text(p_start.data), Text(p_end.data)),
+          Text(p_title.data),
+          Text(project.projectstart.toString()),
+          Text(project.projectEnd.toString()),
+          project),
     );
   }
 
   @override
   Widget build(BuildContext context) {
     _context = context;
-    return Scaffold(
-      body: Stack(
-        children: <Widget>[
-          kContainer_BGPAGES,
-          ListView(
-            children: <Widget>[
-              Container(
-                padding: EdgeInsets.all(10),
-                child: Column(
-                  children: <Widget>[
-                    _buildAccordionProjectsTemplate(
-                      Text(
-                          "M - Flutter II : Flutter & Firebase Cloud Firestore Advanced"),
-                      Text("14/04/2021, 00h00"),
-                      Text("02/06/2021, 00h00"),
-                    ),
-                  ],
-                ),
-              )
-            ],
-          )
-        ],
-      ),
-    );
+    return FutureBuilder(
+        future: projects,
+        builder: (BuildContext context, AsyncSnapshot snapshot) {
+          if (!snapshot.hasData) {
+            print("no data");
+            return new Center(
+              child: new CircularProgressIndicator(),
+            );
+          } else {
+            print("list of data is : " +
+                ((snapshot.data.length > 0)
+                    ? snapshot.data[0].toString()
+                    : "empty"));
+            return Scaffold(
+              body: Stack(
+                children: <Widget>[
+                  kContainer_BGPAGES,
+                  ListView(
+                    children: <Widget>[
+                      Container(
+                        padding: EdgeInsets.all(10),
+                        child: ListView.builder(
+                          controller: _controller, //new line
+                          itemCount: snapshot.data.length,
+                          shrinkWrap: true, // use this
+                          itemBuilder: (BuildContext context, int index) {
+                            if (snapshot.data[index] != null) {
+                              ProjectModel element = snapshot.data[index];
+                              return _buildAccordionProjectsTemplate(
+                                  Text(element.name), element, index);
+                            }
+                            return null;
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            );
+          }
+        });
   }
 }
