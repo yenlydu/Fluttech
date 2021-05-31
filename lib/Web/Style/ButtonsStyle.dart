@@ -69,12 +69,18 @@ class _ActionsButtonsStyleState extends State<ActionButtonsStyle> {
         }
       ).then((value) => Container())
       },
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          actionsButton(widget.textStyle, widget.icon, widget.text)
-        ],
-      ),
+        child: Container(
+          width: 100,
+          height: 40,
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Flexible(child:           actionsButton(context, widget.textStyle, widget.icon, widget.text)
+              )
+            ],
+          ),
+        ),
       color: widget.color,
       shape: RoundedRectangleBorder(
         borderRadius: new BorderRadius.circular(5.0),

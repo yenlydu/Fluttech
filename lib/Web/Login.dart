@@ -264,10 +264,36 @@ class AppView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
-      body: Column(
-        children: [NavigationBarWeb(), Expanded(child: child)],
-      ),
-    );
+        body:       SafeArea(
+          child: Container(
+            width: MediaQuery.of(context).size.width,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Container(
+                    height: MediaQuery.of(context).size.height/11,
+                    width: MediaQuery.of(context).size.width,
+
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        NavigationBarWeb()
+                      ],),
+                  ),
+                  Container(
+                    width: MediaQuery.of(context).size.width,
+
+                    height: MediaQuery.of(context).size.height/1.2,
+
+                    child: child,)
+
+                ],
+            )
+
+            )
+
+        )      );
   }
 }

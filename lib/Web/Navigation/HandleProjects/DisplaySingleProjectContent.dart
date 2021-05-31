@@ -18,6 +18,8 @@ class DisplayHandleProject extends StatefulWidget {
 
 class  _DisplayHandleProjectState extends State<DisplayHandleProject>
 {
+
+
   Widget displayTitle({String title})
   {
     return Align(
@@ -28,7 +30,7 @@ class  _DisplayHandleProjectState extends State<DisplayHandleProject>
 
   @override
   Widget build(BuildContext context) {
-    return buildingSingleItemConstant(context: context, itemDisplay: item(widget.project), onTapPopup: PopupDescription(project: widget.project));
+    return buildingSingleItemConstant(context: context, itemDisplay: item(widget.project), onTapPopup: PopupDescription(project: widget.project,));
   }
 
   void setProjectEdited(ProjectInformation pr)
@@ -44,16 +46,24 @@ class  _DisplayHandleProjectState extends State<DisplayHandleProject>
       padding: EdgeInsets.only(left: 10.0),
       child: Column(
         children: [
-          SizedBox(height:5),
-          displayTitle(title: project.title),
+          displayTitle(title: project.name),
           SizedBox(height:20),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              ActionButtonsStyle(color: Colors.red, text: "Delete project", customFunction: () => ProjectsActions(currrentProject: project,actions: ProjectActionsEnum.DELETE_PROJECT, ), icon: Icons.delete),
-              ActionButtonsStyle(color: Colors.orange, text: "Edit",customFunction: () => ProjectsActions(currrentProject: project,actions: ProjectActionsEnum.EDIT_PROJECT,), icon: Icons.edit),
-              ActionButtonsStyle(color: Colors.indigoAccent, text: "Create Meetings",customFunction: () => ProjectsActions(currrentProject: project,actions: ProjectActionsEnum.ADD_MEETINGS,), icon: Icons.access_time,),
-            ],
+          Container(
+            width: MediaQuery.of(context).size.width/1.3,
+            height: MediaQuery.of(context).size.height/19,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                Flexible(child:                 ActionButtonsStyle(color: Colors.red, text: "Delete project", customFunction: () => ProjectsActions(currentProject:  widget.project,actions: ProjectActionsEnum.DELETE_PROJECT, ), icon: Icons.delete),
+                ),
+                SizedBox(width: 10,),
+                Flexible(child:                 ActionButtonsStyle(color: Colors.orange, text: "Edit Project",customFunction: () => ProjectsActions(currentProject: project,actions: ProjectActionsEnum.EDIT_PROJECT,), icon: Icons.edit),
+                ),
+                SizedBox(width: 10,),
+                Flexible(child:                 ActionButtonsStyle(color: Colors.indigoAccent, text: "Create Meetings",customFunction: () => ProjectsActions(currentProject: project,actions: ProjectActionsEnum.ADD_MEETINGS,), icon: Icons.access_time,),
+                )
+              ],
+            ),
           ),
           SizedBox(height:5),
         ],

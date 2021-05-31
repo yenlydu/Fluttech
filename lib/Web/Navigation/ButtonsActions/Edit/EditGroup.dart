@@ -1,55 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:flutter2/Web/Navigation/HandleProjects/ProjectInformation.dart';
 
 class EditGroup extends StatefulWidget {
-  const EditGroup({Key key}) : super(key: key);
+  final List<String> group;
+  final ProjectInformation projectInformation;
+  final List<Icon> studentsPicture;
+
+  const EditGroup({Key key, this.projectInformation, this.group, this.studentsPicture}) : super(key: key);
 
   @override
   _EditGroupState createState() => _EditGroupState();
 }
 
 class _EditGroupState extends State<EditGroup> {
-  List<String> group = [];
-  List<Icon> studentsPicture = [];
 
-  void getStudents()
-  {
-    group.add("Student a");
-    group.add("Student b");
-    group.add("Student c");
-    group.add("Student d");
-
-    studentsPicture.add(Icon(
-      Icons.favorite,
-      color: Colors.pink,
-      size: 24.0,
-      semanticLabel: 'Text to announce in accessibility modes',
-    ),);
-    studentsPicture.add(Icon(
-      Icons.add,
-      color: Colors.amberAccent,
-      size: 24.0,
-      semanticLabel: 'Text to announce in accessibility modes',
-    ),);
-    studentsPicture.add(Icon(
-      Icons.baby_changing_station,
-      color: Colors.blue,
-      size: 24.0,
-      semanticLabel: 'Text to announce in accessibility modes',
-    ),);
-    studentsPicture.add(Icon(
-      Icons.cached,
-      color: Colors.cyan,
-      size: 24.0,
-      semanticLabel: 'Text to announce in accessibility modes',
-    ),);
-    // MAXIME : Ici, récupérer les datas de l'étudiant en groupe avec (nom et l'image et peut etre changer le type) et le mettre dans la map retournée
-  }
   @override
   Widget build(BuildContext context) {
-    getStudents();
     // MAXIME : la liste text représente le nom des étudiants, il faut récupérer
     return AlertDialog(
-        title: Text('AlertDialog Title'),
+        title: Text("Edit group", style: TextStyle(color: Color(0xFF875BC5),fontSize: 19,fontFamily: "Montserrat-Italic", fontWeight: FontWeight.bold, ),),
+
         content:             Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
@@ -58,20 +28,25 @@ class _EditGroupState extends State<EditGroup> {
                     height: 200,
                     child: ListView.builder(
                       shrinkWrap: true,
-                      itemCount: group.length,
+                      itemCount: widget.group.length,
                       itemBuilder: (BuildContext context, int index) {
                         return ListTile(
                           title:
-
-
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                        // MAXIME
-                              studentsPicture[index],
-                              Text('${group[index]}')
-                            ],
-                          )
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      // MAXIME
+                                      widget.studentsPicture[index],
+                                      SizedBox(width: 5,),
+                                      Text('${widget.group[index]}'),
+                                    ],
+                                  ),
+                                  Icon(Icons.person_remove_alt_1, color: Color(0xFF875BC5)),
+                                ],
+                              )
                         );
                       },
                     )

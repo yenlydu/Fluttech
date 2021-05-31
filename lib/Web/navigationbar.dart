@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter2/Web/routes.dart';
 import 'package:flutter2/Model/Constants.dart';
 import 'package:flutter2/Web/Style/NavigationStyle.dart';
+import 'package:flutter2/Web/WebConstants/responsiveLayout.dart';
+
 class NavigationBarWeb extends StatefulWidget {
 
   @override
@@ -12,14 +14,15 @@ class _NavigationBarWebState extends State<NavigationBarWeb> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 100.0,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.end,
-        mainAxisSize: MainAxisSize.max,
+      height: 30,
+      width: MediaQuery.of(context).size.width,
+      child:  Row(
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.start,
         children: [
           Container(
-            width: 60,
-            height: 60,
+            width: !ResponsiveLayout.isSmallScreen(context)? 60: 30,
+            height: !ResponsiveLayout.isSmallScreen(context)?60:30,
             decoration: decoration(),
             child: Center(
               child: Image.asset('images/icon.png'),
@@ -28,7 +31,7 @@ class _NavigationBarWebState extends State<NavigationBarWeb> {
           SizedBox(
             width: 16,
           ),
-          Text("FluTECH", style: TextStyle(fontSize: 30,fontWeight: FontWeight.bold, fontFamily: "Butler", ),),
+          !ResponsiveLayout.isSmallScreen(context)? Text("FluTECH", style: TextStyle(fontSize: 30,fontWeight: FontWeight.bold, fontFamily: "Butler", ),) : Text("FluTECH", style: TextStyle(fontSize: 15,fontWeight: FontWeight.bold, fontFamily: "Butler", )),
           SizedBox(
             width: 16,
           ),

@@ -39,9 +39,10 @@ class _NavigationBarState extends State<NavigationBar>
       child: Row(
         children: <Widget>[
           navbarRowItems(),
-          if (!ResponsiveLayout.isSmallScreen(context))
+          Text(ResponsiveLayout.isSmallScreen(context).toString())
+,          if (!ResponsiveLayout.isSmallScreen(context))
             Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                mainAxisAlignment: MainAxisAlignment.start,
                 children:<Widget> [
                   ...navItem(),
                 ]..add(

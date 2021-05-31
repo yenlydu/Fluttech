@@ -22,73 +22,21 @@ import 'package:flutter2/Web/homeAdmin.dart';
 import 'Mobile/Tools/ServiceLocator/ServiceManager.dart';
 import 'package:flutter2/Web/Navigation/NavigationBar.dart';
 import 'package:flutter2/Web/Navigation/NavigationPages.dart';
+import 'package:flutter/services.dart';
+
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   setupServices();
   setPathUrlStrategy();
-
   runApp(MyApp());
 }
 class MyApp extends StatefulWidget {
   @override
-  _MyAppState createState() => _MyAppState();
-}
-class _MyAppState extends State<MyApp> {
-  @override
-  void initState() {
-    // TODO: implement initState
-    setState(() {
-
-    });
-  }
-  @override
-  Widget build(BuildContext context) {
-    // TODO: implement build
-    return OverlaySupport.global(
-      child: MultiProvider(
-        providers: [
-          Provider<AuthenticationService>(
-            create: (_) => AuthenticationService(FirebaseAuth.instance),
-          ),
-          StreamProvider(
-            create: (context) =>
-            context.read<AuthenticationService>().authStateChanges,
-          )
-        ],
-        child: Consumer<AuthenticationService>(
-          builder: (context, provider, _) => MaterialApp(
-            debugShowCheckedModeBanner: false,
-            title: "FluTECH",
-            theme: ThemeData(
-              fontFamily: 'Montserrat',
-              primarySwatch: Colors.blue,
-            ),
-            routes: <String, WidgetBuilder>{
-              '/': (BuildContext context) => new LoginP(),
-              '/my': (BuildContext context) => MyAppTest(),
-              '/handleUnits': (BuildContext context) => MyAppTest(),
-              '/handleUsers': (BuildContext context) => MyAppTest(),
-            },
-          ),
-        ),
-      ),
-    );
-  }
-
-}
-
-
-/*
-class Testing extends StatefulWidget {
-  @override
-  // MyMobileState createState() => MyMobileState();
-  //Launch web
   MyWebState createState() => MyWebState();
 }
 
-*/
-class MyWebState extends StatelessWidget {
+class MyWebState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -100,23 +48,28 @@ class MyWebState extends StatelessWidget {
           ),
           StreamProvider(
             create: (context) =>
-            context.read<AuthenticationService>().authStateChanges,
+            context
+                .read<AuthenticationService>()
+                .authStateChanges,
           )
         ],
         child: Consumer<AuthenticationService>(
-          builder: (context, provider, _) => MaterialApp(
-            debugShowCheckedModeBanner: false,
-            title: "FluTECH",
-            theme: ThemeData(
-              fontFamily: 'Montserrat',
-              primarySwatch: Colors.blue,
-            ),
-            routes: <String, WidgetBuilder>{
-              '/login': (BuildContext context) => new LoginP(),
-              '/handleUnits': (BuildContext context) => new AllStudents(),
-            },
-            home: WebAuthenticationWrapper(),
-          ),
+          builder: (context, provider, _) =>
+              MaterialApp(
+                debugShowCheckedModeBanner: false,
+                title: "FluTECH",
+                theme: ThemeData(
+                  fontFamily: 'Montserrat',
+                  primarySwatch: Colors.blue,
+                  backgroundColor: Color(0xFFFFFFF),
+                ),
+                routes: <String, WidgetBuilder>{
+                  '/': (BuildContext context) => new LoginP(),
+                  '/my': (BuildContext context) => MyAppTest(),
+                  '/handleUnits': (BuildContext context) => MyAppTest(),
+                  '/handleUsers': (BuildContext context) => MyAppTest(),
+                },
+              ),
         ),
       ),
     );
@@ -147,7 +100,6 @@ class AuthenticationWrapper extends StatelessWidget {
     return LoginPage();
   }
 }
-/*
 
 class MyMobileState extends State<MyApp> with WidgetsBindingObserver {
   @override
@@ -180,6 +132,8 @@ class MyMobileState extends State<MyApp> with WidgetsBindingObserver {
     );
   }
 
+
+
   // Widget build(BuildContext context) {
   //   SystemChrome.setPreferredOrientations([
   //     DeviceOrientation.portraitUp,
@@ -202,4 +156,3 @@ class MyMobileState extends State<MyApp> with WidgetsBindingObserver {
   //   );
   // }
 }
-*/

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter2/Web/Navigation/HandleProjects/DisplayAllProjects.dart';
 import 'package:flutter2/Web/Navigation/HandleProjects/HandleUnits/HandleUnits.dart';
 import 'package:flutter2/Web/Style/ButtonsStyle.dart';
+import 'package:flutter2/Web/UnitsInformation.dart';
 import 'package:flutter2/Web/WebConstants/WebConstants.dart';
 import 'package:flutter2/Web/WebConstants/responsiveLayout.dart';
 import 'package:flutter2/Web/Navigation/ButtonsActions/CreateProject/CreateProjectButton.dart';
@@ -14,7 +15,8 @@ import 'package:flutter2/Web/WebConstants/Enumerations.dart';
 import 'package:flutter2/Web/Navigation/HandleStudents/RolesDropDown/RolesDropDown.dart';
 
 class AllProjects extends StatefulWidget {
-  const AllProjects({Key key}) : super(key: key);
+  final getUnits;
+  const AllProjects({Key key, this.getUnits}) : super(key: key);
 
   @override
   _AllProjectsState createState() => _AllProjectsState();
@@ -25,41 +27,141 @@ class _AllProjectsState extends State<AllProjects>
   Widget build(BuildContext context) {
     // TODO: implement build
     return ResponsiveLayout(
-      largeScreen: ConstructAllProjects(),
+      largeScreen: ConstructAllProjects(widget.getUnits),
     );
   }
 }
 class ConstructAllProjects extends StatelessWidget {
+  final getUnits;
+  ConstructAllProjects(this.getUnits);
+  //MAXIME : récuperer les units sous forme de list d'Unit information
+  List<UnitInformation> unitInformation = [
+  new UnitInformation(
+    unitID: "FirstModule",
+    name: "FIRST MOD",
+    description:
+    "DESCRIPTION TEST",
+    unitStart : DateTime(2021, 09, 28, 15, 30),
+    unitEnd: DateTime(2023, 09, 28, 15, 30),
+    creditAvailable: 10,
+  ),
+  new UnitInformation(
+    unitID: "SecondFirstModule",
+    name: "SECOND Module",
+    description:
+    "DESCRIPTION TEST2",
+    unitStart : DateTime(2010, 09,01, 15, 30),
+    unitEnd: DateTime(2010, 09, 20, 15, 30),
+    creditAvailable: 20,
+  ),new UnitInformation(
+      unitID: "thirdModule",
+
+      name: "THIRD Module",
+    description:
+    "DESCRIPTION TEST3",
+    unitStart : DateTime(2012, 09,01, 15, 30),
+    unitEnd: DateTime(2012, 09, 20, 15, 30),
+    creditAvailable: 7,
+  ),new UnitInformation(
+    name: "ZF Module",
+      unitID: "FourthFirstModule",
+    description:
+    "DESCRIPTION TEST4",
+    unitStart : DateTime(2014, 09,01, 15, 30),
+    unitEnd: DateTime(2014, 09, 20, 15, 30),
+    creditAvailable: 10,
+  ),new UnitInformation(
+      name: "THIRD Module",
+      unitID: "FIFTHModule",
+
+      description:
+      "DESCRIPTION TEST3",
+      unitStart : DateTime(2012, 09,01, 15, 30),
+      unitEnd: DateTime(2012, 09, 20, 15, 30),
+      creditAvailable: 7,
+    ),new UnitInformation(
+      name: "ZF Module",
+      unitID: "ssixFirstModule",
+      description:
+      "DESCRIPTION TEST4",
+      unitStart : DateTime(2014, 09,01, 15, 30),
+      unitEnd: DateTime(2014, 09, 20, 15, 30),
+      creditAvailable: 10,
+    ),
+    new UnitInformation(
+      unitID: "7FirstModule",
+
+      name: "THIRD Module",
+      description:
+      "DESCRIPTION TEST3",
+      unitStart : DateTime(2012, 09,01, 15, 30),
+      unitEnd: DateTime(2012, 09, 20, 15, 30),
+      creditAvailable: 7,
+    ),new UnitInformation(
+      name: "ZF Module",
+      unitID: "9FirstModule",
+
+      description:
+      "DESCRIPTION TEST4",
+      unitStart : DateTime(2014, 09,01, 15, 30),
+      unitEnd: DateTime(2014, 09, 20, 15, 30),
+      creditAvailable: 10,
+    )
+
+
+  ];
+  Widget tes(BuildContext context) {
+    if (!ResponsiveLayout.isSmallScreen(context)) {
+      return Container(
+//          width: MediaQuery.of(context).size.width,
+          height: MediaQuery.of(context).size.height/1.3,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            CreateProjectButton(),
+            Flexible(
+              child: HandleUnits(unitInformation: unitInformation)
+                  .constructProjectsList(40, context),
+            ),
+          ],
+        )
+      );
+    }
+    else{
+      return Container(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            CreateProjectButton(height: 50,width: 140,),
+            Flexible(
+              child: HandleUnits(unitInformation: unitInformation)
+                  .constructProjectsList(40, context),
+            ),
+          ],
+        )
+      );
+    }
+
+  }
   @override
   Widget build(BuildContext context) {
+
+    this.getUnits != null ? this.getUnits(unitInformation): Container();
+
     double size = MediaQuery.of(context).size.height / 3;
     return Container(
-      color: Colors.white,
         child: Padding(
             padding: EdgeInsets.all(40.0),
             child: Container(
-              color: Colors.white,
               height: size  * 1.8,
-              child: Scaffold(
-                backgroundColor: Colors.white,
-                body: Stack(
+                child: Stack(
                   children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        CreateProjectButton(),
-                        Flexible(
-                          child: HandleUnits()
-                              .constructProjectsList(size * 2, context),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
+                    tes(context),
+]
             )
         )
+    )
     );
   }
 }
@@ -95,6 +197,8 @@ class HandleStudentsPage extends StatefulWidget {
 
 class _HandleStudentsPageState extends State<HandleStudentsPage> {
   String email;
+  String displayedName = "temp name";
+  String phoneNumber = "+33600000000";
   Roles userRole;
   String currentRole = "Student";
   UsersAutocomplete usersAutocomplete;
@@ -139,8 +243,21 @@ class _HandleStudentsPageState extends State<HandleStudentsPage> {
       }
     });
   }
+
+  void getStudentDisplayName()
+  {
+    setState(() {
+      if (email != null) {
+        //MAXIME: Connect to firebase and retrieve displayed name + phon enumber
+//        displayedName =
+//        phoneNumber =
+      }
+    });
+  }
+
   Widget displayStudent()
   {
+//    getStudentDisplayName()
     return Container(
       child: Column(
         children: [
@@ -151,14 +268,20 @@ class _HandleStudentsPageState extends State<HandleStudentsPage> {
             children: [
               Container(
                 padding: EdgeInsets.symmetric(horizontal: 16),
-                child: Text(email, style: TextStyle(color: Color(0xFF875BC5),fontSize: 21,fontFamily: "Montserrat", fontWeight: FontWeight.bold),),
+                // MAXIME : getdisplay name
+                child: Row(
+                  children: [
+                    Text(email, style: TextStyle(color: Color(0xFF875BC5),fontSize: 21,fontFamily: "Montserrat", fontWeight: FontWeight.bold),),
+                    Text(" (" + displayedName +")", style: TextStyle(color: Color(0xFF875BC5),fontSize: 17,fontFamily: "Montserrat", ),),
+                  ],
+                )
               ),
             ],
           ),
           SizedBox(height: 30,),
           Container(
             width: 500,
-            height: 100,
+            height: 130,
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),
                 color:  Color(0xFFF7F8F8),
@@ -171,14 +294,28 @@ class _HandleStudentsPageState extends State<HandleStudentsPage> {
                   )
                 ]
             ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              crossAxisAlignment: CrossAxisAlignment.center,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
               children: [
-                Text(currentRole),
-                RolesDropDown(text: "Change User Role", getUserRole: getSelectedRole,),
+                SizedBox(height: 20,),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text("Student phone number : ", style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold,color: Color(0xFF875BC5) ),),
+                    Text(phoneNumber, style: TextStyle(fontSize: 16, ),),
+                  ],
+                ),
+                SizedBox(height: 30,),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Text(currentRole),
+                    RolesDropDown(text: "Change User Role", getUserRole: getSelectedRole,),
+                  ],
+                ),
               ],
-            ),
+            )
           ),
           SizedBox(height: 30),
           Row(
@@ -198,11 +335,9 @@ class _HandleStudentsPageState extends State<HandleStudentsPage> {
   @override
   Widget build(BuildContext context) {
     return  Scaffold(
-      backgroundColor: Colors.white,
         body: SingleChildScrollView(
             child:
             Container(
-                color: Colors.white,
                 margin: const EdgeInsets.only(top: 20.0),
                 width: MediaQuery.of(context).size.width,
                 height: MediaQuery.of(context).size.height/1.4,
