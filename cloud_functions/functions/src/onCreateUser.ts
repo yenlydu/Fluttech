@@ -1,40 +1,34 @@
-import * as functions from "firebase-functions";
+// import { Request, Response } from "express";
 import * as admin from "firebase-admin";
+import * as functions from "firebase-functions";
 
-const db = admin.firestore();
+export const addUserTest = functions.https.onRequest(async (req, res) => {
+	const { displayName, email, phoneNumber, photoURL, disabled, emailVerified, password } = req.body;
 
-export const onCreateUser = functions.firestore.document("users_registrations/{userID}").onCreate(async (snapshot) => {
-	if (!snapshot.data()!.email || !snapshot.data()!.password) {
-		console.log("Error");
-	} else {
-		const data = snapshot.data();
-		const name = data!.name;
-		const email = data!.email;
-		const password = data!.email;
-		const isAdmin = data!.isAdmin == null ? false : data!.isAdmin;
+	console.log("Adding user", email);
 
-		const fbUser = await admin.auth().createUser({ email: email, password: password });
-
-		if (fbUser) {
-			await db
-				.collection("users")
-				.doc(fbUser.uid)
-				.set(
-					{
-						email: email,
-						name: name,
-						isAdmin: isAdmin,
-					},
-					{ merge: true }
-				)
-				.then((_) => {
-					console.log("User Created");
-					// res.json({ result: `yay Test complete` });
-				})
-				.catch((err) => {
-					// res.json({ result: `Test failed` });
-					console.log(err);
-				});
-		}
+	if (!email || !password) {
+		res.status(400).send({ message: "Missing fields" });
 	}
+
+	try {
+		const auth = admin.auth();
+
+		// Creates the user first
+		const user = await auth.createUser({
+			displayName,
+			email,
+			password,
+			phoneNumber,
+			photoURL,
+			disabled,
+			emailVerified
+		});
+
+		//  the newely created user record
+		res.status(201).send(user);
+	} catch (err) {
+		res.status(500).send({ message: `${err.code} - ${err.message}` });
+	}
+
 });

@@ -13,18 +13,20 @@ class NavigationBar extends StatefulWidget {
   _NavigationBarState createState() => _NavigationBarState();
 }
 
-class _NavigationBarState extends State<NavigationBar>
-{
+class _NavigationBarState extends State<NavigationBar> {
   NavigationEnum currentPage = NavigationEnum.HANDLE_PROJECTS;
   final navLinks = ["Handle Projects", "Handle Users", "Profile"];
 
-  List<Widget> navItem ()
-  {
+  List<Widget> navItem() {
     return navLinks.map((text) {
       return NavigationButtonsStyle(
-          Text(text, style: TextStyle(fontFamily: "Montserrat-Italic",
-              backgroundColor: Colors.transparent)),
-          navigationButtons, 120).button();
+              Text(text,
+                  style: TextStyle(
+                      fontFamily: "Montserrat-Italic",
+                      backgroundColor: Colors.transparent)),
+              navigationButtons,
+              120)
+          .button();
     }).toList();
   }
 
@@ -38,13 +40,26 @@ class _NavigationBarState extends State<NavigationBar>
           if (!ResponsiveLayout.isSmallScreen(context))
             Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children:<Widget> [
+                children: <Widget>[
                   ...navItem(),
                 ]..add(
-                  logOut(_goHome),
-                )
-            )
-          else hamburgerIcon
+                    FloatingActionButton(
+                      onPressed: () {
+                        context.read<AuthenticationService>().signOut();
+                      },
+                      child: const Icon(
+                        Icons.power_settings_new,
+                        color: Colors.deepPurple,
+                        size: 30.0,
+                      ),
+                      backgroundColor: Colors.transparent,
+                      elevation: 0,
+                      focusElevation: 0,
+                      hoverElevation: 0,
+                    ),
+                  ))
+          else
+            hamburgerIcon
         ],
       ),
     );
