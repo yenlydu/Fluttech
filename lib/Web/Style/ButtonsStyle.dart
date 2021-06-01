@@ -78,7 +78,7 @@ class _ActionsButtonsStyleState extends State<ActionButtonsStyle> {
       },
         child: Container(
           width: 100,
-          height: !ResponsiveLayout.isSmallScreen(context) ? 100 : 20,
+          height: !ResponsiveLayout.isSmallScreen(context) ? 30 : 50,
           child: Row(
             mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,

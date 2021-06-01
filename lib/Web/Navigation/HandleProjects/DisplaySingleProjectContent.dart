@@ -54,14 +54,12 @@ class  _DisplayHandleProjectState extends State<DisplayHandleProject>
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                Flexible(child:                 ActionButtonsStyle(color: Colors.red, text: "Delete project", customFunction: () => ProjectsActions(currentProject:  widget.project,actions: ProjectActionsEnum.DELETE_PROJECT, ), icon: Icons.delete),
-                ),
+                Flexible(child: ActionButtonsStyle(color: Colors.red, text: "Delete project", customFunction: () => ProjectsActions(currentProject:  widget.project,actions: ProjectActionsEnum.DELETE_PROJECT, ), icon: Icons.delete),),
                 SizedBox(width: 10,),
-                Flexible(child:                 ActionButtonsStyle(color: Colors.orange, text: "Edit Project",customFunction: () => ProjectsActions(currentProject: project,actions: ProjectActionsEnum.EDIT_PROJECT,), icon: Icons.edit),
-                ),
+                Flexible(child: ActionButtonsStyle(color: Colors.orange, text: "Edit Project",customFunction: () => ProjectsActions(currentProject: project,actions: ProjectActionsEnum.EDIT_PROJECT,), icon: Icons.edit),),
                 SizedBox(width: 10,),
-                Flexible(child:                 ActionButtonsStyle(color: Colors.indigoAccent, text: "Create Meetings",customFunction: () => ProjectsActions(currentProject: project,actions: ProjectActionsEnum.ADD_MEETINGS,), icon: Icons.access_time,),
-                )
+                Flexible(child: ActionButtonsStyle(color: Colors.indigoAccent, text: "Create Meetings",customFunction: () => ProjectsActions(currentProject: project,actions: ProjectActionsEnum.ADD_MEETINGS,), icon: Icons.access_time,),),
+                SizedBox(width: 10,),
               ],
             ),
           ),
