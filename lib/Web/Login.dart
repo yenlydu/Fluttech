@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter2/Web/homeAdmin.dart';
 import 'package:flutter2/Model/Constants.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:provider/provider.dart';
@@ -9,56 +8,6 @@ import 'package:overlay_support/overlay_support.dart';
 import 'package:flutter2/Web/routes.dart';
 import 'package:flutter2/Web/navigationbar.dart';
 import 'package:flutter_modular/flutter_modular.dart';
-
-class FirebaseAutb extends StatelessWidget {
-  const FirebaseAutb({Key key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    // TODO: implement build
-    return OverlaySupport.global(
-      child: MultiProvider(
-        providers: [
-          Provider<AuthenticationService>(
-            create: (_) => AuthenticationService(FirebaseAuth.instance),
-          ),
-          StreamProvider(
-            create: (context) =>
-                context.read<AuthenticationService>().authStateChanges,
-          )
-        ],
-        child: Consumer<AuthenticationService>(
-          builder: (context, provider, _) => MaterialApp(
-            debugShowCheckedModeBanner: false,
-            title: "FluTECH",
-            theme: ThemeData(
-              fontFamily: 'Montserrat',
-              primarySwatch: Colors.blue,
-            ),
-            routes: <String, WidgetBuilder>{
-              '/': (BuildContext context) => new LoginP(),
-            },
-            home: WebAuthenticationWrapper(),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class WebAuthenticationWrapper extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    var firebaseUser = FirebaseAuth.instance.currentUser;
-    if (firebaseUser == null) firebaseUser = context.watch<User>();
-    // print(["hello", firebaseUser]);
-    if (firebaseUser != null) {
-      // return CreateUser();
-      return HomeAdmin(email: firebaseUser.email);
-    }
-    return LoginP();
-  }
-}
 
 class LoginP extends StatefulWidget {
   @override

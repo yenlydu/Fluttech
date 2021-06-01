@@ -95,6 +95,7 @@ class _CreateProjectPopupState extends State<CreateProjectPopup> {
     }
 
   }
+
   void createUnits()
   {
     if (editController["title"].text.isNotEmpty){
@@ -115,15 +116,13 @@ class _CreateProjectPopupState extends State<CreateProjectPopup> {
       tempDateRange.clear();
       print("created project endsnot null");
     }
-
   }
 
   Widget checkCreateType()
   {
     if (widget.createType == ProjectActionsEnum.CREATE_PROJECT) {
       return !ResponsiveLayout.isSmallScreen(context) ? saveDatas(function: createProjects, text: "Save Projects Datas", textSize: 16) : saveDatas(function: createProjects, text: "Save Projects Datas", textSize: 10);
-    }
-    else {
+    } else {
       return !ResponsiveLayout.isSmallScreen(context) ? saveDatas(function: createUnits, text: "Save Units Datas", textSize: 16) :saveDatas(function: createUnits, text: "Save Units Datas", textSize: 10) ;
     }
   }
@@ -145,7 +144,7 @@ class _CreateProjectPopupState extends State<CreateProjectPopup> {
                     Text("Creating Project", style: TextStyle(color: Color(0xFF875BC5),fontSize: 21,fontFamily: "Montserrat", fontWeight: FontWeight.bold,    decoration: TextDecoration.underline,),),
                     SizedBox(height: 30,),
                     titleDescriptionTextFields(editController: editController, setTextEditingController: getEditing),
-                    widget.createType == ProjectActionsEnum.CREATE_UNITS? usersAutocomplete.userAutocomplete(mailAddressesList: widget.mailAddressesList, labelName: "Professor Mail", clear: false) : Container(),
+                    widget.createType == ProjectActionsEnum.CREATE_UNITS ? usersAutocomplete.userAutocomplete(mailAddressesList: widget.mailAddressesList, labelName: "Professor Mail", clear: false) : Container(),
                     SizedBox(height:5),
                     widget.createType == ProjectActionsEnum.CREATE_UNITS ? Container(
                         width: 76.0,

@@ -20,6 +20,10 @@ import 'package:flutter2/Web/WebConstants/Enumerations.dart';
 import 'package:flutter2/Web/Navigation/HandleStudents/RolesDropDown/RolesDropDown.dart';
 import 'package:firebase_core/firebase_core.dart';
 
+class AppColors {
+
+}
+
 
 class AllProjects extends StatefulWidget {
   final getUnits;
@@ -30,135 +34,53 @@ class AllProjects extends StatefulWidget {
 }
 class _AllProjectsState extends State<AllProjects>
 {
+  static List <UnitInformation> units;
+  Future myFuture;
 
   @override
-  Widget build(BuildContext context) {
-    // TODO: implement build
-    return ResponsiveLayout(
-      largeScreen: ConstructAllProjects(widget.getUnits ),
-    );
+  void initState() {
+    super.initState();
+    getFirebaseUnits();
+    print("INIT STATE");
+
   }
-}
-class ConstructAllProjects extends StatelessWidget {
   Future<void> getFirebaseUnits() async {
-/*
-    HttpsCallable callable = FirebaseFunctions.instance.httpsCallable("getUnits");
-    print("before");
-    final results = await callable();
-    print("æfter");
-    print(results.data["units"]);
-    print(results.data);
-*/
     final res = await http.get(Uri.parse('https://us-central1-flutter2-f9a8c.cloudfunctions.net/getUnits'));
-    print('[onRequest] Res: ${res.body.toString()}');
+    units = parseUnits(res.body);
+    print(units.length);
   }
 
-  final getUnits;
+
   FirebaseFunctions functions = FirebaseFunctions.instance;
-  ConstructAllProjects(this.getUnits);
   //MAXIME : récuperer les units sous forme de list d'Unit information
-  List<UnitInformation> unitInformation = [
-  new UnitInformation(
-    id: "FirstModule",
-    name: "FIRST MOD",
-    description:
-    "DESCRIPTION TEST",
-    unitStart : Timestamp.fromDate(DateTime(2021, 09, 28, 15, 30)),
-    unitEnd: Timestamp.fromDate(DateTime(2023, 09, 28, 15, 30)),
-    creditAvailable: 10,
-  ),
-  new UnitInformation(
-    id: "SecondFirstModule",
-    name: "SECOND Module",
-    description:
-    "DESCRIPTION TEST2",
-    unitStart : Timestamp.fromDate(DateTime(2010, 09,01, 15, 30)),
-    unitEnd: Timestamp.fromDate(DateTime(2010, 09, 20, 15, 30)),
-    creditAvailable: 20,
-  ),new UnitInformation(
-      id: "thirdModule",
-
-      name: "THIRD Module",
-    description:
-    "DESCRIPTION TEST3",
-    unitStart : Timestamp.fromDate(DateTime(2012, 09,01, 15, 30)),
-    unitEnd: Timestamp.fromDate(DateTime(2012, 09, 20, 15, 30)),
-    creditAvailable: 7,
-  ),new UnitInformation(
-    name: "ZF Module",
-      id: "FourthFirstModule",
-    description:
-    "DESCRIPTION TEST4",
-    unitStart : Timestamp.fromDate(DateTime(2014, 09,01, 15, 30)),
-    unitEnd: Timestamp.fromDate(DateTime(2014, 09, 20, 15, 30)),
-    creditAvailable: 10,
-  ),new UnitInformation(
-      name: "THIRD Module",
-      id: "FIFTHModule",
-
-      description:
-      "DESCRIPTION TEST3",
-      unitStart : Timestamp.fromDate(DateTime(2012, 09,01, 15, 30)),
-      unitEnd: Timestamp.fromDate(DateTime(2012, 09, 20, 15, 30)),
-      creditAvailable: 7,
-    ),new UnitInformation(
-      name: "ZF Module",
-      id: "ssixFirstModule",
-      description:
-      "DESCRIPTION TEST4",
-      unitStart : Timestamp.fromDate(DateTime(2014, 09,01, 15, 30)),
-      unitEnd: Timestamp.fromDate(DateTime(2014, 09, 20, 15, 30)),
-      creditAvailable: 10,
-    ),
-    new UnitInformation(
-      id: "7FirstModule",
-
-      name: "THIRD Module",
-      description:
-      "DESCRIPTION TEST3",
-      unitStart : Timestamp.fromDate(DateTime(2012, 09,01, 15, 30)),
-      unitEnd: Timestamp.fromDate(DateTime(2012, 09, 20, 15, 30)),
-      creditAvailable: 7,
-    ),new UnitInformation(
-      name: "ZF Module",
-      id: "9FirstModule",
-
-      description:
-      "DESCRIPTION TEST4",
-      unitStart : Timestamp.fromDate(DateTime(2014, 09,01, 15, 30)),
-      unitEnd: Timestamp.fromDate(DateTime(2014, 09, 20, 15, 30)),
-      creditAvailable: 10,
-    )
-  ];
 
   Widget tes(BuildContext context) {
-    getFirebaseUnits();
     if (!ResponsiveLayout.isSmallScreen(context)) {
       return Container(
 //          width: MediaQuery.of(context).size.width,
           height: MediaQuery.of(context).size.height/1.3,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            CreateModuleButton(),
-              HandleUnits(unitInformation: unitInformation)
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              CreateModuleButton(),
+              HandleUnits(unitInformation: units)
                   .constructProjectsList(40, context),
-          ],
-        )
+            ],
+          )
       );
     }
     else{
       return Container(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            CreateModuleButton(height: 50,width: 140,),
-              Flexible(child:               HandleUnits(unitInformation: unitInformation)
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              CreateModuleButton(height: 50,width: 140,),
+              Flexible(child:               HandleUnits(unitInformation: units)
                   .constructProjectsList(40, context),
               )
-          ],
-        )
+            ],
+          )
       );
     }
 
@@ -166,21 +88,24 @@ class ConstructAllProjects extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    this.getUnits != null ? this.getUnits(unitInformation): Container();
+    print("entering");
+    widget.getUnits != null ? widget.getUnits(units): Container();
     double size = MediaQuery.of(context).size.height / 3;
+    print ("allUnits.length");
+    print (units.length);
     return Container(
         child: Padding(
             padding: EdgeInsets.all(40.0),
             child: Container(
-              height: size  * 1.8,
+                height: size  * 1.8,
                 child: Stack(
-                  children: [
-                    Text("enter"),
-                    tes(context),
-]
+                    children: [
+                      Text("enter" + units.length.toString()),
+                      tes(context)
+                    ]
+                )
             )
         )
-    )
     );
   }
 }

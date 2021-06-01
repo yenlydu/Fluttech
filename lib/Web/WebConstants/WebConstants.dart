@@ -71,11 +71,9 @@ Widget buildingSingleItemConstant({BuildContext context, Widget onTapPopup, Widg
 
 List<UnitInformation> parseUnits(String responseBody) {
   final parsed = json.decode(responseBody);
-  final parsettemp = parsed['units'].cast<Map<String, dynamic>>();
-  return parsettemp.map<UnitInformation>((json) => UnitInformation.fromJson(json)).toList();
+  return parsed.map<UnitInformation>((json) => UnitInformation.fromJson(json)).toList();
 }
 List<ProjectInformation> parseProjects(String responseBody) {
-  final parsed = json.decode(responseBody);
-  final parsettemp = parsed['units'].cast<Map<String, dynamic>>();
-  return parsettemp.map<ProjectInformation>((json) => ProjectInformation.fromJson(json)).toList();
+  final parsed = json.decode(responseBody).cast<Map<String, dynamic>>();
+  return parsed.map<ProjectInformation>((json) => ProjectInformation.fromJson(json)).toList();
 }

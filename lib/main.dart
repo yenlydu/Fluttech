@@ -17,8 +17,6 @@ import 'package:flutter2/Model/Constants.dart';
 import 'package:url_strategy/url_strategy.dart';
 import 'package:overlay_support/overlay_support.dart';
 
-import 'package:flutter2/Web/homeAdmin.dart';
-
 import 'Mobile/Tools/ServiceLocator/ServiceManager.dart';
 import 'package:flutter2/Web/Navigation/NavigationBar.dart';
 import 'package:flutter2/Web/Navigation/NavigationPages.dart';
