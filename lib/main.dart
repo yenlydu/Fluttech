@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:overlay_support/overlay_support.dart';
 import 'package:provider/provider.dart';
 //File Page Includ
 import 'package:flutter2/Model/FireStoreModel/UserModel.dart';
@@ -23,6 +24,7 @@ Future<void> main() async {
   await locator<LocalPreferences>().init();
   runApp(MyApp());
 }
+
 class MyApp extends StatefulWidget {
   @override
   MyMobileState createState() => MyMobileState();
@@ -43,7 +45,7 @@ class MyMobileState extends State<MyApp> with WidgetsBindingObserver {
           ),
           StreamProvider(
             create: (context) =>
-            context.read<AuthenticationService>().authStateChanges,
+                context.read<AuthenticationService>().authStateChanges,
           )
         ],
         child: Consumer<AuthenticationService>(
@@ -116,4 +118,3 @@ class AuthenticationWrapper extends StatelessWidget {
         }));
   }
 }
-*/
