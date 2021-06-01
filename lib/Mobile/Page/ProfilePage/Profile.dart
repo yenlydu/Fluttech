@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter2/Mobile/Page/Homepage/Selection.dart';
+import 'package:flutter2/Mobile/Tools/FireStore/FireStoreUser.dart';
+import 'package:flutter2/Mobile/Tools/ServiceLocator/ServiceManager.dart';
+import 'package:flutter2/Mobile/Tools/authentication_service.dart';
+import 'package:flutter2/Model/Constants/C_Profile.dart';
+import 'package:flutter2/Model/FireStoreModel/UserModel.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 import 'package:path_provider/path_provider.dart';
-import 'package:path/path.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:firebase_auth/firebase_auth.dart' as fireauth;
 
 //File Page Include
 import 'package:flutter2/Model/Constants.dart';
-import 'package:flutter2/Model/Constants/C_Profile.dart';
-import '../../Widget/app_icons_icons.dart';
-import '../../Tools/LocalTools.dart';
 import '../../Tools/Image/ImagePickerManager.dart';
 import '../../Tools/Image/ImageProfileFireManager.dart';
 
@@ -23,25 +23,22 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage> {
   //Manager
   ImagePickerManager imagePickerManager;
-  ImageProfileFireManager fireimagemanager;
-  final fireauth.FirebaseAuth auth = fireauth.FirebaseAuth.instance;
   //End Manager
 
-  fireauth.User user;
+  UserModel currentuser;
 
   _initUser(BuildContext context) async {
-    user = auth.currentUser;
-    fireimagemanager = new ImageProfileFireManager();
+    currentuser = locator<FireStoreUser>().currentUser;
   }
 
   //Image && Profile Selection
-  NetworkImage imageFile;
+  NetworkImage imageFile = null;
   // check if local image exist and select it
   _initImage(BuildContext context) async {
-    String image = await fireimagemanager.getUserPhoto();
+    String image = await locator<ImageProfileFireManager>().getUserPhoto();
 
     setState(() {
-      if (image != "") {
+      if (image != null && image != "") {
         imageFile = NetworkImage(image);
       } else {
         print('No image selected.');
@@ -58,7 +55,8 @@ class _ProfilePageState extends State<ProfilePage> {
     if (pickedFile != null) {
       Directory tempDir = await getApplicationDocumentsDirectory();
       String path = tempDir.path;
-      var res = await fireimagemanager.uploadPhoto(File(pickedFile.path));
+      var res = await locator<ImageProfileFireManager>()
+          .uploadPhoto(File(pickedFile.path));
 
       setState(() {
         imageCache.clear();
@@ -76,16 +74,15 @@ class _ProfilePageState extends State<ProfilePage> {
     final fireStore = ImageProfileFireManager();
 
     PickedFile pickedFile = await picker.getImage(source: ImageSource.camera);
-
-    var file = File(pickedFile.path);
-    var res = await fireimagemanager.uploadPhoto(file);
-    setState(() {
-      if (pickedFile != null) {
+    if (pickedFile != null) {
+      var file = File(pickedFile.path);
+      var res = await locator<ImageProfileFireManager>().uploadPhoto(file);
+      setState(() {
         imageFile = NetworkImage(res);
-      } else {
-        print('No image selected.');
-      }
-    });
+      });
+    } else {
+      print('No image selected.');
+    }
     Navigator.of(context).pop();
   }
 
@@ -151,24 +148,6 @@ class _ProfilePageState extends State<ProfilePage> {
     }
   }
 
-  //Display icon (Profile image bottom right)
-  Widget _photoicon() {
-    return Container(
-      width: 50,
-      height: 50,
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(150),
-        child: Container(
-          color: Constants().app_color,
-          child: Icon(
-            Icons.photo_camera,
-            color: Constants().icon_photo_profile,
-          ),
-        ),
-      ),
-    );
-  }
-
   //Profile Image
   Widget _imageprofile(BuildContext context) {
     return Container(
@@ -203,7 +182,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
-                    _photoicon(),
+                    photoicon(),
                   ],
                 ),
               ),
@@ -224,10 +203,12 @@ class _ProfilePageState extends State<ProfilePage> {
             padding: new EdgeInsets.symmetric(horizontal: 30.0),
             child: Align(
               child: Text(
-                (user != null && user.displayName != null)
-                    ? user.displayName
+                (currentuser != null &&
+                        currentuser.firstName != null &&
+                        currentuser.lastName != null)
+                    ? currentuser.firstName
                     : "user name".toUpperCase(),
-                style: TextStyle(fontWeight: FontWeight.w700, fontSize: 20.0),
+                style: kTextStyle_name,
               ),
             ),
           ),
@@ -241,33 +222,31 @@ class _ProfilePageState extends State<ProfilePage> {
                     alignment: Alignment.topLeft,
                     child: Text(
                       "Mail : " +
-                          ((user != null && user.email != null)
-                              ? user.email
+                          ((currentuser != null && currentuser.email != null)
+                              ? currentuser.email
                               : "your.email@epitech.eu"),
-                      style: TextStyle(
-                          fontWeight: FontWeight.w400, fontSize: 15.0),
+                      style: kTextStyle_mail,
                     ),
                   ),
                   Align(
                     alignment: Alignment.topLeft,
                     child: Text(
                       "Credits : " +
-                          ((user != null && user.displayName != null)
-                              ? user.displayName
+                          ((currentuser != null &&
+                                  currentuser.currentCredits != null)
+                              ? currentuser.currentCredits.toString()
                               : "0"),
-                      style: TextStyle(
-                          fontWeight: FontWeight.w400, fontSize: 15.0),
+                      style: kTextStyle_mail,
                     ),
                   ),
                   Align(
                     alignment: Alignment.topLeft,
                     child: Text(
                       "G.P.A : " +
-                          ((user != null && user.displayName != null)
-                              ? user.displayName
-                              : "0"),
-                      style: TextStyle(
-                          fontWeight: FontWeight.w400, fontSize: 15.0),
+                          ((currentuser != null && currentuser.gpa != null)
+                              ? currentuser.gpa.toDouble().toString()
+                              : "2.0"),
+                      style: kTextStyle_mail,
                     ),
                   ),
                 ],
@@ -287,6 +266,24 @@ class _ProfilePageState extends State<ProfilePage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Profile'),
+        actions: [
+          Padding(
+              padding: EdgeInsets.only(right: 20.0),
+              child: GestureDetector(
+                onTap: () {
+                  locator<AuthenticationService>().signOut();
+                  Navigator.pushReplacement(
+                    context,
+                    PageRouteBuilder(
+                        pageBuilder: (_, __, ___) => SelectionPage()),
+                  );
+                },
+                child: Icon(
+                  Icons.exit_to_app_sharp,
+                  size: 26.0,
+                ),
+              )),
+        ],
       ),
       body: ListView(
         children: <Widget>[

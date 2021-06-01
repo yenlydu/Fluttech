@@ -10,7 +10,6 @@ class NavigationButtonsStyle {
   NavigationButtonsStyle(this.content, this.boxDecoration, this.width);
 
   Widget button() {
-    // TODO: implement build
     return InkWell(
       splashColor: Colors.transparent,
       hoverColor: Colors.transparent,
@@ -22,9 +21,7 @@ class NavigationButtonsStyle {
         decoration: boxDecoration,
         child: Material(
           color: Colors.transparent,
-          child: Center(
-              child: content
-          ),
+          child: Center(child: content),
         ),
       ),
     );

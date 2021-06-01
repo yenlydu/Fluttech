@@ -27,3 +27,45 @@ final kBoxDecorationStyle = BoxDecoration(
     ),
   ],
 );
+
+Widget login_Title() {
+  return Text(
+    "Log In",
+    style: TextStyle(
+      color: Colors.white,
+      fontSize: 30.0,
+      fontWeight: FontWeight.bold,
+    ),
+  );
+}
+
+Widget login_Button() {
+  return Text(
+    'LOGIN',
+    style: TextStyle(
+      color: Color(0xFF527DAA),
+      letterSpacing: 1.5,
+      fontSize: 15.0,
+      fontWeight: FontWeight.bold,
+      fontFamily: 'OpenSans',
+    ),
+  );
+}
+
+/* Input Decoration Style */
+final kInputDeco_pwd = InputDecoration(
+  border: InputBorder.none,
+  contentPadding: EdgeInsets.only(top: 14.0),
+  prefixIcon: Icon(Icons.lock, color: Colors.white),
+  hintText: "Enter your Password",
+  hintStyle: kHintTextStyle,
+);
+
+/* Input Decoration Style */
+final kInputDeco_email = InputDecoration(
+  border: InputBorder.none,
+  contentPadding: EdgeInsets.only(top: 14.0),
+  prefixIcon: Icon(Icons.email, color: Colors.white),
+  hintText: "Enter your Email",
+  hintStyle: kHintTextStyle,
+);

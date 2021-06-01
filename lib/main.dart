@@ -1,205 +1,119 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter2/Web/Navigation/HandleProjects/DisplayAllProjects.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
-import 'package:flutter2/Web/CreateUser.dart';
-import 'package:flutter2/Web/Login.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:provider/provider.dart';
 //File Page Includ
+import 'package:flutter2/Model/FireStoreModel/UserModel.dart';
 import 'package:flutter2/Mobile/Tools/authentication_service.dart';
-import 'Mobile/Page/Homepage/Nav.dart';
-import 'Mobile/Page/ProfilePage/Profile.dart';
-import './Mobile/Page/LoginPage/login.dart';
-import './Mobile/Page/Admin/LoginPage/adminLoginPage.dart';
-import './Mobile/Page/LoginPage/LoginPending.dart';
-import 'package:flutter2/Model/Constants.dart';
-import 'package:url_strategy/url_strategy.dart';
-import 'package:overlay_support/overlay_support.dart';
-
+import 'package:flutter2/Mobile/Page/Homepage/Nav.dart';
+import 'package:flutter2/Mobile/Page/Homepage/Selection.dart';
 import 'package:flutter2/Web/homeAdmin.dart';
+import 'package:flutter2/Mobile/Tools/FireStore/FireStoreUser.dart';
+import 'package:flutter2/Mobile/Tools/LocalTools.dart';
+import 'package:flutter2/Mobile/Tools/ServiceLocator/ServiceManager.dart';
+import 'package:flutter2/Web/Login.dart';
 
-import 'Mobile/Tools/ServiceLocator/ServiceManager.dart';
-import 'package:flutter2/Web/Navigation/NavigationBar.dart';
-import 'package:flutter2/Web/Navigation/NavigationPages.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   setupServices();
-  setPathUrlStrategy();
-
+  await locator<LocalPreferences>().init();
   runApp(MyApp());
 }
 class MyApp extends StatefulWidget {
   @override
-  _MyAppState createState() => _MyAppState();
+  MyMobileState createState() => MyMobileState();
 }
-class _MyAppState extends State<MyApp> {
-  @override
-  void initState() {
-    // TODO: implement initState
-    setState(() {
-
-    });
-  }
-  @override
-  Widget build(BuildContext context) {
-    // TODO: implement build
-    return OverlaySupport.global(
-      child: MultiProvider(
-        providers: [
-          Provider<AuthenticationService>(
-            create: (_) => AuthenticationService(FirebaseAuth.instance),
-          ),
-          StreamProvider(
-            create: (context) =>
-            context.read<AuthenticationService>().authStateChanges,
-          )
-        ],
-        child: Consumer<AuthenticationService>(
-          builder: (context, provider, _) => MaterialApp(
-            debugShowCheckedModeBanner: false,
-            title: "FluTECH",
-            theme: ThemeData(
-              fontFamily: 'Montserrat',
-              primarySwatch: Colors.blue,
-            ),
-            routes: <String, WidgetBuilder>{
-              '/': (BuildContext context) => new LoginP(),
-              '/my': (BuildContext context) => MyAppTest(),
-              '/handleUnits': (BuildContext context) => MyAppTest(),
-              '/handleUsers': (BuildContext context) => MyAppTest(),
-            },
-          ),
-        ),
-      ),
-    );
-  }
-
-}
-
-
-/*
-class Testing extends StatefulWidget {
-  @override
-  // MyMobileState createState() => MyMobileState();
-  //Launch web
-  MyWebState createState() => MyWebState();
-}
-
-*/
-class MyWebState extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    // TODO: implement build
-    return OverlaySupport.global(
-      child: MultiProvider(
-        providers: [
-          Provider<AuthenticationService>(
-            create: (_) => AuthenticationService(FirebaseAuth.instance),
-          ),
-          StreamProvider(
-            create: (context) =>
-            context.read<AuthenticationService>().authStateChanges,
-          )
-        ],
-        child: Consumer<AuthenticationService>(
-          builder: (context, provider, _) => MaterialApp(
-            debugShowCheckedModeBanner: false,
-            title: "FluTECH",
-            theme: ThemeData(
-              fontFamily: 'Montserrat',
-              primarySwatch: Colors.blue,
-            ),
-            routes: <String, WidgetBuilder>{
-              '/login': (BuildContext context) => new LoginP(),
-              '/handleUnits': (BuildContext context) => new AllStudents(),
-            },
-            home: WebAuthenticationWrapper(),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class WebAuthenticationWrapper extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    var firebaseUser = FirebaseAuth.instance.currentUser;
-    if (firebaseUser == null) firebaseUser = context.watch<User>();
-    // print(["hello", firebaseUser]);
-    if (firebaseUser != null) {
-      // return CreateUser();
-      return HomeAdmin(email: firebaseUser.email);
-    }
-    return LoginP();
-  }
-}
-
-class AuthenticationWrapper extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    final firebaseUser = FirebaseAuth.instance.currentUser;
-    if (firebaseUser != null) {
-      return NavElem();
-    }
-    return LoginPage();
-  }
-}
-/*
 
 class MyMobileState extends State<MyApp> with WidgetsBindingObserver {
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+    ]);
     FlutterStatusbarcolor.setStatusBarColor(Color.fromRGBO(86, 0, 232, 1));
-    return MultiProvider(
-      providers: [
-        Provider<AuthenticationService>(
-          create: (_) => AuthenticationService(FirebaseAuth.instance),
-        ),
-        StreamProvider(
-          create: (context) =>
-              context.read<AuthenticationService>().authStateChanges,
-        )
-      ],
-      child: Consumer<AuthenticationService>(
-        builder: (context, provider, _) => MaterialApp(
-          title: 'FluTECH',
-          theme: ThemeData(
-            primarySwatch: Colors.deepPurple,
-            visualDensity: VisualDensity.adaptivePlatformDensity,
+    return OverlaySupport.global(
+      child: MultiProvider(
+        providers: [
+          Provider<AuthenticationService>(
+            create: (_) => AuthenticationService(FirebaseAuth.instance),
           ),
-          home: AuthenticationWrapper(),
-          routes: <String, WidgetBuilder>{
-            '/login': (BuildContext context) => new LoginPage(),
-            '/home': (BuildContext context) => new NavElem(),
-          },
+          StreamProvider(
+            create: (context) =>
+            context.read<AuthenticationService>().authStateChanges,
+          )
+        ],
+        child: Consumer<AuthenticationService>(
+          builder: (context, provider, _) => MaterialApp(
+            debugShowCheckedModeBanner: false,
+            title: 'FluTECH',
+            theme: ThemeData(
+              fontFamily: 'Montserrat',
+              primarySwatch: Colors.deepPurple,
+              visualDensity: VisualDensity.adaptivePlatformDensity,
+            ),
+            routes: <String, WidgetBuilder>{
+              '/login': (BuildContext context) => new LoginP(),
+              '/home': (BuildContext context) => new NavElem(),
+            },
+            home: AuthenticationWrapper(),
+          ),
         ),
       ),
     );
   }
+}
 
-  // Widget build(BuildContext context) {
-  //   SystemChrome.setPreferredOrientations([
-  //     DeviceOrientation.portraitUp,
-  //   ]);
-  //   FlutterStatusbarcolor.setStatusBarColor(Constants().app_color);
-  //   return MaterialApp(
-  //     title: 'FlutTECH',
-  //     theme: ThemeData(
-  //       primarySwatch: Colors.deepPurple,
-  //       visualDensity: VisualDensity.adaptivePlatformDensity,
-  //     ),
-  //     home: LoginPage(),
-  //     //LoginPage(),
-  //     routes: <String, WidgetBuilder>{
-  //       '/login': (BuildContext context) => new LoginPage(),
-  //       '/home': (BuildContext context) => new NavElem(),
-  //       '/admin/login': (BuildContext contect) => new AdminLoginPage(),
-  //       '/admin/findUsers': (BuildContext contect) => new FindUsersPage(),
-  //     },
-  //   );
-  // }
+class AuthenticationWrapper extends StatelessWidget {
+  Future<UserModel> getfirestoreuser() async {
+    final firebaseUser = FirebaseAuth.instance.currentUser;
+    if (firebaseUser != null && firebaseUser.uid != null) {
+      var res = await locator<FireStoreUser>().getUser(firebaseUser.uid);
+      if (res != null) {
+        locator<FireStoreUser>().currentUser = res;
+      }
+      return res;
+    }
+    return null;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return (FutureBuilder(
+        future: getfirestoreuser(),
+        builder: (BuildContext context, AsyncSnapshot snapshot) {
+          switch (snapshot.connectionState) {
+            case ConnectionState.done:
+              if (snapshot.hasError)
+                return new Text('Error: ${snapshot.error}');
+              else {
+                final firebaseUser = FirebaseAuth.instance.currentUser;
+                if (firebaseUser != null && snapshot.data != null) {
+                  /*var remember = locator<LocalPreferences>().IsRememberUser();
+                  if (!remember) {
+                    return LoginPage();
+                  }*/
+                  UserModel user = snapshot.data;
+                  if (user.role == "admin")
+                    return HomeAdmin(email: firebaseUser.email);
+                  else
+                    return NavElem();
+                }
+                return SelectionPage();
+              }
+              break;
+
+            default:
+              debugPrint("Snapshot " + snapshot.toString());
+              return Container(
+                color: Colors.white,
+                child: SpinKitFadingCube(color: Colors.deepPurple),
+              ); // also check your listWidget(snapshot) as it may return null.
+          }
+        }));
+  }
 }
 */
