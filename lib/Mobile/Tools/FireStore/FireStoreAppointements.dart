@@ -91,7 +91,7 @@ class FireStoreAppointement {
   Future<bool> subscribeToAppointement(AppointementModel appointement) async {
     try {
       appointement.subscribedusersId
-          .add(locator<FireStoreUser>().currentUser.userid);
+          .add(locator<FireStoreUser>().currentUser.firebaseid);
       this.UpdateAppointement(appointement);
 
       locator<FireStoreUser>()
@@ -109,7 +109,7 @@ class FireStoreAppointement {
   Future<bool> unsubscribeToAppointement(AppointementModel appointement) async {
     try {
       appointement.subscribedusersId
-          .remove(locator<FireStoreUser>().currentUser.userid);
+          .remove(locator<FireStoreUser>().currentUser.firebaseid);
       this.UpdateAppointement(appointement);
 
       locator<FireStoreUser>()

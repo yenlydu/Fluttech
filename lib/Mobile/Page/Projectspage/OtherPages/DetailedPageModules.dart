@@ -351,11 +351,11 @@ class DetailedPageModulesState extends State<DetailedPageModules> {
     _ismanager = (role == "manager" || role == "admin") ? true : false;
     _isuser = (role == "user") ? true : false;
     _showsub = widget.unitinfo.usersId
-            .contains(locator<FireStoreUser>().currentUser.userid)
+            .contains(locator<FireStoreUser>().currentUser.firebaseid)
         ? false
         : true;
     _showunsub = widget.unitinfo.usersId
-            .contains(locator<FireStoreUser>().currentUser.userid)
+            .contains(locator<FireStoreUser>().currentUser.firebaseid)
         ? true
         : false;
     projectstartDatetext = DateFormat('yyyy-MM-dd').format(projectstartDate);

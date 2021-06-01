@@ -95,23 +95,52 @@ class DetailedPageProjectsState extends State<DetailedPageProjects> {
   }*/
 
   Widget _groupButtons() {
-    return Table(
-      children: [
-        TableRow(
-          children: [
-            TextButton.icon(
-              onPressed: () {},
-              icon: Icon(Icons.people, size: 18),
-              label: Text("Register"),
+    return Container(
+      child: Column(
+        children: <Widget>[
+          Visibility(
+            visible: _isuser,
+            child: Column(
+              children: <Widget>[
+                Visibility(
+                  visible: _showsub,
+                  child: TextButton.icon(
+                    onPressed: () {
+                      locator<FireStoreProject>()
+                          .subscribeToProject(widget.projectinfo);
+                      setState(() {
+                        _showsub = !_showsub;
+                        _showunsub = !_showunsub;
+                        usersFuture = locator<FireStoreProject>()
+                            .getProjectUsers(widget.projectinfo);
+                      });
+                    },
+                    icon: Icon(Icons.check, size: 18),
+                    label: Text("Register"),
+                  ),
+                ),
+                Visibility(
+                  visible: _showunsub,
+                  child: TextButton.icon(
+                    onPressed: () {
+                      locator<FireStoreProject>()
+                          .unsubscribeToProject(widget.projectinfo);
+                      setState(() {
+                        _showsub = !_showsub;
+                        _showunsub = !_showunsub;
+                        usersFuture = locator<FireStoreProject>()
+                            .getProjectUsers(widget.projectinfo);
+                      });
+                    },
+                    icon: Icon(Icons.cancel, size: 18),
+                    label: Text("Unregister"),
+                  ),
+                ),
+              ],
             ),
-            /*TextButton.icon(
-              onPressed: () {},
-              icon: Icon(Icons.add, size: 18),
-              label: Text("Add a Member"),
-            ),*/
-          ],
-        )
-      ],
+          ),
+        ],
+      ),
     );
   }
 
@@ -136,24 +165,29 @@ class DetailedPageProjectsState extends State<DetailedPageProjects> {
                       style: textStyle_DetailedPage,
                     ),
                   ),
-                  ListView(
-                    children: <Widget>[
-                      Container(
-                        padding: EdgeInsets.all(10),
-                        child: ListView.builder(
-                          controller: _controller, //new line
-                          itemCount: snapshot.data.length,
-                          shrinkWrap: true, // use this
-                          itemBuilder: (BuildContext context, int index) {
-                            if (snapshot.data[index] != null) {
-                              UserModel element = snapshot.data[index];
-                              return studentName(element.firstName);
-                            }
-                            return null;
-                          },
+                  SizedBox(
+                    height: 200.0,
+                    child: ListView(
+                      children: <Widget>[
+                        Container(
+                          padding: EdgeInsets.all(10),
+                          child: ListView.builder(
+                            controller: _controller, //new line
+                            itemCount: snapshot.data.length,
+                            shrinkWrap: true, // use this
+                            itemBuilder: (BuildContext context, int index) {
+                              if (snapshot.data[index] != null) {
+                                UserModel element = snapshot.data[index];
+                                return studentName(
+                                    element.firebaseid, element.email);
+                              } else {
+                                return null;
+                              }
+                            },
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ],
               ),
@@ -167,16 +201,18 @@ class DetailedPageProjectsState extends State<DetailedPageProjects> {
     _context = context;
     var role = locator<FireStoreUser>().currentUser.role;
     print("role is : " + role);
-    _ismanager = (role == "manager" || role == "admin") ? true : false;
-    _isuser = (role == "user") ? true : false;
-    _showsub = widget.projectinfo.usersId
-            .contains(locator<FireStoreUser>().currentUser.userid)
-        ? false
-        : true;
-    _showunsub = widget.projectinfo.usersId
-            .contains(locator<FireStoreUser>().currentUser.userid)
-        ? true
-        : false;
+    setState(() {
+      _ismanager = (role == "manager" || role == "admin") ? true : false;
+      _isuser = (role == "user") ? true : false;
+      _showsub = widget.projectinfo.usersId
+              .contains(locator<FireStoreUser>().currentUser.firebaseid)
+          ? false
+          : true;
+      _showunsub = widget.projectinfo.usersId
+              .contains(locator<FireStoreUser>().currentUser.firebaseid)
+          ? true
+          : false;
+    });
     title = widget.projectinfo.name;
     start = widget.projectinfo.projectstart;
     end = widget.projectinfo.projectEnd;

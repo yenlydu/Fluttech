@@ -33,4 +33,10 @@ class ImageProfileFireManager {
     String downloadurl = await completedtask.ref.getDownloadURL();
     return downloadurl;
   }
+
+  // Get Saved User Image
+  Future<String> getOtherUserPhoto(String userid) async {
+    var storef = storage.ref().child("user/profile/" + userid);
+    return await storef.getDownloadURL();
+  }
 }

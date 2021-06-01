@@ -173,13 +173,15 @@ class AppointmentsPageState extends State<AppointmentsPage> {
                         if (snapshot.data[index] != null) {
                           AppointementModel element = snapshot.data[index];
                           _showsub[index] = element.subscribedusersId.contains(
-                                  locator<FireStoreUser>().currentUser.userid)
+                                  locator<FireStoreUser>()
+                                      .currentUser
+                                      .firebaseid)
                               ? false
                               : true;
                           _showunsub[index] = element.subscribedusersId
                                   .contains(locator<FireStoreUser>()
                                       .currentUser
-                                      .userid)
+                                      .firebaseid)
                               ? true
                               : false;
                           return _buildAccordionModulesTemplate(

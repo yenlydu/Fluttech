@@ -24,7 +24,6 @@ class _T_ProjectsState extends State<T_Projects> {
   BuildContext _context;
 
   Future<List<ProjectModel>> projects;
-  UserModel currentuser = null;
   ScrollController _controller;
 
   @override

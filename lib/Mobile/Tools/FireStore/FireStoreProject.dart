@@ -32,7 +32,7 @@ class FireStoreProject {
 
   Future<bool> UpdateProject(ProjectModel data) async {
     try {
-      await project.doc(data.id).update(data.toJson());
+      project.doc(data.id).update(data.toJson());
       return true;
     } catch (e) {
       return false;
@@ -122,5 +122,35 @@ class FireStoreProject {
 
     await Future.delayed(Duration(milliseconds: 100));
     return users;
+  }
+
+  //Subscribe to Unit
+  Future<bool> subscribeToProject(ProjectModel project) async {
+    try {
+      project.usersId.add(locator<FireStoreUser>().currentUser.firebaseid);
+      await UpdateProject(project);
+
+      locator<FireStoreUser>().currentUser.subscribeProject.add(project.id);
+      locator<FireStoreUser>().UpdateUser(locator<FireStoreUser>().currentUser);
+
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  //Unsaubscribe to Unit
+  Future<bool> unsubscribeToProject(ProjectModel project) async {
+    try {
+      project.usersId.remove(locator<FireStoreUser>().currentUser.firebaseid);
+      await UpdateProject(project);
+
+      locator<FireStoreUser>().currentUser.subscribeProject.remove(project.id);
+      locator<FireStoreUser>().UpdateUser(locator<FireStoreUser>().currentUser);
+
+      return true;
+    } catch (e) {
+      return false;
+    }
   }
 }

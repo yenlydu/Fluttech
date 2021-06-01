@@ -38,11 +38,11 @@ class DetailedPageState extends State<DetailedPage> {
   @override
   Widget build(BuildContext context) {
     _showsub = widget.unitinfo.usersId
-            .contains(locator<FireStoreUser>().currentUser.userid)
+            .contains(locator<FireStoreUser>().currentUser.firebaseid)
         ? false
         : true;
     _showunsub = widget.unitinfo.usersId
-            .contains(locator<FireStoreUser>().currentUser.userid)
+            .contains(locator<FireStoreUser>().currentUser.firebaseid)
         ? true
         : false;
     return Scaffold(

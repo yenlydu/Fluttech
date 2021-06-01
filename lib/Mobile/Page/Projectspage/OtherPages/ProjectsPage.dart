@@ -25,10 +25,6 @@ class ProjectsPageState extends State<ProjectsPage> {
   BuildContext _context;
 
   Future<List<ProjectModel>> projects;
-  bool _ismanager;
-  bool _isuser;
-  Map<int, bool> _showsub;
-  Map<int, bool> _showunsub;
   ScrollController _controller;
 
   @override
@@ -124,15 +120,10 @@ class ProjectsPageState extends State<ProjectsPage> {
   @override
   Widget build(BuildContext context) {
     _context = context;
-    var role = locator<FireStoreUser>().currentUser.role;
-    _ismanager = (role == "manager" || role == "admin") ? true : false;
-    _isuser = (role == "user") ? true : false;
-
     return FutureBuilder(
         future: projects,
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           if (!snapshot.hasData) {
-            print("no data");
             return Scaffold(
               appBar: AppBar(
                 title: Text("Projects"),
@@ -142,12 +133,6 @@ class ProjectsPageState extends State<ProjectsPage> {
               ),
             );
           } else {
-            print("list of data is : " +
-                ((snapshot.data.length > 0)
-                    ? snapshot.data[0].toString()
-                    : "empty"));
-            _showunsub = {};
-            _showsub = {};
             return Scaffold(
               appBar: AppBar(
                 title: Text("Projects"),

@@ -1,6 +1,5 @@
 // Local User Data
 class UserModel {
-  String userid;
   String firebaseid;
 
   String email;
@@ -21,7 +20,6 @@ class UserModel {
 
   // Init User Data (avoid null Reference Exception)
   UserModel({
-    this.userid = '',
     this.firebaseid = '',
     this.email = 'template@temp.tmp',
     this.firstName = 'Template',
@@ -44,7 +42,6 @@ class UserModel {
   // get User object from json encoding
   factory UserModel.fromJson(Map<String, dynamic> parsedJson) {
     return new UserModel(
-      userid: parsedJson['userid'] ?? '',
       firebaseid: parsedJson['firebaseid'] ?? '',
       email: parsedJson['email'] ?? '',
       firstName: parsedJson['firstName'] ?? '',
@@ -63,7 +60,6 @@ class UserModel {
   // Create an json encode version of the User Class (for Data saving)
   Map<String, dynamic> toJson() {
     return {
-      'userid': this.userid,
       'firebaseid': this.firebaseid,
       'email': this.email,
       'firstName': this.firstName,

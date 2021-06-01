@@ -97,7 +97,7 @@ class FireStoreUnit {
       UnitModel newUnit = new UnitModel(
         name: name,
         description: description,
-        usercreatorID: user.userid,
+        usercreatorID: user.firebaseid,
         usercreatorName: user.firstName,
         creditAvailable: creditAvailable,
         unitStart: unitStart,
@@ -129,7 +129,7 @@ class FireStoreUnit {
   //Subscribe to Unit
   Future<bool> subscribeToUnit(UnitModel unit) async {
     try {
-      unit.usersId.add(locator<FireStoreUser>().currentUser.userid);
+      unit.usersId.add(locator<FireStoreUser>().currentUser.firebaseid);
       await UpdateUnit(unit);
 
       locator<FireStoreUser>().currentUser.subscribeUnit.add(unit.id);
@@ -144,7 +144,7 @@ class FireStoreUnit {
   //Unsaubscribe to Unit
   Future<bool> unsubscribeToUnit(UnitModel unit) async {
     try {
-      unit.usersId.remove(locator<FireStoreUser>().currentUser.userid);
+      unit.usersId.remove(locator<FireStoreUser>().currentUser.firebaseid);
       await UpdateUnit(unit);
 
       locator<FireStoreUser>().currentUser.subscribeUnit.remove(unit.id);
@@ -191,7 +191,6 @@ class FireStoreUnit {
   }
 
   //Get list of project
-
   Future<List<ProjectModel>> getUnitProject(UnitModel unit) async {
     try {
       List<ProjectModel> Projectlist = [];
@@ -207,8 +206,8 @@ class FireStoreUnit {
       return null;
     }
   }
-  //Get list of appointement
 
+  //Get list of appointement
   Future<List<AppointementModel>> getUnitAppointement(UnitModel unit) async {
     List<AppointementModel> Aptmtlist = [];
 
@@ -220,8 +219,8 @@ class FireStoreUnit {
     await Future.delayed(Duration(milliseconds: 100));
     return Aptmtlist;
   }
-  //Get list of User
 
+  //Get list of User
   Future<List<UserModel>> getUnitUsers(UnitModel unit) async {
     List<UserModel> Userlist = [];
 

@@ -25,10 +25,10 @@ class FireStoreUser {
 
   Future<UserModel> registerUser(User fireUser, UserModel data) async {
     try {
-      var res = await users.add(data.toJson());
-      var ress = await users.doc(res.id).update({'id': res.id});
+      data.firebaseid = fireUser.uid;
+      var res = await users.doc(fireUser.uid).set(data.toJson());
+      //var ress = await users.doc(res.id).update({'id': res.id});
 
-      data.userid = res.id;
       return data;
     } catch (e) {
       return null;
@@ -98,16 +98,18 @@ class FireStoreUser {
   }
 
   Future<List<ProjectModel>> getUserProjects(UserModel user) async {
-    List<ProjectModel> Projectlist = [];
+    try {
+      List<ProjectModel> Projectlist = [];
 
-    user.subscribeProject.forEach((element) async {
-      try {
-        var firestoreproject = locator<FireStoreProject>();
-        var res = await firestoreproject.getData(element);
+      user.subscribeProject.forEach((element) async {
+        var res = await locator<FireStoreProject>().getData(element);
         Projectlist.add(res);
-      } catch (e) {}
-    });
+      });
 
-    return Projectlist;
+      await Future.delayed(Duration(milliseconds: 100));
+      return Projectlist;
+    } catch (e) {
+      return null;
+    }
   }
 }
