@@ -128,4 +128,3 @@ export const removeTeacherToUnit = functions.runWith(runtimeOpts).https.onReques
 		});
 	res.status(200).send(`Successfully added teacher`);
 });
-

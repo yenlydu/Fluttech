@@ -19,7 +19,7 @@ export const getUserByEmail = functions.runWith(runtimeOpts).https.onRequest(asy
 });
 
 // Create user in Auth
-export const addUserTest = functions.https.onRequest(async (req, res) => {
+export const createUser = functions.https.onRequest(async (req, res) => {
 	const { displayName, email, phoneNumber, photoURL, disabled, emailVerified, password } = req.body;
 
 	console.log("Adding user", email);
@@ -39,7 +39,7 @@ export const addUserTest = functions.https.onRequest(async (req, res) => {
 			phoneNumber,
 			photoURL,
 			disabled,
-			emailVerified
+			emailVerified,
 		});
 
 		//  the newely created user record
@@ -47,14 +47,13 @@ export const addUserTest = functions.https.onRequest(async (req, res) => {
 	} catch (err) {
 		res.status(500).send({ message: `${err.code} - ${err.message}` });
 	}
-
 });
 
 // Store user in firestore after created
 export const StoreUserOnFirestore = functions.auth.user().onCreate(async (user) => {
 	// Get only the name and the last name of the email and then uppercase the first letter !
-	var firstName = user.email!.split("@")[0].split(".")[0].charAt(0).toUpperCase() + user.email!.split("@")[0].split(".")[0].slice(1)
-	var lastName = user.email!.split("@")[0].split(".")[1].charAt(0).toUpperCase() + user.email!.split("@")[0].split(".")[1].slice(1)
+	var firstName = user.email!.split("@")[0].split(".")[0].charAt(0).toUpperCase() + user.email!.split("@")[0].split(".")[0].slice(1);
+	var lastName = user.email!.split("@")[0].split(".")[1].charAt(0).toUpperCase() + user.email!.split("@")[0].split(".")[1].slice(1);
 
 	await admin.firestore().doc(`Users/${user.uid}`).create({
 		firebaseID: user.uid,

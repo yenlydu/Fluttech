@@ -40,5 +40,6 @@ module.exports = {
     "comma-dangle": ["off", "tab"],
     "semi-spacing": ["off", "tab"],
     "key-spacing": ["off", "tab"],
+    "no-var": ["off", "tab"],
   },
 };

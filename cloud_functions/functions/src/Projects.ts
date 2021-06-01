@@ -119,7 +119,7 @@ export const getProjects = functions.runWith(runtimeOpts).https.onRequest(async 
 		projectList.forEach(async (project, index, array) => {
 			const projectSnapshot = await admin.firestore().collection(`Projects/`).doc(project).get();
 			allProjects.push(projectSnapshot.data());
-			if (index === array.length -1) resolve();
+			if (index === array.length - 1) resolve();
 		});
 	});
 	promise.then(() => {
