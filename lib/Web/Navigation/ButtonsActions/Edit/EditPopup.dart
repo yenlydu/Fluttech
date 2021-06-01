@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter2/Web/Navigation/HandleProjects/ProjectInformation.dart';
 import 'package:flutter2/Web/Style/EditButtonStyle.dart';
@@ -69,8 +70,8 @@ class _EditPopupState extends State<EditPopup> {
     setState(() {
       //MAXIME : this function checks the fields that have been changed for the Edit button
       if (temProjectDates != null) {
-        widget.unitEdit.unitStart = temProjectDates["begin"];
-        widget.unitEdit.unitEnd = temProjectDates["end"];
+        widget.unitEdit.unitStart = Timestamp.fromDate(temProjectDates["begin"]);
+        widget.unitEdit.unitEnd = Timestamp.fromDate(temProjectDates["end"]);
         temProjectDates = null;
         //MAXIME : SAVE BEGIN PROJECT DATE
       };
@@ -148,7 +149,7 @@ class _EditPopupState extends State<EditPopup> {
     if (widget.projectEdit != null) {
       return displayProjectDates(widget.projectEdit.projectStart, widget.projectEdit.projectEnd);
     } else if (widget.unitEdit != null)
-      return displayProjectDates(widget.unitEdit.unitStart, widget.unitEdit.unitEnd);
+      return displayProjectDates(widget.unitEdit.unitStart.toDate(), widget.unitEdit.unitEnd.toDate());
   }
 
   Widget pickRangeTypeDate()
@@ -156,7 +157,7 @@ class _EditPopupState extends State<EditPopup> {
     if (widget.projectEdit != null)
       return pickRangeDate(context: context, beginDate: widget.projectEdit.projectStart, endDate: widget.projectEdit.projectEnd, function: setProjectDates);
     else if (widget.unitEdit != null)
-      return pickRangeDate(context: context, beginDate: widget.unitEdit.unitStart, endDate: widget.unitEdit.unitEnd, function: setProjectDates);
+      return pickRangeDate(context: context, beginDate: widget.unitEdit.unitStart.toDate(), endDate: widget.unitEdit.unitEnd.toDate(), function: setProjectDates);
 
   }
 

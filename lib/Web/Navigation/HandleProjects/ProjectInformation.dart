@@ -17,8 +17,15 @@ class Teammates {
 
 class ProjectInformation
 {
+  factory ProjectInformation.fromJson(Map<String, dynamic> json) {
+    return ProjectInformation(
+      name: json['id'] as String,
+      description: json['description'] as String,
+    );
+  }
+
   List<String> studentsRegistered = [];
-  String unitID;
+  String unitID = "";
   String name = "";
   String description = "";
   List <Teammates> teammates = [];

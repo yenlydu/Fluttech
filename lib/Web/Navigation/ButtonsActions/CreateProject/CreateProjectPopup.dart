@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter2/Web/Style/EditButtonStyle.dart';
 import 'package:flutter2/Web/Style/SaveDatasStyle.dart';
@@ -109,8 +110,8 @@ class _CreateProjectPopupState extends State<CreateProjectPopup> {
       editController["credits"].clear();
     }
     if (pickedDates != null) {
-      createdUnit.unitStart = tempDateRange["begin"];
-      createdUnit.unitEnd = tempDateRange["end"];
+      createdUnit.unitStart = Timestamp.fromDate(tempDateRange["begin"]);
+      createdUnit.unitEnd = Timestamp.fromDate(tempDateRange["end"]);
       tempDateRange.clear();
       print("created project endsnot null");
     }

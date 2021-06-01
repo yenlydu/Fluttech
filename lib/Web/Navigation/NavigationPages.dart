@@ -1,6 +1,10 @@
+import 'dart:convert';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter2/Web/Navigation/HandleProjects/DisplayAllProjects.dart';
 import 'package:flutter2/Web/Navigation/HandleProjects/HandleUnits/HandleUnits.dart';
+import 'package:flutter2/Web/Navigation/HandleProjects/ProjectInformation.dart';
 import 'package:flutter2/Web/Style/ButtonsStyle.dart';
 import 'package:flutter2/Web/UnitsInformation.dart';
 import 'package:flutter2/Web/WebConstants/WebConstants.dart';
@@ -9,11 +13,13 @@ import 'package:flutter2/Web/Navigation/ButtonsActions/CreateProject/CreateProje
 import 'package:flutter2/Web/Navigation/HandleStudents/DisplayHandleStudents.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 import 'package:http/http.dart' as http;
-
+import 'package:cloud_functions/cloud_functions.dart';
 import 'package:flutter2/Web/CreateUser.dart';
 import 'package:flutter2/Mobile/Widget/Autocomplete.dart';
 import 'package:flutter2/Web/WebConstants/Enumerations.dart';
 import 'package:flutter2/Web/Navigation/HandleStudents/RolesDropDown/RolesDropDown.dart';
+import 'package:firebase_core/firebase_core.dart';
+
 
 class AllProjects extends StatefulWidget {
   final getUnits;
@@ -24,97 +30,109 @@ class AllProjects extends StatefulWidget {
 }
 class _AllProjectsState extends State<AllProjects>
 {
+
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
     return ResponsiveLayout(
-      largeScreen: ConstructAllProjects(widget.getUnits),
+      largeScreen: ConstructAllProjects(widget.getUnits ),
     );
   }
 }
 class ConstructAllProjects extends StatelessWidget {
+  Future<void> getFirebaseUnits() async {
+/*
+    HttpsCallable callable = FirebaseFunctions.instance.httpsCallable("getUnits");
+    print("before");
+    final results = await callable();
+    print("æfter");
+    print(results.data["units"]);
+    print(results.data);
+*/
+    final res = await http.get(Uri.parse('https://us-central1-flutter2-f9a8c.cloudfunctions.net/getUnits'));
+    print('[onRequest] Res: ${res.body.toString()}');
+  }
+
   final getUnits;
+  FirebaseFunctions functions = FirebaseFunctions.instance;
   ConstructAllProjects(this.getUnits);
   //MAXIME : récuperer les units sous forme de list d'Unit information
   List<UnitInformation> unitInformation = [
   new UnitInformation(
-    unitID: "FirstModule",
+    id: "FirstModule",
     name: "FIRST MOD",
     description:
     "DESCRIPTION TEST",
-    unitStart : DateTime(2021, 09, 28, 15, 30),
-    unitEnd: DateTime(2023, 09, 28, 15, 30),
+    unitStart : Timestamp.fromDate(DateTime(2021, 09, 28, 15, 30)),
+    unitEnd: Timestamp.fromDate(DateTime(2023, 09, 28, 15, 30)),
     creditAvailable: 10,
   ),
   new UnitInformation(
-    unitID: "SecondFirstModule",
+    id: "SecondFirstModule",
     name: "SECOND Module",
     description:
     "DESCRIPTION TEST2",
-    unitStart : DateTime(2010, 09,01, 15, 30),
-    unitEnd: DateTime(2010, 09, 20, 15, 30),
+    unitStart : Timestamp.fromDate(DateTime(2010, 09,01, 15, 30)),
+    unitEnd: Timestamp.fromDate(DateTime(2010, 09, 20, 15, 30)),
     creditAvailable: 20,
   ),new UnitInformation(
-      unitID: "thirdModule",
+      id: "thirdModule",
 
       name: "THIRD Module",
     description:
     "DESCRIPTION TEST3",
-    unitStart : DateTime(2012, 09,01, 15, 30),
-    unitEnd: DateTime(2012, 09, 20, 15, 30),
+    unitStart : Timestamp.fromDate(DateTime(2012, 09,01, 15, 30)),
+    unitEnd: Timestamp.fromDate(DateTime(2012, 09, 20, 15, 30)),
     creditAvailable: 7,
   ),new UnitInformation(
     name: "ZF Module",
-      unitID: "FourthFirstModule",
+      id: "FourthFirstModule",
     description:
     "DESCRIPTION TEST4",
-    unitStart : DateTime(2014, 09,01, 15, 30),
-    unitEnd: DateTime(2014, 09, 20, 15, 30),
+    unitStart : Timestamp.fromDate(DateTime(2014, 09,01, 15, 30)),
+    unitEnd: Timestamp.fromDate(DateTime(2014, 09, 20, 15, 30)),
     creditAvailable: 10,
   ),new UnitInformation(
       name: "THIRD Module",
-      unitID: "FIFTHModule",
+      id: "FIFTHModule",
 
       description:
       "DESCRIPTION TEST3",
-      unitStart : DateTime(2012, 09,01, 15, 30),
-      unitEnd: DateTime(2012, 09, 20, 15, 30),
+      unitStart : Timestamp.fromDate(DateTime(2012, 09,01, 15, 30)),
+      unitEnd: Timestamp.fromDate(DateTime(2012, 09, 20, 15, 30)),
       creditAvailable: 7,
     ),new UnitInformation(
       name: "ZF Module",
-      unitID: "ssixFirstModule",
+      id: "ssixFirstModule",
       description:
       "DESCRIPTION TEST4",
-      unitStart : DateTime(2014, 09,01, 15, 30),
-      unitEnd: DateTime(2014, 09, 20, 15, 30),
+      unitStart : Timestamp.fromDate(DateTime(2014, 09,01, 15, 30)),
+      unitEnd: Timestamp.fromDate(DateTime(2014, 09, 20, 15, 30)),
       creditAvailable: 10,
     ),
     new UnitInformation(
-      unitID: "7FirstModule",
+      id: "7FirstModule",
 
       name: "THIRD Module",
       description:
       "DESCRIPTION TEST3",
-      unitStart : DateTime(2012, 09,01, 15, 30),
-      unitEnd: DateTime(2012, 09, 20, 15, 30),
+      unitStart : Timestamp.fromDate(DateTime(2012, 09,01, 15, 30)),
+      unitEnd: Timestamp.fromDate(DateTime(2012, 09, 20, 15, 30)),
       creditAvailable: 7,
     ),new UnitInformation(
       name: "ZF Module",
-      unitID: "9FirstModule",
+      id: "9FirstModule",
 
       description:
       "DESCRIPTION TEST4",
-      unitStart : DateTime(2014, 09,01, 15, 30),
-      unitEnd: DateTime(2014, 09, 20, 15, 30),
+      unitStart : Timestamp.fromDate(DateTime(2014, 09,01, 15, 30)),
+      unitEnd: Timestamp.fromDate(DateTime(2014, 09, 20, 15, 30)),
       creditAvailable: 10,
     )
   ];
 
-Future<http.Response> fetchUnits() {
-  return http.get(Uri.parse('https://us-central1-flutter2-f9a8c.cloudfunctions.net/getUnits'));
-}
-
   Widget tes(BuildContext context) {
+    getFirebaseUnits();
     if (!ResponsiveLayout.isSmallScreen(context)) {
       return Container(
 //          width: MediaQuery.of(context).size.width,
@@ -123,16 +141,9 @@ Future<http.Response> fetchUnits() {
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            CreateProjectButton(),
-            Flexible(
-              child: 
-              // ElevatedButton(
-              //   onPressed: fetchUnits(),
-              //   child: Text("TEST BUTTON FETCH UNITS"),
-              //   )
+            CreateModuleButton(),
               HandleUnits(unitInformation: unitInformation)
                   .constructProjectsList(40, context),
-            ),
           ],
         )
       );
@@ -142,22 +153,20 @@ Future<http.Response> fetchUnits() {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            CreateProjectButton(height: 50,width: 140,),
-            Flexible(
-              child: HandleUnits(unitInformation: unitInformation)
+            CreateModuleButton(height: 50,width: 140,),
+              Flexible(child:               HandleUnits(unitInformation: unitInformation)
                   .constructProjectsList(40, context),
-            ),
+              )
           ],
         )
       );
     }
 
   }
+
   @override
   Widget build(BuildContext context) {
-
     this.getUnits != null ? this.getUnits(unitInformation): Container();
-
     double size = MediaQuery.of(context).size.height / 3;
     return Container(
         child: Padding(
@@ -166,6 +175,7 @@ Future<http.Response> fetchUnits() {
               height: size  * 1.8,
                 child: Stack(
                   children: [
+                    Text("enter"),
                     tes(context),
 ]
             )

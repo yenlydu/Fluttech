@@ -3,15 +3,15 @@ import 'package:flutter2/Web/Style/ButtonsStyle.dart';
 import 'package:flutter2/Web/Navigation/ButtonsActions/CreateProject/CreateProjectPopup.dart';
 import 'package:flutter2/Web/WebConstants/Enumerations.dart';
 import 'package:flutter2/Web/WebConstants/responsiveLayout.dart';
-class CreateProjectButton extends StatefulWidget {
+class CreateModuleButton extends StatefulWidget {
   final double width;
   final double height;
-  CreateProjectButton({this.width, this.height});
+  CreateModuleButton({this.width, this.height});
   @override
-  _CreateProjectButtonState createState() => _CreateProjectButtonState();
+  _CreateModuleButtonState createState() => _CreateModuleButtonState();
 }
 
-class _CreateProjectButtonState extends State<CreateProjectButton> {
+class _CreateModuleButtonState extends State<CreateModuleButton> {
 
   List mailAddressesList = [
     "teacher1@epitech.eu",

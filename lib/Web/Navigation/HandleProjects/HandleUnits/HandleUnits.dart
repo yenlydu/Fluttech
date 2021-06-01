@@ -22,7 +22,7 @@ class HandleUnits {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       SizedBox(height: 25,),
-                      DisplayHandleUnits(unit: unitInformation[index], unitsId: unitInformation[index].unitID,),
+                      DisplayHandleUnits(unit: unitInformation[index], unitsId: unitInformation[index].id,),
 
                     ],
                   )
