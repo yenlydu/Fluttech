@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter2/Mobile/Page/LoginPage/login.dart';
+import 'package:flutter2/Mobile/Page/Homepage/Selection.dart';
 import 'package:flutter2/Mobile/Tools/FireStore/FireStoreUser.dart';
 import 'package:flutter2/Mobile/Tools/ServiceLocator/ServiceManager.dart';
 import 'package:flutter2/Mobile/Tools/authentication_service.dart';
@@ -8,7 +8,6 @@ import 'package:flutter2/Model/UserModel.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 import 'package:path_provider/path_provider.dart';
-import 'package:firebase_auth/firebase_auth.dart' as fireauth;
 
 //File Page Include
 import 'package:flutter2/Model/Constants.dart';
@@ -275,7 +274,8 @@ class _ProfilePageState extends State<ProfilePage> {
                   locator<AuthenticationService>().signOut();
                   Navigator.pushReplacement(
                     context,
-                    PageRouteBuilder(pageBuilder: (_, __, ___) => LoginPage()),
+                    PageRouteBuilder(
+                        pageBuilder: (_, __, ___) => SelectionPage()),
                   );
                 },
                 child: Icon(

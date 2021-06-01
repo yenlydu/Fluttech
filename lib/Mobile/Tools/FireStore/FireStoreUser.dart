@@ -55,14 +55,18 @@ class FireStoreUser {
   }
 
   Future<UserModel> getUser(String documentId) async {
-    DocumentSnapshot res = await users.doc(documentId).get();
-    UserModel user = null;
-    if (res.data() != null) {
-      user = UserModel.fromJson(res.data());
-    } else {
+    try {
+      DocumentSnapshot res = await users.doc(documentId).get();
+      UserModel user = null;
+      if (res.data() != null) {
+        user = UserModel.fromJson(res.data());
+      } else {
+        return (null);
+      }
+      return (user);
+    } catch (e) {
       return (null);
     }
-    return (user);
   }
 
   Future<bool> deleteData(String documentId) async {

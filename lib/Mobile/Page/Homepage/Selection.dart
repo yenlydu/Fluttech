@@ -1,19 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:flutter2/Mobile/Page/ProjectsPage/Templates/T_Modules.dart';
-import 'package:flutter2/Mobile/Page/ProjectsPage/Templates/T_Projects.dart';
-import 'package:flutter2/Mobile/Tools/FireStore/FireStoreUser.dart';
-import 'package:flutter2/Mobile/Tools/ServiceLocator/ServiceManager.dart';
+import 'package:flutter2/Mobile/Page/LoginPage/login.dart';
 
 import 'package:flutter2/Model/Constants.dart';
-import 'package:flutter2/Model/UserModel.dart';
+import 'package:flutter2/Web/Login.dart';
 
 class SelectionPage extends StatefulWidget {
   SelectionPage({Key key}) : super(key: key);
   @override
-  _ProjectsPageState createState() => _ProjectsPageState();
+  _SelectionPageState createState() => _SelectionPageState();
 }
 
-class _ProjectsPageState extends State<SelectionPage> {
+class _SelectionPageState extends State<SelectionPage> {
   // Selection Page
   @override
   Widget build(BuildContext context) {
@@ -37,13 +34,24 @@ class _ProjectsPageState extends State<SelectionPage> {
                       Text("Connect as", style: textStyle_Selection_Title),
                       sizeBox_Spacing(20),
                       TextButton(
-                        onPressed: () => {},
+                        onPressed: () => {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => LoginPage()),
+                          )
+                        },
                         child: selection_Button(Text("User")),
                       ),
                       sizeBox_Spacing(5),
                       TextButton(
-                        onPressed: () => {},
-                        child: selection_Button(Text("Manager")),
+                        onPressed: () => {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => LoginP()),
+                          )
+                        },
+                        child: selection_Button(Text("Administrator")),
                       ),
                     ],
                   ),

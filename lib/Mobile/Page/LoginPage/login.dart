@@ -170,6 +170,7 @@ class _LoginPageState extends State<LoginPage> {
               prefs.setBool("rememberme", true);
             }
 
+            Navigator.of(context).popUntil((route) => route.isFirst);
             Navigator.pushReplacement(
                 context, MaterialPageRoute(builder: (context) => NavElem()));
           }
