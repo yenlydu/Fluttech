@@ -2,16 +2,23 @@ import 'package:flutter/material.dart';
 import 'package:flutter2/Web/Style/ActionsButtons.dart';
 import 'package:flutter2/Web/Navigation/HandleProjects/ProjectInformation.dart';
 import 'package:flutter2/Web/WebConstants/Enumerations.dart';
+import 'package:flutter2/Web/WebConstants/responsiveLayout.dart';
+
 class NavigationButtonsStyle {
   Widget content;
   BoxDecoration boxDecoration;
   double width;
+  final tap;
 
-  NavigationButtonsStyle(this.content, this.boxDecoration, this.width);
+  NavigationButtonsStyle(this.tap ,this.content, this.boxDecoration, this.width);
 
   Widget button() {
     // TODO: implement build
     return InkWell(
+      onTap: ()=>{
+        print("etered ontap"),
+        tap()
+      },
       splashColor: Colors.transparent,
       hoverColor: Colors.transparent,
       highlightColor: Colors.transparent,
@@ -34,7 +41,7 @@ class NavigationButtonsStyle {
 
 Widget logOut(_goHome)
 {
-  return NavigationButtonsStyle(Icon(
+  return NavigationButtonsStyle(_goHome,Icon(
     Icons.power_settings_new,
     color: Colors.deepPurple,
     size: 30.0,
@@ -52,7 +59,7 @@ class ActionButtonsStyle extends StatefulWidget
   final IconData icon;
   final TextStyle textStyle;
 
-  ActionButtonsStyle({@required this.color, @required this.text, this.customFunction, this.icon, this.textStyle});
+    ActionButtonsStyle({@required this.color, @required this.text, this.customFunction, this.icon, this.textStyle});
   @override
   _ActionsButtonsStyleState createState() => _ActionsButtonsStyleState();
 }
@@ -71,7 +78,7 @@ class _ActionsButtonsStyleState extends State<ActionButtonsStyle> {
       },
         child: Container(
           width: 100,
-          height: 40,
+          height: !ResponsiveLayout.isSmallScreen(context) ? 100 : 20,
           child: Row(
             mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,

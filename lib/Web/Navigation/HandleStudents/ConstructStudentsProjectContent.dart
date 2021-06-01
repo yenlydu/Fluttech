@@ -24,9 +24,16 @@ Widget singleItem({List<String> group, List<Icon> studentsPicture, ProjectInform
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            ActionButtonsStyle(color: Colors.red, text: "Unregister", customFunction: () => ProjectsActions(currentProject:  project,actions: ProjectActionsEnum.UNREGISTER_PROJECT_STUDENT, ), icon: Icons.app_registration,),
-            ActionButtonsStyle(color: Colors.orange, text: "Edit group",customFunction: () => ProjectsActions(currentProject: project,group: group, studentsPictures: studentsPicture,actions: ProjectActionsEnum.EDIT_GROUP,), icon: Icons.group_rounded,),
-            ActionButtonsStyle(color: Colors.orange, text: "Edit notes",customFunction: () => ProjectsActions(currentProject:  project,actions: ProjectActionsEnum.EDIT_NOTES,), icon: Icons.insert_drive_file_rounded,),
+            Flexible(child:             ActionButtonsStyle(color: Colors.red, text: "Unregister", customFunction: () => ProjectsActions(currentProject:  project,actions: ProjectActionsEnum.UNREGISTER_PROJECT_STUDENT, ), icon: Icons.app_registration,),
+            ),
+            SizedBox(width: 10,),
+
+            Flexible(child:             ActionButtonsStyle(color: Colors.orange, text: "Edit group",customFunction: () => ProjectsActions(currentProject: project,actions: ProjectActionsEnum.EDIT_GROUP,), icon: Icons.group_rounded,),
+            ),
+            SizedBox(width: 10,),
+            Flexible(child:             ActionButtonsStyle(color: Colors.orange, text: "Edit notes",customFunction: () => ProjectsActions(currentProject:  project,actions: ProjectActionsEnum.EDIT_NOTES,), icon: Icons.insert_drive_file_rounded,),
+            ),
+            SizedBox(width: 10,)
             //ActionButtonsStyle(color: Colors.green, text: "Add Student",customFunction: () => ProjectsActions(project: project,actions: ProjectActionsEnum.ADD_STUDENT,), icon: Icons.add,),
           ],
         ),

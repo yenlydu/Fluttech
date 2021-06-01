@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter2/Web/Style/ButtonsStyle.dart';
 import 'package:flutter2/Web/routes.dart';
 import 'package:flutter2/Model/Constants.dart';
 import 'package:flutter2/Web/Style/NavigationStyle.dart';
@@ -11,6 +12,12 @@ class NavigationBarWeb extends StatefulWidget {
 
 }
 class _NavigationBarWebState extends State<NavigationBarWeb> {
+  void _goHome()
+  {
+    print("enter");
+    Navigator.pushNamed(context, "/");
+
+  }
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -32,10 +39,6 @@ class _NavigationBarWebState extends State<NavigationBarWeb> {
             width: 16,
           ),
           !ResponsiveLayout.isSmallScreen(context)? Text("FluTECH", style: TextStyle(fontSize: 30,fontWeight: FontWeight.bold, fontFamily: "Butler", ),) : Text("FluTECH", style: TextStyle(fontSize: 15,fontWeight: FontWeight.bold, fontFamily: "Butler", )),
-          SizedBox(
-            width: 16,
-          ),
-
           NavigationItem(
             title: 'Units',
             namedRoute: routeUnits,
@@ -44,6 +47,8 @@ class _NavigationBarWebState extends State<NavigationBarWeb> {
             title: 'Users',
             namedRoute:  routeUsers,
           ),
+          logOut(_goHome)
+
         ],
       ),
     );
@@ -77,7 +82,7 @@ class _NavigationItemState extends State<NavigationItem> {
           child: Container(
             margin: EdgeInsets.only(left: 20),
             height: 30,
-            width: 100,
+            width: !ResponsiveLayout.isSmallScreen(context) ? 100: 70,
             decoration: navigationButtons,
             child: Material(
               color: Colors.transparent,

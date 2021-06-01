@@ -269,11 +269,16 @@ class _HandleStudentsPageState extends State<HandleStudentsPage> {
               Container(
                 padding: EdgeInsets.symmetric(horizontal: 16),
                 // MAXIME : getdisplay name
-                child: Row(
+                child: !ResponsiveLayout.isSmallScreen(context) ? Row(
                   children: [
                     Text(email, style: TextStyle(color: Color(0xFF875BC5),fontSize: 21,fontFamily: "Montserrat", fontWeight: FontWeight.bold),),
                     Text(" (" + displayedName +")", style: TextStyle(color: Color(0xFF875BC5),fontSize: 17,fontFamily: "Montserrat", ),),
                   ],
+                ) : Column(
+                      children: [
+                        Text(email, style: TextStyle(color: Color(0xFF875BC5),fontSize: 21,fontFamily: "Montserrat", fontWeight: FontWeight.bold),),
+                        Text(" (" + displayedName +")", style: TextStyle(color: Color(0xFF875BC5),fontSize: 17,fontFamily: "Montserrat", ),),
+                      ],
                 )
               ),
             ],
@@ -322,7 +327,8 @@ class _HandleStudentsPageState extends State<HandleStudentsPage> {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              DisplayHandleStudent(),
+              Flexible(child:               DisplayHandleStudent(),
+              )
 //              DisplayHandleStudent(),
             ],
           )
@@ -352,9 +358,9 @@ class _HandleStudentsPageState extends State<HandleStudentsPage> {
                       children: [
                         SizedBox(height: 40,),
                         Container(
-                            width: 400,
-                            child: usersAutocomplete.userAutocomplete(mailAddressesList: mailAddressesList, labelName: "Student mail", clear: true)
-                        ),
+                            width: !ResponsiveLayout.isSmallScreen(context) ? 400 : MediaQuery.of(context).size.width/1.2,
+                            child: usersAutocomplete.userAutocomplete(mailAddressesList: mailAddressesList, labelName: "Student mail", clear: true),
+                            )
                       ],
                     ),
                     SizedBox(height: 20),

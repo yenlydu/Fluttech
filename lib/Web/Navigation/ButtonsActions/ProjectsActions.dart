@@ -9,14 +9,12 @@ import 'package:flutter2/Web/Navigation/ButtonsActions/Edit/EditProjectButton.da
 
 class ProjectsActions extends StatefulWidget
 {
-  final List group;
-  final List studentsPictures;
   final ProjectActionsEnum actions;
   ProjectInformation currentProject = null;
   UnitInformation currentUnit = null;
   final function;
 
-  ProjectsActions({this.currentUnit, this.currentProject, @required this.actions, this.function, this.group, this.studentsPictures});
+  ProjectsActions({this.currentUnit, this.currentProject, @required this.actions, this.function});
 
   @override
   ProjectsActionsState createState() => ProjectsActionsState();
@@ -66,8 +64,7 @@ class ProjectsActionsState extends State<ProjectsActions>
       }
       break;
       case ProjectActionsEnum.EDIT_GROUP: {
-        print (widget.group);
-        return EditGroup(projectInformation : widget.currentProject,group: widget.group,studentsPicture:  widget.studentsPictures,);
+        return EditGroup(projectInformation : widget.currentProject);
       }
       break;
     }

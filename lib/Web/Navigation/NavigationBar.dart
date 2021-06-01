@@ -21,10 +21,6 @@ class _NavigationBarState extends State<NavigationBar>
   List<Widget> navItem ()
   {
     return navLinks.map((text) {
-      return NavigationButtonsStyle(
-          Text(text, style: TextStyle(fontFamily: "Montserrat-Italic",
-              backgroundColor: Colors.transparent)),
-          navigationButtons, 120).button();
     }).toList();
   }
 
@@ -45,9 +41,7 @@ class _NavigationBarState extends State<NavigationBar>
                 mainAxisAlignment: MainAxisAlignment.start,
                 children:<Widget> [
                   ...navItem(),
-                ]..add(
-                  logOut(_goHome),
-                )
+                ]
             )
           else hamburgerIcon
         ],
