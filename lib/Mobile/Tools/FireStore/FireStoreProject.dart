@@ -2,12 +2,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter2/Mobile/Tools/ServiceLocator/ServiceManager.dart';
-import 'package:flutter2/Model/Group.dart';
-import 'package:flutter2/Model/UnitModel.dart';
-import 'package:flutter2/Model/UserModel.dart';
+import 'package:flutter2/Model/FireStoreModel/Group.dart';
+import 'package:flutter2/Model/FireStoreModel/UnitModel.dart';
+import 'package:flutter2/Model/FireStoreModel/UserModel.dart';
 
 //File Includ
-import '../../../Model/ProjectModel.dart';
+import '../../../Model/FireStoreModel/ProjectModel.dart';
 import 'FireStoreUser.dart';
 
 // Manage User Info with Shared Preferences

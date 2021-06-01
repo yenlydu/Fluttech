@@ -4,13 +4,10 @@ import 'package:intl/intl.dart';
 import 'package:flutter2/Mobile/Tools/FireStore/FireStoreUnit.dart';
 import 'package:flutter2/Mobile/Tools/FireStore/FireStoreUser.dart';
 import 'package:flutter2/Mobile/Tools/ServiceLocator/ServiceManager.dart';
-import 'package:flutter2/Model/UnitModel.dart';
-import 'package:getwidget/getwidget.dart';
+import 'package:flutter2/Model/FireStoreModel/UnitModel.dart';
 
 import '../OtherPages/AppointmentsPage.dart';
 import '../../../../Model/Constants.dart';
-import '../../../../Model/Constants/C_Projects.dart';
-import '../../../../Model/Constants/C_Accordion.dart';
 import '../../../../Model/Constants/C_DetailedPage.dart';
 
 class DetailedPageModules extends StatefulWidget {

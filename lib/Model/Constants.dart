@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 // Global Constants (Mostly App Color)
-class Constants extends StatelessWidget {
+class Constants {
   /////////COLORS
   //GLOBAL
   Color app_color = new Color(0xFF664C9E);

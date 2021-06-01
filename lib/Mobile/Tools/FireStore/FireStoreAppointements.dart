@@ -1,13 +1,12 @@
 // Import the firebase_core and cloud_firestore plugn
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter2/Mobile/Tools/ServiceLocator/ServiceManager.dart';
-import 'package:flutter2/Mobile/Tools/authentication_service.dart';
-import 'package:flutter2/Model/AppointementModel.dart';
-import 'package:flutter2/Model/UnitModel.dart';
+import 'package:flutter2/Model/FireStoreModel/AppointementModel.dart';
+import 'package:flutter2/Model/FireStoreModel/UnitModel.dart';
 
 //File Includ
-import '../../../Model/AppointementModel.dart';
-import '../../../Model/UserModel.dart';
+import '../../../Model/FireStoreModel/AppointementModel.dart';
+import '../../../Model/FireStoreModel/UserModel.dart';
 import 'FireStoreUser.dart';
 
 // Manage Unit Info with Shared Preferences

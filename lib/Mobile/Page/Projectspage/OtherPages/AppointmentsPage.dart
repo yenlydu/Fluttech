@@ -3,8 +3,8 @@ import 'package:flutter2/Mobile/Tools/FireStore/FireStoreAppointements.dart';
 import 'package:flutter2/Mobile/Tools/FireStore/FireStoreUnit.dart';
 import 'package:flutter2/Mobile/Tools/FireStore/FireStoreUser.dart';
 import 'package:flutter2/Mobile/Tools/ServiceLocator/ServiceManager.dart';
-import 'package:flutter2/Model/AppointementModel.dart';
-import 'package:flutter2/Model/UnitModel.dart';
+import 'package:flutter2/Model/FireStoreModel/AppointementModel.dart';
+import 'package:flutter2/Model/FireStoreModel/UnitModel.dart';
 import 'package:getwidget/getwidget.dart';
 
 import '../../../../Model/Constants.dart';

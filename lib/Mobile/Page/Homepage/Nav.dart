@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 //File Page Includ
-import '../ProfilePage/Profile.dart';
+import 'package:flutter2/Mobile/Page/Profilepage/Profile.dart';
 import '../CalendarPage/Calendar.dart';
 import '../ProjectsPage/Projects.dart';
 import '../NotificationsPage/Notifications.dart';
@@ -17,7 +17,7 @@ class NavElem extends StatefulWidget {
 
 class _NavElemState extends State<NavElem> {
   int _selectedIndex = 0;
-  static const TextStyle optionStyle =
+  /*static const TextStyle optionStyle =
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   static const List<Widget> _widgetOptions = <Widget>[
     Text(
@@ -36,7 +36,7 @@ class _NavElemState extends State<NavElem> {
       'Index 4: Notifications',
       style: optionStyle,
     ),
-  ];
+  ];*/
 
   void _onItemTapped(int index) {
     setState(() {

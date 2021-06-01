@@ -1,11 +1,8 @@
 import 'package:flutter2/Mobile/Tools/Image/ImageProfileFireManager.dart';
 import 'package:flutter2/Mobile/Tools/ServiceLocator/ServiceManager.dart';
-import 'package:flutter2/Model/UserModel.dart';
-import 'package:intl/intl.dart';
 
 import 'package:flutter/material.dart';
 
-import 'C_Projects.dart';
 import '../Constants.dart';
 
 Widget studentName(String id, String name) {

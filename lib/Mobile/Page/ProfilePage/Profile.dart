@@ -4,7 +4,7 @@ import 'package:flutter2/Mobile/Tools/FireStore/FireStoreUser.dart';
 import 'package:flutter2/Mobile/Tools/ServiceLocator/ServiceManager.dart';
 import 'package:flutter2/Mobile/Tools/authentication_service.dart';
 import 'package:flutter2/Model/Constants/C_Profile.dart';
-import 'package:flutter2/Model/UserModel.dart';
+import 'package:flutter2/Model/FireStoreModel/UserModel.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 import 'package:path_provider/path_provider.dart';

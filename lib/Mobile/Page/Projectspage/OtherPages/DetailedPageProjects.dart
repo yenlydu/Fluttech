@@ -1,18 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter2/Mobile/Tools/FireStore/FireStoreProject.dart';
-import 'package:flutter2/Mobile/Tools/FireStore/FireStoreUnit.dart';
 import 'package:flutter2/Mobile/Tools/FireStore/FireStoreUser.dart';
 import 'package:flutter2/Mobile/Tools/ServiceLocator/ServiceManager.dart';
-import 'package:flutter2/Model/Group.dart';
-import 'package:flutter2/Model/UnitModel.dart';
-import 'package:flutter2/Model/UserModel.dart';
+import 'package:flutter2/Model/FireStoreModel/UserModel.dart';
 import 'package:intl/intl.dart';
-import 'package:flutter2/Model/ProjectModel.dart';
-import 'package:getwidget/getwidget.dart';
+import 'package:flutter2/Model/FireStoreModel/ProjectModel.dart';
 
 import '../../../../Model/Constants.dart';
-import '../../../../Model/Constants/C_Projects.dart';
-import '../../../../Model/Constants/C_Accordion.dart';
 import '../../../../Model/Constants/C_DetailedPage.dart';
 
 class DetailedPageProjects extends StatefulWidget {

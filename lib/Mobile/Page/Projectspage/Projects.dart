@@ -5,7 +5,7 @@ import 'package:flutter2/Mobile/Tools/FireStore/FireStoreUser.dart';
 import 'package:flutter2/Mobile/Tools/ServiceLocator/ServiceManager.dart';
 
 import 'package:flutter2/Model/Constants.dart';
-import 'package:flutter2/Model/UserModel.dart';
+import 'package:flutter2/Model/FireStoreModel/UserModel.dart';
 
 class ProjectsPage extends StatefulWidget {
   ProjectsPage({Key key}) : super(key: key);

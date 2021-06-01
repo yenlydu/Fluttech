@@ -1,15 +1,11 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:table_calendar/table_calendar.dart';
+
+//File Page Includ
+import 'package:flutter2/Mobile/Page/CalendarPage/Templates/Event.dart';
 import 'package:flutter2/Mobile/Tools/FireStore/FireStoreUser.dart';
 import 'package:flutter2/Mobile/Tools/ServiceLocator/ServiceManager.dart';
-import 'package:flutter2/Model/AppointementModel.dart';
-import 'package:flutter2/Model/Constants.dart';
-import 'package:flutter2/Model/Constants/C_Calendar.dart';
-import 'package:flutter2/Model/UserModel.dart';
-import 'package:table_calendar/table_calendar.dart';
-import 'dart:collection';
-
-import './Templates/Event.dart';
+import 'package:flutter2/Model/FireStoreModel/AppointementModel.dart';
 
 class CalendarPage extends StatefulWidget {
   @override

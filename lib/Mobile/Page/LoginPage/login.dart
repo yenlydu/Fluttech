@@ -1,11 +1,6 @@
 import 'dart:ui';
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:flutter2/Mobile/Page/Admin/LoginPage/adminLoginPage.dart';
-import 'package:flutter2/Mobile/Page/Homepage/Nav.dart';
-import 'package:flutter2/Mobile/Tools/FireStore/FireStoreUser.dart';
-import 'package:flutter2/Mobile/Tools/ServiceLocator/ServiceManager.dart';
-import 'package:flutter2/Model/UserModel.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -14,7 +9,12 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter2/Model/Constants.dart';
 import 'package:flutter2/Model/Constants/C_Login.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../../Tools/authentication_service.dart';
+import 'package:flutter2/Mobile/Tools/authentication_service.dart';
+import 'package:flutter2/Mobile/Page/Admin/LoginPage/adminLoginPage.dart';
+import 'package:flutter2/Mobile/Page/Homepage/Nav.dart';
+import 'package:flutter2/Mobile/Tools/FireStore/FireStoreUser.dart';
+import 'package:flutter2/Mobile/Tools/ServiceLocator/ServiceManager.dart';
+import 'package:flutter2/Model/FireStoreModel/UserModel.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -31,12 +31,12 @@ class _LoginPageState extends State<LoginPage> {
   bool _loginvisible = false;
 
   _LoginPageState() {
-    Timer _timer;
+    /*Timer _timer;
     _timer = new Timer(const Duration(milliseconds: 400), () {
       setState(() {
         _visible = !_visible;
       });
-    });
+    });*/
   }
 
   @override
@@ -217,12 +217,8 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         body: AnimatedOpacity(
-      // If the widget is visible, animate to 0.0 (invisible).
-      // If the widget is hidden, animate to 1.0 (fully visible).
-
       opacity: _visible ? 1.0 : 0.0,
       duration: Duration(milliseconds: 500),
-      // The green box must be a child of the AnimatedOpacity widget.
       child: Stack(
         children: <Widget>[
           kContainer_BG,
@@ -242,26 +238,3 @@ class _LoginPageState extends State<LoginPage> {
     ));
   }
 }
-
-/* HOME PAGE
-
-  @override
-  Widget build(BuildContext context) {
-    _context = context;
-    return Scaffold(
-      body: Stack(
-        children: <Widget>[
-          kContainer_BG,
-          Align(
-            alignment: Alignment.center,
-            child: new Image.asset(
-              'assets/images/icon.png',
-              width: 150,
-              height: 150,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-  */

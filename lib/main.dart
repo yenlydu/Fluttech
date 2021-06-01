@@ -8,16 +8,15 @@ import 'package:provider/provider.dart';
 import 'package:overlay_support/overlay_support.dart';
 
 //File Page Includ
-import 'package:flutter2/Model/UserModel.dart';
+import 'package:flutter2/Model/FireStoreModel/UserModel.dart';
 import 'package:flutter2/Mobile/Tools/authentication_service.dart';
-import 'Mobile/Page/Homepage/Nav.dart';
-import 'Mobile/Page/Homepage/Selection.dart';
-import './Mobile/Page/LoginPage/login.dart';
+import 'package:flutter2/Mobile/Page/Homepage/Nav.dart';
+import 'package:flutter2/Mobile/Page/Homepage/Selection.dart';
 import 'package:flutter2/Web/homeAdmin.dart';
-import 'Mobile/Tools/FireStore/FireStoreUser.dart';
-import 'Mobile/Tools/LocalTools.dart';
-import 'Mobile/Tools/ServiceLocator/ServiceManager.dart';
-import 'Web/Login.dart';
+import 'package:flutter2/Mobile/Tools/FireStore/FireStoreUser.dart';
+import 'package:flutter2/Mobile/Tools/LocalTools.dart';
+import 'package:flutter2/Mobile/Tools/ServiceLocator/ServiceManager.dart';
+import 'package:flutter2/Web/Login.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
