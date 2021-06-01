@@ -13,7 +13,6 @@ class NavigationButtonsStyle {
   NavigationButtonsStyle(this.tap ,this.content, this.boxDecoration, this.width);
 
   Widget button() {
-    // TODO: implement build
     return InkWell(
       onTap: ()=>{
         print("etered ontap"),
@@ -29,9 +28,7 @@ class NavigationButtonsStyle {
         decoration: boxDecoration,
         child: Material(
           color: Colors.transparent,
-          child: Center(
-              child: content
-          ),
+          child: Center(child: content),
         ),
       ),
     );
