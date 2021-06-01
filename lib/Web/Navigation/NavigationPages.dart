@@ -262,9 +262,8 @@ class _HandleStudentsPageState extends State<HandleStudentsPage> {
       child: Column(
         children: [
           Row(
-            mainAxisAlignment: MainAxisAlignment.start,
+            mainAxisAlignment: !ResponsiveLayout.isSmallScreen(context) ? MainAxisAlignment.start: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
-
             children: [
               Container(
                 padding: EdgeInsets.symmetric(horizontal: 16),
@@ -275,15 +274,15 @@ class _HandleStudentsPageState extends State<HandleStudentsPage> {
                     Text(" (" + displayedName +")", style: TextStyle(color: Color(0xFF875BC5),fontSize: 17,fontFamily: "Montserrat", ),),
                   ],
                 ) : Column(
-                      children: [
-                        Text(email, style: TextStyle(color: Color(0xFF875BC5),fontSize: 21,fontFamily: "Montserrat", fontWeight: FontWeight.bold),),
-                        Text(" (" + displayedName +")", style: TextStyle(color: Color(0xFF875BC5),fontSize: 17,fontFamily: "Montserrat", ),),
-                      ],
-                )
+                    children: [
+                      Text(email, style: TextStyle(color: Color(0xFF875BC5),fontSize: 21,fontFamily: "Montserrat", fontWeight: FontWeight.bold),),
+                      Text(" (" + displayedName +")", style: TextStyle(color: Color(0xFF875BC5),fontSize: 17,fontFamily: "Montserrat", ),),
+                    ],
+                  ),
               ),
             ],
           ),
-          SizedBox(height: 30,),
+          SizedBox(height: 10,),
           Container(
             width: 500,
             height: 130,

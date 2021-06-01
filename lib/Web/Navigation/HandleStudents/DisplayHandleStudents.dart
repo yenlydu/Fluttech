@@ -46,7 +46,7 @@ class  _DisplayHandleStudentState extends State<DisplayHandleStudent>
                     teammates: [new Teammates(mail: "31@gmail", image: Icon(Icons.face, color: Colors.green,), ), new Teammates(mail: "32@gmail", image: Icon(Icons.settings, color: Colors.red,)), new Teammates(mail: "33@gmail", image: Icon(Icons.tab, color: Colors.teal,), )],
 
                     description: "description",
-                    projectStart: DateTime.now(),
+                    projectStart: new DateTime.now(),
                     projectEnd: DateTime.now()),projectEnum: ProjectActionsEnum.STUDENT_DESCRIPTION, )),
             SizedBox(height: 10),
             //MAXIME : firebasemodule id correspond a l'id dans firebase(la route : handleUnits/firebaseModuleId)

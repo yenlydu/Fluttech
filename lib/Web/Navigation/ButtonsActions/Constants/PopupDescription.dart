@@ -3,6 +3,7 @@ import 'package:flutter2/Web/Navigation/HandleProjects/ProjectInformation.dart';
 import 'package:flutter2/Web/UnitsInformation.dart';
 import 'package:flutter2/Web/WebConstants/Enumerations.dart';
 import 'package:flutter2/Web/WebConstants/WebConstants.dart';
+import 'package:flutter2/Web/WebConstants/responsiveLayout.dart';
 
 class PopupDescription extends StatelessWidget
 {
@@ -51,6 +52,17 @@ class PopupDescription extends StatelessWidget
     );
   }
 
+  Widget displayBeginEndDates(String text, DateTime date)
+  {
+    return Column(
+        children:[
+          displaySubtitle(text),
+          SizedBox(height:5),
+          this.project != null? Text(formatter( date), style: TextStyle(fontSize: 17, color: Color(0xFFF69F20), ),) : Text(formatter( date), style: TextStyle(fontSize: 17, color: Color(0xFFF69F20), ),),
+        ]
+    );
+  }
+
   @override
   Widget build(BuildContext context)
   {
@@ -67,23 +79,17 @@ class PopupDescription extends StatelessWidget
                   SizedBox(height:10),
                   this.project != null? Text(project.description, style: TextStyle(fontSize: 17, color: Color(0xFFF69F20), ),) :Text(unit.description, style: TextStyle(fontSize: 17, color: Color(0xFFF69F20), ),),
                   SizedBox(height:25),
+                  !ResponsiveLayout.isSmallScreen(context) ?
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-                      Column(
-                        children:[
-                          displaySubtitle("Begin Date"),
-                          SizedBox(height:5),
-                          this.project != null? Text(formatter( project.projectStart), style: TextStyle(fontSize: 17, color: Color(0xFFF69F20), ),) : Text(formatter( unit.unitStart), style: TextStyle(fontSize: 17, color: Color(0xFFF69F20), ),),
-                        ]
-                      ),
-                      Column(
-                          children:[
-                            displaySubtitle("End Date"),
-                            SizedBox(height:5),
-                            this.project != null? Text(formatter(project.projectEnd), style: TextStyle(fontSize: 17, color: Color(0xFFF69F20), ),) : Text(formatter(unit.unitEnd), style: TextStyle(fontSize: 17, color: Color(0xFFF69F20), ),),
-                          ]
-                      )
+                      displayBeginEndDates("Begin Date", this.project != null? project.projectStart: unit.unitStart),
+                      displayBeginEndDates("End Date", this.project != null? project.projectEnd: unit.unitEnd),
+                    ],
+                  ) : Column(
+                    children: [
+                      displayBeginEndDates("Begin Date", this.project != null? project.projectStart: unit.unitStart),
+                      displayBeginEndDates("End Date", this.project != null? project.projectEnd: unit.unitEnd),
                     ],
                   ),
                   SizedBox(height: 25,),
