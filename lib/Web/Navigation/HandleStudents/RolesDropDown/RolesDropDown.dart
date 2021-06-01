@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter2/Web/WebConstants/Enumerations.dart';
+
+import 'package:flutter2/Web/WebConstants/responsiveLayout.dart';
+
 class RolesDropDown extends StatefulWidget {
   final String text;
   final getUserRole;
@@ -109,7 +112,7 @@ class _RolesDropDownState extends State<RolesDropDown> {
           });
         },
         child:       Container(
-          width: MediaQuery.of(context).size.width/6,
+          width: !ResponsiveLayout.isSmallScreen(context) ?MediaQuery.of(context).size.width/6 :MediaQuery.of(context).size.width/2,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(17),
 

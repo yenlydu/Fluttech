@@ -1,21 +1,30 @@
 import 'package:flutter/material.dart';
+import 'package:flutter2/Web/WebConstants/responsiveLayout.dart';
 
-Widget actionsButton(TextStyle textStyle, IconData icon, String text)
+Widget actionsButton(BuildContext context, TextStyle textStyle, IconData icon, String text)
 {
   if (textStyle == null) {
     return Column(
       children: [
-        Icon(icon, size: 14 ,),
+        Flexible(
+        child:         Icon(icon, size: 14 ,),
+
+        ),
         SizedBox(width: 5,),
-        Text(text, style: TextStyle(fontSize: 12),),
+
+        !ResponsiveLayout.isSmallScreen(context) ? Flexible(child:         Text(text, style: TextStyle(fontSize: 12),)) : Flexible(child:         Text(text, style: TextStyle(fontSize: 8),),
+        )
       ],
     );
   } else {
     return Column(
       children: [
-        Icon(icon, size: textStyle.fontSize+2 ,),
-        SizedBox(width: 5,),
-        Text(text, style: textStyle,                 textAlign: TextAlign.center,
+        Flexible(child:         Icon(icon, size: textStyle.fontSize+2 ,),
+        ),
+        Flexible(child:         SizedBox(width: 5,),
+        ),
+        Flexible(child:         Text(text, style: textStyle,                 textAlign: TextAlign.center,
+        )
         ),
       ],
     );

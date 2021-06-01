@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter2/Web/Navigation/HandleProjects/ProjectInformation.dart';
 import 'package:intl/intl.dart';
-
+import 'package:flutter2/Web/UnitsInformation.dart';
+import 'dart:convert';
 
 final hamburgerIcon = Icon(
   Icons.menu,
@@ -35,7 +37,7 @@ Widget buildingSingleItemConstant({BuildContext context, Widget onTapPopup, Widg
     hoverColor: Colors.transparent,
     onTap: ()=> {
       if (firebaseModuleId != null) {
-        Navigator.pushNamed(
+        Navigator.pushReplacementNamed(
           context,
           '/handleUnits/' + firebaseModuleId ,
         ),
@@ -64,4 +66,14 @@ Widget buildingSingleItemConstant({BuildContext context, Widget onTapPopup, Widg
       child: itemDisplay,
     ),
   );
+}
+
+
+List<UnitInformation> parseUnits(String responseBody) {
+  final parsed = json.decode(responseBody);
+  return parsed.map<UnitInformation>((json) => UnitInformation.fromJson(json)).toList();
+}
+List<ProjectInformation> parseProjects(String responseBody) {
+  final parsed = json.decode(responseBody).cast<Map<String, dynamic>>();
+  return parsed.map<ProjectInformation>((json) => ProjectInformation.fromJson(json)).toList();
 }

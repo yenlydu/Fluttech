@@ -13,23 +13,13 @@ class NavigationBar extends StatefulWidget {
   _NavigationBarState createState() => _NavigationBarState();
 }
 
-class _NavigationBarState extends State<NavigationBar>
-{
+class _NavigationBarState extends State<NavigationBar> {
   NavigationEnum currentPage = NavigationEnum.HANDLE_PROJECTS;
   final navLinks = ["Handle Projects", "Handle Users", "Profile"];
 
-  List<Widget> navItem ()
-  {
+  List<Widget> navItem() {
     return navLinks.map((text) {
-      return NavigationButtonsStyle(
-          Text(text, style: TextStyle(fontFamily: "Montserrat-Italic",
-              backgroundColor: Colors.transparent)),
-          navigationButtons, 120).button();
     }).toList();
-  }
-
-  void _goHome() {
-    Navigator.pushReplacementNamed(context, "/login");
   }
 
   @override
@@ -39,14 +29,13 @@ class _NavigationBarState extends State<NavigationBar>
       child: Row(
         children: <Widget>[
           navbarRowItems(),
-          if (!ResponsiveLayout.isSmallScreen(context))
+          Text(ResponsiveLayout.isSmallScreen(context).toString())
+,          if (!ResponsiveLayout.isSmallScreen(context))
             Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                mainAxisAlignment: MainAxisAlignment.start,
                 children:<Widget> [
                   ...navItem(),
-                ]..add(
-                  logOut(_goHome),
-                )
+                ]
             )
           else hamburgerIcon
         ],

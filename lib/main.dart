@@ -27,8 +27,48 @@ Future<void> main() async {
 
 class MyApp extends StatefulWidget {
   @override
-  MyMobileState createState() => MyMobileState();
+  MyWebState createState() => MyWebState();
 }
+class MyWebState extends State<MyApp> {
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    return OverlaySupport.global(
+      child: MultiProvider(
+        providers: [
+          Provider<AuthenticationService>(
+            create: (_) => AuthenticationService(FirebaseAuth.instance),
+          ),
+          StreamProvider(
+            create: (context) =>
+            context
+                .read<AuthenticationService>()
+                .authStateChanges,
+          )
+        ],
+        child: Consumer<AuthenticationService>(
+          builder: (context, provider, _) =>
+              MaterialApp(
+                debugShowCheckedModeBanner: false,
+                title: "FluTECH",
+                theme: ThemeData(
+                  fontFamily: 'Montserrat',
+                  primarySwatch: Colors.blue,
+                  backgroundColor: Color(0xFFFFFFF),
+                ),
+                routes: <String, WidgetBuilder>{
+                  '/': (BuildContext context) => new LoginP(),
+                  '/my': (BuildContext context) => MyAppTest(),
+                  '/handleUnits': (BuildContext context) => MyAppTest(),
+                  '/handleUsers': (BuildContext context) => MyAppTest(),
+                },
+              ),
+        ),
+      ),
+    );
+  }
+}
+
 
 class MyMobileState extends State<MyApp> with WidgetsBindingObserver {
   @override
@@ -45,7 +85,7 @@ class MyMobileState extends State<MyApp> with WidgetsBindingObserver {
           ),
           StreamProvider(
             create: (context) =>
-                context.read<AuthenticationService>().authStateChanges,
+            context.read<AuthenticationService>().authStateChanges,
           )
         ],
         child: Consumer<AuthenticationService>(

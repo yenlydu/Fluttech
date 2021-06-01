@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter2/Web/Style/EditButtonStyle.dart';
 import 'package:flutter2/Web/Style/SaveDatasStyle.dart';
@@ -6,6 +7,10 @@ import 'package:date_range_picker/date_range_picker.dart' as DateRangePicker;
 import 'package:flutter2/Web/Navigation/HandleProjects/ProjectInformation.dart';
 import 'package:flutter2/Mobile/Widget/Autocomplete.dart';
 import 'package:flutter2/Web/Navigation/ButtonsActions/Constants/ProjectsActionsConstants.dart';
+import 'package:flutter2/Web/UnitsInformation.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter2/Web/WebConstants/responsiveLayout.dart';
+
 import 'package:flutter2/Web/WebConstants/Enumerations.dart';
 class CreateProjectPopup extends StatefulWidget {
   final List mailAddressesList;
@@ -19,11 +24,13 @@ class CreateProjectPopup extends StatefulWidget {
 class _CreateProjectPopupState extends State<CreateProjectPopup> {
   Map<String, TextEditingController> editController = {
     "title": TextEditingController(),
+    "credits" : TextEditingController(),
     "description": TextEditingController(),
   };
+  ProjectInformation createdProject;
+  UnitInformation createdUnit;
   String selectedMail;
   List<DateTime> pickedDates;
-  ProjectInformation createdProject;
   Map<String, DateTime> tempDateRange = {
     "begin" : null,
     "end" : null,
@@ -43,6 +50,7 @@ class _CreateProjectPopupState extends State<CreateProjectPopup> {
     super.initState();
     setState(() {
       createdProject = new ProjectInformation();
+      createdUnit = new UnitInformation();
       usersAutocomplete = new UsersAutocomplete(getStudentSelected: getEmail,);
 
     });
@@ -73,7 +81,7 @@ class _CreateProjectPopupState extends State<CreateProjectPopup> {
       selectedMail = null;
     }
     if (editController["title"].text.isNotEmpty){
-      createdProject.title = editController["title"].text;
+      createdProject.name = editController["title"].text;
       editController["title"].clear();
     }
     if (editController["description"].text.isNotEmpty) {
@@ -81,38 +89,41 @@ class _CreateProjectPopupState extends State<CreateProjectPopup> {
       editController["description"].clear();
     }
     if (pickedDates != null) {
-      createdProject.beginDate = tempDateRange["begin"];
-      createdProject.endDate = tempDateRange["end"];
+      createdProject.projectStart = tempDateRange["begin"];
+      createdProject.projectEnd = tempDateRange["end"];
       tempDateRange.clear();
     }
 
   }
+
   void createUnits()
   {
     if (editController["title"].text.isNotEmpty){
-      createdProject.title = editController["title"].text;
+      createdUnit.name = editController["title"].text;
       editController["title"].clear();
     }
     if (editController["description"].text.isNotEmpty) {
-      createdProject.description = editController["description"].text;
+      createdUnit.description = editController["description"].text;
       editController["description"].clear();
     }
+    if (editController["credits"].text.isNotEmpty) {
+      createdUnit.creditAvailable = int.parse(editController["credits"].text);
+      editController["credits"].clear();
+    }
     if (pickedDates != null) {
-      createdProject.beginDate = tempDateRange["begin"];
-      createdProject.endDate = tempDateRange["end"];
+      createdUnit.unitStart = Timestamp.fromDate(tempDateRange["begin"]);
+      createdUnit.unitEnd = Timestamp.fromDate(tempDateRange["end"]);
       tempDateRange.clear();
       print("created project endsnot null");
     }
-
   }
 
   Widget checkCreateType()
   {
     if (widget.createType == ProjectActionsEnum.CREATE_PROJECT) {
-      return saveDatas(function: createProjects, text: "Save Projects Datas");
-    }
-    else {
-      return saveDatas(function: createUnits, text: "Save Units Datas");
+      return !ResponsiveLayout.isSmallScreen(context) ? saveDatas(function: createProjects, text: "Save Projects Datas", textSize: 16) : saveDatas(function: createProjects, text: "Save Projects Datas", textSize: 10);
+    } else {
+      return !ResponsiveLayout.isSmallScreen(context) ? saveDatas(function: createUnits, text: "Save Units Datas", textSize: 16) :saveDatas(function: createUnits, text: "Save Units Datas", textSize: 10) ;
     }
   }
 
@@ -133,14 +144,32 @@ class _CreateProjectPopupState extends State<CreateProjectPopup> {
                     Text("Creating Project", style: TextStyle(color: Color(0xFF875BC5),fontSize: 21,fontFamily: "Montserrat", fontWeight: FontWeight.bold,    decoration: TextDecoration.underline,),),
                     SizedBox(height: 30,),
                     titleDescriptionTextFields(editController: editController, setTextEditingController: getEditing),
-                    widget.createType == ProjectActionsEnum.CREATE_UNITS? usersAutocomplete.userAutocomplete(mailAddressesList: widget.mailAddressesList, labelName: "Professor Mail", clear: false) : Container(),
-                    SizedBox(height:20),
+                    widget.createType == ProjectActionsEnum.CREATE_UNITS ? usersAutocomplete.userAutocomplete(mailAddressesList: widget.mailAddressesList, labelName: "Professor Mail", clear: false) : Container(),
+                    SizedBox(height:5),
+                    widget.createType == ProjectActionsEnum.CREATE_UNITS ? Container(
+                        width: 76.0,
+                        child: TextFormField(
+                          controller: editController["credits"],
+                          keyboardType: TextInputType.number,
+                          inputFormatters: <TextInputFormatter>[
+                            FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+                          ],
+
+                          maxLength: 3,
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(borderRadius: BorderRadius.circular(20.0),),
+                            labelText: 'Credits',
+                          ),
+                        ),
+                    ) : Container(),
                   ],
                 ),
                 tempDateRange["begin"] == null? displayProjectDates(DateTime.now(), DateTime.now()): displayProjectDates(tempDateRange["begin"], tempDateRange["end"]),
 
                 tempDateRange["begin"] == null? pickRangeDate(context: context, beginDate: DateTime.now(), endDate: DateTime.now(), function: getTimeRange) : pickRangeDate(context: context, beginDate: tempDateRange["begin"], endDate: tempDateRange["end"], function: getTimeRange),
                 SizedBox(height: 20,),
+
+
                 checkCreateType()
               ]
           ),

@@ -5,7 +5,7 @@ import 'package:flutter2/Web/Style/ButtonsStyle.dart';
 import 'package:flutter2/Web/Navigation/ButtonsActions/Constants/ProjectsActionsConstants.dart';
 import 'package:flutter2/Web/Navigation/ButtonsActions/Constants/PickRangeDate.dart';
 import 'package:flutter2/Web/Style/SaveDatasStyle.dart';
-
+import 'package:flutter2/Web/WebConstants/responsiveLayout.dart';
 
 class AddMeetings extends StatefulWidget {
   final ProjectInformation currrentProject;
@@ -93,7 +93,8 @@ class _AddMeetingsState extends State<AddMeetings> {
               crossAxisAlignment: CrossAxisAlignment.start,
               // MAXIME : SAVE PROJECT REUNIONS
               children: [
-                saveDatas(function: setDatas, text: "Save Datas")
+
+                !ResponsiveLayout.isSmallScreen(context) ? saveDatas(function: setDatas, text: "Save Datas", textSize: 16) :saveDatas(function: setDatas, text: "Save Datas", textSize: 6)
               ],
             ),
           ],

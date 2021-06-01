@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter2/Web/Navigation/HandleProjects/ProjectInformation.dart';
 
-Widget saveDatas({function, String text})
+Widget saveDatas({function, String text, double textSize})
 {
   return SizedBox(
     width: 100,
@@ -17,7 +17,7 @@ Widget saveDatas({function, String text})
         alignment: Alignment.center,
         child: Text(
             text,
-            style: TextStyle(fontSize: 16.0),
+            style: TextStyle(fontSize: textSize),
             textAlign: TextAlign.center
         ),
       ),
