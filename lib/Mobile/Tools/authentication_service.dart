@@ -27,7 +27,7 @@ class AuthenticationService {
             textAlign: TextAlign.center,
           ),
           background: Colors.green);
-      Navigator.pushNamed(context, "/my");
+      Navigator.pushNamed(context, "/redirect");
 
     return "Signed in";
     } on FirebaseAuthException catch (e) {

@@ -40,12 +40,12 @@ class _NavigationBarWebState extends State<NavigationBarWeb> {
           ),
           !ResponsiveLayout.isSmallScreen(context)? Text("FluTECH", style: TextStyle(fontSize: 30,fontWeight: FontWeight.bold, fontFamily: "Butler", ),) : Text("FluTECH", style: TextStyle(fontSize: 15,fontWeight: FontWeight.bold, fontFamily: "Butler", )),
           NavigationItem(
-            title: 'Units',
-            namedRoute: routeUnits,
-          ),
-          NavigationItem(
             title: 'Users',
             namedRoute:  routeUsers,
+          ),
+          NavigationItem(
+            title: 'Units',
+            namedRoute: routeUnits,
           ),
           logOut(_goHome)
 

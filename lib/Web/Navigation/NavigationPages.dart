@@ -35,19 +35,26 @@ class AllProjects extends StatefulWidget {
 class _AllProjectsState extends State<AllProjects>
 {
   static List <UnitInformation> units;
-  Future myFuture;
-
   @override
   void initState() {
     super.initState();
-    getFirebaseUnits();
-    print("INIT STATE");
+    setState(() {
+      getFirebaseUnits();
+      print("INIT STATE");
+
+    });
 
   }
   Future<void> getFirebaseUnits() async {
+    print("entering");
     final res = await http.get(Uri.parse('https://us-central1-flutter2-f9a8c.cloudfunctions.net/getUnits'));
-    units = parseUnits(res.body);
-    print(units.length);
+    print('[onRequest] Res: ${res.body.toString()}');
+      units = parseUnits(res.body);
+    for(var i = 0; i < units.length; i++){
+      print ("TESTING");
+      print (units[i].toString());
+      print("\n");
+    }
   }
 
 
@@ -88,11 +95,9 @@ class _AllProjectsState extends State<AllProjects>
 
   @override
   Widget build(BuildContext context) {
-    print("entering");
+  getFirebaseUnits();
     widget.getUnits != null ? widget.getUnits(units): Container();
     double size = MediaQuery.of(context).size.height / 3;
-    print ("allUnits.length");
-    print (units.length);
     return Container(
         child: Padding(
             padding: EdgeInsets.all(40.0),
@@ -100,6 +105,7 @@ class _AllProjectsState extends State<AllProjects>
                 height: size  * 1.8,
                 child: Stack(
                     children: [
+
                       Text("enter" + units.length.toString()),
                       tes(context)
                     ]
