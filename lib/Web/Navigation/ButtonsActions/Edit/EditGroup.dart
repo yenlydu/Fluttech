@@ -2,11 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter2/Web/Navigation/HandleProjects/ProjectInformation.dart';
 
 class EditGroup extends StatefulWidget {
-  final List<String> group;
   final ProjectInformation projectInformation;
-  final List<Icon> studentsPicture;
 
-  const EditGroup({Key key, this.projectInformation, this.group, this.studentsPicture}) : super(key: key);
+  const EditGroup({Key key, this.projectInformation, }) : super(key: key);
 
   @override
   _EditGroupState createState() => _EditGroupState();
@@ -28,7 +26,7 @@ class _EditGroupState extends State<EditGroup> {
                     height: 200,
                     child: ListView.builder(
                       shrinkWrap: true,
-                      itemCount: widget.group.length,
+                      itemCount: widget.projectInformation.teammates.length,
                       itemBuilder: (BuildContext context, int index) {
                         return ListTile(
                           title:
@@ -39,9 +37,9 @@ class _EditGroupState extends State<EditGroup> {
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     children: [
                                       // MAXIME
-                                      widget.studentsPicture[index],
+                                      widget.projectInformation.teammates[index].image,
                                       SizedBox(width: 5,),
-                                      Text('${widget.group[index]}'),
+                                      Text('${widget.projectInformation.teammates[index].mail}'),
                                     ],
                                   ),
                                   Icon(Icons.person_remove_alt_1, color: Color(0xFF875BC5)),

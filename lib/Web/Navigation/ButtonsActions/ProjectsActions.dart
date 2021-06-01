@@ -64,6 +64,7 @@ class ProjectsActionsState extends State<ProjectsActions>
       }
       break;
       case ProjectActionsEnum.EDIT_GROUP: {
+        print (widget.currentProject.teammates.toString());
         return EditGroup(projectInformation : widget.currentProject);
       }
       break;
