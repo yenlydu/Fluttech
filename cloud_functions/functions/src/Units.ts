@@ -286,10 +286,10 @@ export const getProjects = functions.runWith(runtimeOpts).https.onRequest(async 
 
 // Register user to project
 export const addUserToProject = functions.runWith(runtimeOpts).https.onRequest(async (req, res) => {
-	const { unitID, userID, projectID } = req.body;
+	const { userID, projectID } = req.body;
 	await admin
 		.firestore()
-		.collection(`Units/${unitID}/Projects`)
+		.collection(`Projects`)
 		.doc(`${projectID}`)
 		.update({
 			usersID: admin.firestore.FieldValue.arrayUnion(userID),
@@ -313,10 +313,10 @@ export const addUserToProject = functions.runWith(runtimeOpts).https.onRequest(a
 
 // remove user to project
 export const removeUserToProject = functions.runWith(runtimeOpts).https.onRequest(async (req, res) => {
-	const { unitID, userID, projectID } = req.body;
+	const { userID, projectID } = req.body;
 	await admin
 		.firestore()
-		.collection(`Units/${unitID}/Projects`)
+		.collection(`Projects`)
 		.doc(`${projectID}`)
 		.update({
 			usersID: admin.firestore.FieldValue.arrayRemove(userID),
@@ -327,6 +327,7 @@ export const removeUserToProject = functions.runWith(runtimeOpts).https.onReques
 	res.status(200).send("User successfully removed to project");
 });
 
+// Find a user by his email
 export const getUserByEmail = functions.runWith(runtimeOpts).https.onRequest(async (req, res) => {
 	const { email } = req.body;
 	var user;

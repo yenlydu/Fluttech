@@ -19,6 +19,6 @@ export const StoreUserOnFirestore = functions.auth.user().onCreate(async (user) 
 		phoneNumber: user.phoneNumber,
 		subscribedProject: [],
 		subscribedUnit: [],
-		userID: "",
+		userID: user.uid,
 	});
 });
