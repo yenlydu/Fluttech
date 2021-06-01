@@ -2,12 +2,12 @@ import * as functions from "firebase-functions";
 import * as admin from "firebase-admin";
 
 const runtimeOpts = {
-	timeoutSeconds: 3,
+	timeoutSeconds: 30,
 };
 
 // Create new unit
 export const addUnit = functions.runWith(runtimeOpts).https.onRequest(async (req, res) => {
-	const { name, creditAvailable, registerEnd, unitStart, unitEnd } = req.body;
+	const { name, creditAvailable, registerEnd, unitStart, unitEnd, description } = req.body;
 
 	await admin
 		.firestore()
@@ -15,7 +15,7 @@ export const addUnit = functions.runWith(runtimeOpts).https.onRequest(async (req
 		.add({
 			appointementList: [],
 			creditAvailable: creditAvailable,
-			description: "Module description ici !!!!!",
+			description: description,
 			id: "",
 			name: name,
 			projectList: [],

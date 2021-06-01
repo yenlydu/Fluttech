@@ -2,7 +2,7 @@ import * as functions from "firebase-functions";
 import * as admin from "firebase-admin";
 
 const runtimeOpts = {
-	timeoutSeconds: 3,
+	timeoutSeconds: 30,
 };
 
 // Create new project in unit
