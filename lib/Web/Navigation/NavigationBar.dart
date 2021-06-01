@@ -19,14 +19,6 @@ class _NavigationBarState extends State<NavigationBar> {
 
   List<Widget> navItem() {
     return navLinks.map((text) {
-      return NavigationButtonsStyle(
-              Text(text,
-                  style: TextStyle(
-                      fontFamily: "Montserrat-Italic",
-                      backgroundColor: Colors.transparent)),
-              navigationButtons,
-              120)
-          .button();
     }).toList();
   }
 
@@ -37,29 +29,15 @@ class _NavigationBarState extends State<NavigationBar> {
       child: Row(
         children: <Widget>[
           navbarRowItems(),
-          if (!ResponsiveLayout.isSmallScreen(context))
+          Text(ResponsiveLayout.isSmallScreen(context).toString())
+,          if (!ResponsiveLayout.isSmallScreen(context))
             Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: <Widget>[
+                mainAxisAlignment: MainAxisAlignment.start,
+                children:<Widget> [
                   ...navItem(),
-                ]..add(
-                    FloatingActionButton(
-                      onPressed: () {
-                        context.read<AuthenticationService>().signOut();
-                      },
-                      child: const Icon(
-                        Icons.power_settings_new,
-                        color: Colors.deepPurple,
-                        size: 30.0,
-                      ),
-                      backgroundColor: Colors.transparent,
-                      elevation: 0,
-                      focusElevation: 0,
-                      hoverElevation: 0,
-                    ),
-                  ))
-          else
-            hamburgerIcon
+                ]
+            )
+          else hamburgerIcon
         ],
       ),
     );

@@ -182,19 +182,16 @@ class _LoginPState extends State<LoginP> {
                       ),
                       child: FlatButton(
                         onPressed: ()=> {
-                          context.read<AuthenticationService>().signIn(
+/*                          context.read<AuthenticationService>().signIn(
                             context: context,
                           email: email.text.trim(),
                           password: password.text.trim(),
-                          ),
-
-
-
+                          ),*/
+                        Navigator.pushNamed(context, "/my")
                       },
                           child: Text("Sign in",
                               style: TextStyle(color: Colors.white)),
-                          /*onPressed: () {
-                          }*/
+
 /*                            // TEXT FOR INVALID LOGIN
                         onPressed:() {
                           if (email.text.isEmpty || password.text.isEmpty) {
@@ -228,10 +225,9 @@ class MyAppTest extends StatefulWidget {
 class MyAppState extends State<MyAppTest> {
   @override
   Widget build(BuildContext context) {
-    print("enter");
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Navigation Bar Web',
+      title: 'FluTECH',
       theme: ThemeData(
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
@@ -268,10 +264,38 @@ class AppView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
-      body: Column(
-        children: [NavigationBarWeb(), Expanded(child: child)],
-      ),
-    );
+      resizeToAvoidBottomInset: false,
+        body:       SafeArea(
+          child: Container(
+
+            width: MediaQuery.of(context).size.width,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Container(
+                    height: MediaQuery.of(context).size.height/11,
+                    width: MediaQuery.of(context).size.width,
+
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        NavigationBarWeb()
+                      ],),
+                  ),
+                  Container(
+                    width: MediaQuery.of(context).size.width,
+
+                    height: MediaQuery.of(context).size.height/1.2,
+
+                    child: child,)
+
+                ],
+            )
+
+            )
+
+        )      );
   }
 }

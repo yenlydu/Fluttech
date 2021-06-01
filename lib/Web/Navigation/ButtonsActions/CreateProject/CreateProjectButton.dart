@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter2/Web/Style/ButtonsStyle.dart';
-import 'package:flutter2/Web/Navigation/HandleProjects/ButtonsActions/CreateProject/CreateProjectPopup.dart';
+import 'package:flutter2/Web/Navigation/ButtonsActions/CreateProject/CreateProjectPopup.dart';
 import 'package:flutter2/Web/WebConstants/Enumerations.dart';
+import 'package:flutter2/Web/WebConstants/responsiveLayout.dart';
 class CreateProjectButton extends StatefulWidget {
+  final double width;
+  final double height;
+  CreateProjectButton({this.width, this.height});
   @override
   _CreateProjectButtonState createState() => _CreateProjectButtonState();
 }
@@ -26,9 +30,9 @@ class _CreateProjectButtonState extends State<CreateProjectButton> {
   @override
   Widget build(BuildContext context) {
     return  SizedBox(
-      width: 140,
-      height: 50,
-      child: ActionButtonsStyle(color: Colors.green, customFunction: ()=> CreateProjectPopup(createType: ProjectActionsEnum.CREATE_UNITS,mailAddressesList: mailAddressesList, ),text: "Create Module", icon: Icons.add, textStyle: TextStyle(fontSize: 15)),
+      width: widget.width != null ? widget.width : 140,
+      height: widget.height != null ? widget.height : 90,
+      child: ActionButtonsStyle(color: Colors.green, customFunction: ()=> CreateProjectPopup(createType: ProjectActionsEnum.CREATE_UNITS,mailAddressesList: mailAddressesList, ),text: "Create Module", icon: Icons.add, textStyle: TextStyle(fontSize:!ResponsiveLayout.isSmallScreen(context) ? 15: 10)),
     );
   }
 }

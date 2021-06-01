@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-
-import 'package:flutter/material.dart';
 import 'package:flutter2/Web/WebConstants/Enumerations.dart';
+
 class RolesDropDown extends StatefulWidget {
   final String text;
   final getUserRole;
@@ -306,12 +305,10 @@ class DropDownItem extends StatelessWidget {
               Icon(icon, color: Colors.white,)
             ],
           ),
-
         )
     );
   }
 }
-
 
 class ArrowClipper extends CustomClipper<Path>
 {
