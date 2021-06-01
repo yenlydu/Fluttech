@@ -2,6 +2,7 @@ enum NavigationEnum {
   HANDLE_PROJECTS,
   HANDLE_USERS,
 }
+
 enum ProjectActionsEnum {
   DELETE_UNITS,//0
   EDIT_UNIT,//1
@@ -11,9 +12,12 @@ enum ProjectActionsEnum {
   EDIT_GROUP,//5
   CREATE_UNITS,//6
   CREATE_PROJECT,//7
-  UNREGISTER_STUDENT,//8
+  UNREGISTER_UNIT_STUDENT,//8
   DELETE_PROJECT,//9
+  UNREGISTER_PROJECT_STUDENT,
+  STUDENT_DESCRIPTION,
 }
+
 
 enum Roles {
   STUDENT,

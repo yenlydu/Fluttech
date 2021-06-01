@@ -7,7 +7,7 @@ Widget pickRangeDate({BuildContext context, DateTime beginDate, DateTime endDate
   return Row(
     mainAxisAlignment: MainAxisAlignment.spaceAround,
     children: [
-      RaisedButton(
+      Flexible(child:       RaisedButton(
           onPressed: () async {
             final List<DateTime> picked = await DateRangePicker.showDatePicker(
                 context: context,
@@ -23,11 +23,14 @@ Widget pickRangeDate({BuildContext context, DateTime beginDate, DateTime endDate
           },
           child: Row(
             children: [
-              Icon(Icons.access_time),
-              Text(" Pick begin/end of the project"),
+              Flexible(child:               Icon(Icons.access_time),
+              ),
+              Flexible(child: Text(" Pick begin/end of the project"),)
+
             ],
           )
       ),
+      )
 
     ],
   );

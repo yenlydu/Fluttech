@@ -1,17 +1,21 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter2/Web/Navigation/HandleProjects/ProjectInformation.dart';
 import 'package:flutter2/Web/Style/EditButtonStyle.dart';
 import 'package:flutter2/Web/Navigation/ButtonsActions/Constants/ProjectsActionsConstants.dart';
 import 'package:flutter2/Web/Navigation/ButtonsActions/Constants/PickRangeDate.dart';
 import 'package:flutter2/Mobile/Widget/Autocomplete.dart';
+import 'package:flutter2/Web/UnitsInformation.dart';
 import 'package:flutter2/Web/WebConstants/Enumerations.dart';
 import 'package:overlay_support/overlay_support.dart';
 import 'package:flutter2/Web/Style/SaveDatasStyle.dart';
+import 'package:flutter2/Web/WebConstants/responsiveLayout.dart';
+import 'package:intl/intl.dart';
 
 class EditPopup extends StatefulWidget {
-  final ProjectInformation currentProject;
-  final ProjectActionsEnum editType;
-  EditPopup({this.currentProject, this.editType});
+  final ProjectInformation projectEdit;
+  final UnitInformation unitEdit;
+  EditPopup({this.projectEdit, this.unitEdit});
 
   @override
   _EditPopupState createState() => _EditPopupState();
@@ -38,52 +42,57 @@ class _EditPopupState extends State<EditPopup> {
   void saveProject()
   {
 
-    //MAXIME : this function checks the fields that have been changed for the Edit button
-    if (temProjectDates != null) {
-      widget.currentProject.beginDate = temProjectDates["begin"];
-      widget.currentProject.endDate = temProjectDates["end"];
-      temProjectDates = null;
+    setState(() {
+      if (temProjectDates != null) {
+        widget.projectEdit.projectStart = temProjectDates["begin"];
+        widget.projectEdit.projectEnd = temProjectDates["end"];
+        temProjectDates = null;
         //MAXIME : SAVE BEGIN PROJECT DATE
-    };
+      };
 
-    if (editController["description"].text.isNotEmpty){
-      print("description not null");
-      editController["description"].clear();
-      //MAXIME : SAVE PROJECT DESCRIPTION
+      if (editController["description"].text.isNotEmpty){
+        print("description not null");
+        editController["description"].clear();
+        //MAXIME : SAVE PROJECT DESCRIPTION
 
-    };
-    if (editController["title"].text.isNotEmpty) {
-      print("title not null");
-      editController["title"].clear();
-      //MAXIME : SAVE PROJECT TITLE
-    }
+      };
+      if (editController["title"].text.isNotEmpty) {
+        print("title not null");
+        editController["title"].clear();
+        //MAXIME : SAVE PROJECT TITLE
+      }
+
+    });
+    //MAXIME : this function checks the fields that have been changed for the Edit button
   }
   void saveUnit()
   {
-    //MAXIME : this function checks the fields that have been changed for the Edit button
-    if (temProjectDates != null) {
-      widget.currentProject.beginDate = temProjectDates["begin"];
-      widget.currentProject.endDate = temProjectDates["end"];
-      temProjectDates = null;
-      //MAXIME : SAVE BEGIN PROJECT DATE
-    };
-    if (selectedMail != null) {
-      print("mail address not null");
-      //MAXIME : SAVE TEACHER MAIL ADDRESS
-      selectedMail = null;
-      usersAutocomplete.suggestionsTextFieldController.clear();
-    };
-    if (editController["description"].text.isNotEmpty){
-      print("description not null");
-      editController["description"].clear();
-      //MAXIME : SAVE PROJECT DESCRIPTION
+    setState(() {
+      //MAXIME : this function checks the fields that have been changed for the Edit button
+      if (temProjectDates != null) {
+        widget.unitEdit.unitStart = Timestamp.fromDate(temProjectDates["begin"]);
+        widget.unitEdit.unitEnd = Timestamp.fromDate(temProjectDates["end"]);
+        temProjectDates = null;
+        //MAXIME : SAVE BEGIN PROJECT DATE
+      };
+      if (selectedMail != null) {
+        print("mail address not null");
+        //MAXIME : SAVE TEACHER MAIL ADDRESS
+        selectedMail = null;
+        usersAutocomplete.suggestionsTextFieldController.clear();
+      };
+      if (editController["description"].text.isNotEmpty){
+        print("description not null");
+        editController["description"].clear();
+        //MAXIME : SAVE PROJECT DESCRIPTION
 
-    };
-    if (editController["title"].text.isNotEmpty) {
-      print("title not null");
-      editController["title"].clear();
-      //MAXIME : SAVE PROJECT TITLE
-    }
+      };
+      if (editController["title"].text.isNotEmpty) {
+        print("title not null");
+        editController["title"].clear();
+        //MAXIME : SAVE PROJECT TITLE
+      }
+    });
   }
 
   void setProjectDates(List<DateTime> picked)
@@ -128,11 +137,45 @@ class _EditPopupState extends State<EditPopup> {
 
   Widget checkEditType()
   {
-    if (widget.editType == ProjectActionsEnum.EDIT_PROJECT)
+    if (widget.projectEdit != null)
       return saveDatas(function: saveProject, text: "Save Project Datas");
-    if (widget.editType == ProjectActionsEnum.EDIT_UNIT)
+    else if (widget.unitEdit != null)
       return saveDatas(function: saveUnit, text: "Save Units Datas");
 
+  }
+
+  Widget displayingEmptyTempDates()
+  {
+    if (widget.projectEdit != null) {
+      return displayProjectDates(widget.projectEdit.projectStart, widget.projectEdit.projectEnd);
+    } else if (widget.unitEdit != null)
+      return displayProjectDates(widget.unitEdit.unitStart.toDate(), widget.unitEdit.unitEnd.toDate());
+  }
+
+  Widget pickRangeTypeDate()
+  {
+    if (widget.projectEdit != null)
+      return pickRangeDate(context: context, beginDate: widget.projectEdit.projectStart, endDate: widget.projectEdit.projectEnd, function: setProjectDates);
+    else if (widget.unitEdit != null)
+      return pickRangeDate(context: context, beginDate: widget.unitEdit.unitStart.toDate(), endDate: widget.unitEdit.unitEnd.toDate(), function: setProjectDates);
+
+  }
+
+  Widget displayBigScreen()
+  {
+    return Column(
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            Text("Begin of the project", style: TextStyle(color: Color(0xFF875BC5),fontSize: 18,fontFamily: "Montserrat-Italic",decoration: TextDecoration.underline,),),
+            Text("End of the project", style: TextStyle(color: Color(0xFF875BC5),fontSize: 18,fontFamily: "Montserrat-Italic",decoration: TextDecoration.underline,),),
+          ],
+        ),                temProjectDates["begin"] == null ? displayingEmptyTempDates() : displayProjectDates(temProjectDates["begin"], temProjectDates["end"]),
+
+
+      ],
+    );
   }
 
   @override
@@ -146,19 +189,26 @@ class _EditPopupState extends State<EditPopup> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 titleDescriptionTextFields(setTextEditingController: getEditing, editController: editController),
-                widget.editType == ProjectActionsEnum.EDIT_UNIT ? usersAutocomplete.userAutocomplete(mailAddressesList: mailAddressesList, labelName: "Professor Mail", clear: false) : Container(),
+                widget.unitEdit != null ? usersAutocomplete.userAutocomplete(mailAddressesList: mailAddressesList, labelName: "Professor Mail", clear: false) : Container(),
                 SizedBox(height:20),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    Text("Begin of the project", style: TextStyle(color: Color(0xFF875BC5),fontSize: 18,fontFamily: "Montserrat-Italic",decoration: TextDecoration.underline,),),
-                    Text("End of the project", style: TextStyle(color: Color(0xFF875BC5),fontSize: 18,fontFamily: "Montserrat-Italic",decoration: TextDecoration.underline,),),
-                  ],
-                ),
+                !ResponsiveLayout.isSmallScreen(context) ?
+                    displayBigScreen()
+                    :
+                    Center(
+                      child:                   Column(
+                        children: [
+                          Text("Begin of the project", style: TextStyle(color: Color(0xFF875BC5),fontSize: 18,fontFamily: "Montserrat-Italic",decoration: TextDecoration.underline,),),
+                          temProjectDates["begin"] == null ? Text(DateFormat('yyyy-MM-dd').format(DateTime.now())): Text(DateFormat('yyyy-MM-dd').format(temProjectDates["begin"])),
+                          Text("End of the project", style: TextStyle(color: Color(0xFF875BC5),fontSize: 18,fontFamily: "Montserrat-Italic",decoration: TextDecoration.underline,),),
+                          temProjectDates["end"] == null ? Text(DateFormat('yyyy-MM-dd').format(DateTime.now())): Text(DateFormat('yyyy-MM-dd').format(temProjectDates["end"])),
+                        ],
+                      ),
+
+                    )
+,
                 SizedBox(height:10),
-                temProjectDates["begin"] == null ? displayProjectDates(widget.currentProject.beginDate, widget.currentProject.endDate) : displayProjectDates(temProjectDates["begin"], temProjectDates["end"]),
                 SizedBox(height:10),
-                pickRangeDate(context: context, beginDate: widget.currentProject.beginDate, endDate: widget.currentProject.endDate, function: setProjectDates),
+                pickRangeTypeDate(),
                 SizedBox(height:35),
                 checkEditType()
               ],

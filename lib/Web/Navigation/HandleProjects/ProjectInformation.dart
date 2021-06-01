@@ -2,22 +2,39 @@ import 'package:flutter/material.dart';
 
 class Reunion
 {
-  String reunionName;
+  String reunionName = "";
   List<DateTime> date;
-//  TimeOfDay releaseTime = TimeOfDay(hour: 15, minute: 0);
+
   Reunion({ this.reunionName, this.date});
+}
+
+class Teammates {
+  String mail = "";
+  Icon image;
+
+  Teammates({@required this.mail, this.image});
 }
 
 class ProjectInformation
 {
-  String title;
-  String description;
-  DateTime  beginDate;
-  DateTime endDate;
-  String requirements;
-  String professorName;
-  int allowedStudents = 1;
-  List<Reunion> reunions;
+  factory ProjectInformation.fromJson(Map<String, dynamic> json) {
+    return ProjectInformation(
+      name: json['id'] as String,
+      description: json['description'] as String,
+    );
+  }
 
-  ProjectInformation({ this.title,  this.description,  this.beginDate,  this.endDate, this.requirements, this.allowedStudents, this.reunions, this.professorName});
+  List<String> studentsRegistered = [];
+  String unitID = "";
+  String name = "";
+  String description = "";
+  List <Teammates> teammates = [];
+  DateTime projectStart = DateTime.now();
+  DateTime projectEnd = DateTime.now();
+  String requirements = "";
+  String professorName = "";
+  int allowedStudents = 1;
+  List<Reunion> reunions = [];
+
+  ProjectInformation({ this.name, this.teammates, this.studentsRegistered,this.description,  this.projectStart,  this.projectEnd, this.requirements, this.allowedStudents, this.reunions, this.professorName});
 }
