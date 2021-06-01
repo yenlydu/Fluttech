@@ -17,19 +17,21 @@ class AuthenticationService {
     await _firebaseAuth.signOut();
   }
 
-  Future<String> signIn({String email, String password}) async {
+  Future<String> signIn({BuildContext context, String email, String password}) async {
     try {
       await _firebaseAuth.signInWithEmailAndPassword(
           email: email, password: password);
       showSimpleNotification(
           Text(
-            "Welcome !",
+            "Welcome " + email + " !",
             textAlign: TextAlign.center,
           ),
           background: Colors.green);
-      return "Signed in";
+      Navigator.pushNamed(context, "/redirect");
+
+    return "Signed in";
     } on FirebaseAuthException catch (e) {
-      print(["Error can't sign in : ", e]);
+      print(["Error can't sign in :", e]);
       return e.message;
     }
   }
@@ -47,7 +49,7 @@ class AuthenticationService {
 
       return "Signed up";
     } on FirebaseAuthException catch (e) {
-      print(["Error can't sign up : ", e]);
+      print(["Error can't sign up :", e]);
       return e.message;
     }
   }

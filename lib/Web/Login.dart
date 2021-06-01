@@ -1,12 +1,27 @@
 import 'package:flutter/material.dart';
-import 'package:flutter2/Web/homeAdmin.dart';
 import 'package:flutter2/Model/Constants.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:provider/provider.dart';
 
 import '../Mobile/Tools/authentication_service.dart';
+import 'package:overlay_support/overlay_support.dart';
+import 'package:flutter2/Web/routes.dart';
+import 'package:flutter2/Web/navigationbar.dart';
+import 'package:flutter_modular/flutter_modular.dart';
 
-class LoginP extends StatelessWidget {
+class LoginP extends StatefulWidget {
+  @override
+  _LoginPState createState() => _LoginPState();
+}
+
+class _LoginPState extends State<LoginP> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     // FirebaseAuth auth = FirebaseAuth.instance;
@@ -114,14 +129,17 @@ class LoginP extends StatelessWidget {
                         color: Colors.indigo,
                       ),
                       child: FlatButton(
-                          child: Text("Sign in",
-                              style: TextStyle(color: Colors.white)),
-                          onPressed: () {
-                            context.read<AuthenticationService>().signIn(
-                                  email: email.text.trim(),
-                                  password: password.text.trim(),
-                                );
-                          }
+                        onPressed: () => {
+                          context.read<AuthenticationService>().signIn(
+                                context: context,
+                                email: email.text.trim(),
+                                password: password.text.trim(),
+                              ),
+                          // Navigator.pushNamed(context, "/my")
+                        },
+                        child: Text("Sign in",
+                            style: TextStyle(color: Colors.white)),
+
 /*                            // TEXT FOR INVALID LOGIN
                         onPressed:() {
                           if (email.text.isEmpty || password.text.isEmpty) {
@@ -134,8 +152,7 @@ class LoginP extends StatelessWidget {
                             //                            Navigator.push(context, PageRouteBuilder(pageBuilder: (_, __, ___) => FindUsersPage()));
                           }
                         },*/
-
-                          ),
+                      ),
                     ),
                   ),
                 ],
@@ -145,5 +162,79 @@ class LoginP extends StatelessWidget {
         ),
       ),
     );
+  }
+}
+
+class MyAppTest extends StatefulWidget {
+  @override
+  MyAppState createState() => MyAppState();
+}
+
+class MyAppState extends State<MyAppTest> {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: 'FluTECH',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+        visualDensity: VisualDensity.adaptivePlatformDensity,
+      ),
+      builder: (_, child) => AppView(
+        child: child,
+      ),
+      initialRoute: routeUnits,
+      navigatorKey: navKey,
+      onGenerateRoute: RouteGenerator.generateRoute,
+    );
+  }
+}
+
+class HomePage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Container(
+        child: Text(
+          'Home Page',
+          style: TextStyle(fontSize: 30),
+        ),
+      ),
+    );
+  }
+}
+
+class AppView extends StatelessWidget {
+  final Widget child;
+
+  const AppView({@required this.child});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        resizeToAvoidBottomInset: false,
+        body: SafeArea(
+            child: Container(
+                width: MediaQuery.of(context).size.width,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Container(
+                      height: MediaQuery.of(context).size.height / 11,
+                      width: MediaQuery.of(context).size.width,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [NavigationBarWeb()],
+                      ),
+                    ),
+                    Container(
+                      width: MediaQuery.of(context).size.width,
+                      height: MediaQuery.of(context).size.height / 1.2,
+                      child: child,
+                    )
+                  ],
+                ))));
   }
 }

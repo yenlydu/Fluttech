@@ -1,0 +1,22 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "noImplicitReturns": true,
+    "noUnusedLocals": true,
+    "outDir": "lib",
+    "sourceMap": true,
+    "strict": false,
+    "target": "es2017"
+  },
+  "rules": {
+    "no-duplicate-variable": true,
+    "no-constant-condition": true,
+    "no-unused-variable": [
+      true
+    ]
+  },
+  "compileOnSave": true,
+  "include": [
+    "src"
+  ]
+}

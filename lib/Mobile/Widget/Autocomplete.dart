@@ -9,37 +9,25 @@ class UsersAutocomplete extends StatelessWidget {
   var shouldDisplay = false;
   bool get getShouldDisplay => shouldDisplay;
   String email;
-  var _suggestionsTextFieldController = new TextEditingController();
-  List mailAddressesList = [
-    "yen-ly.duong@epitech.eu",
-    "y.duong@epitech.eu",
-    "maxime.le-gall@epitech.eu",
-    "max.le-gall@epitech.eu",
-    "ugo.santoro@epitech.eu",
-    "ugo.sant@epitech.eu",
-    "dylan.ferreira@epitech.eu",
-    "dyl.fe@epitech.eu",
-  ];
-
-  String get age {
-    return email;
-  }
-
+  var suggestionsTextFieldController = new TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Container();
   }
 
-  Widget userAutocomplete() {
+  Widget userAutocomplete({@required List mailAddressesList, String labelName, @required bool clear }) {
     return AutoCompleteTextField(
         key: key,
-        controller: _suggestionsTextFieldController,
+        clearOnSubmit: clear,
+        controller: suggestionsTextFieldController,
         suggestions: mailAddressesList,
-        clearOnSubmit: false,
-        style: TextStyle(
-            color: Colors.deepPurple, fontFamily: 'OpenSans', fontSize: 16.0),
+        style: TextStyle(color: Colors.deepPurple,
+            fontFamily: 'OpenSans',
+            fontSize: 16.0),
         decoration: InputDecoration(
-            fillColor: Colors.white,
+            prefixIcon: Icon(Icons.search),
+            labelText: labelName,
+          fillColor: Colors.white,
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(20.0),
             )),
@@ -49,9 +37,10 @@ class UsersAutocomplete extends StatelessWidget {
         itemSorter: (a, b) {
           return (a.compareTo(b));
         },
+
         itemSubmitted: (item) {
           shouldDisplay = true;
-          _suggestionsTextFieldController.text = item;
+          suggestionsTextFieldController.text = item;
           this.getStudentSelected(item);
           email = item;
         },
@@ -63,7 +52,8 @@ class UsersAutocomplete extends StatelessWidget {
                 Text(
                   item,
                   style: TextStyle(color: Colors.black),
-                )
+                ),
+
               ],
             ),
           );

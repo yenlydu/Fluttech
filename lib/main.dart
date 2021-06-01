@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter2/Web/Navigation/NavigationPages.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -12,7 +13,6 @@ import 'package:flutter2/Model/FireStoreModel/UserModel.dart';
 import 'package:flutter2/Mobile/Tools/authentication_service.dart';
 import 'package:flutter2/Mobile/Page/Homepage/Nav.dart';
 import 'package:flutter2/Mobile/Page/Homepage/Selection.dart';
-import 'package:flutter2/Web/homeAdmin.dart';
 import 'package:flutter2/Mobile/Tools/FireStore/FireStoreUser.dart';
 import 'package:flutter2/Mobile/Tools/LocalTools.dart';
 import 'package:flutter2/Mobile/Tools/ServiceLocator/ServiceManager.dart';
@@ -46,7 +46,7 @@ class MyMobileState extends State<MyApp> with WidgetsBindingObserver {
           ),
           StreamProvider(
             create: (context) =>
-                context.read<AuthenticationService>().authStateChanges,
+            context.read<AuthenticationService>().authStateChanges,
           )
         ],
         child: Consumer<AuthenticationService>(
@@ -61,6 +61,7 @@ class MyMobileState extends State<MyApp> with WidgetsBindingObserver {
             routes: <String, WidgetBuilder>{
               '/login': (BuildContext context) => new LoginP(),
               '/home': (BuildContext context) => new NavElem(),
+              '/redirect': (BuildContext context) => new MyAppTest(),
             },
             home: AuthenticationWrapper(),
           ),
@@ -100,8 +101,10 @@ class AuthenticationWrapper extends StatelessWidget {
                     return LoginPage();
                   }*/
                   UserModel user = snapshot.data;
-                  if (user.role == "admin")
-                    return HomeAdmin(email: firebaseUser.email);
+                  if (user.role == "admin") {
+                    print("enter");
+                    return AllProjects();
+                  }
                   else
                     return NavElem();
                 }
