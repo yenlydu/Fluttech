@@ -1,11 +1,38 @@
 import 'package:flutter/material.dart';
+import 'package:flutter2/Mobile/Tools/FireStore/FireStoreUser.dart';
+import 'package:flutter2/Mobile/Tools/ServiceLocator/ServiceManager.dart';
+import 'package:flutter2/Model/FireStoreModel/ProjectModel.dart';
 import 'package:getwidget/getwidget.dart';
 
+import '../OtherPages/DetailedPageProjects.dart';
 import '../../../../Model/Constants.dart';
 import '../../../../Model/Constants/C_Projects.dart';
+import '../../../../Model/Constants/C_Accordion.dart';
 
-class T_Projects extends StatelessWidget {
-  const T_Projects({Key key}) : super(key: key);
+class T_Projects extends StatefulWidget {
+  T_Projects({Key key}) : super(key: key);
+
+  @override
+  _T_ProjectsState createState() => _T_ProjectsState();
+}
+
+class _T_ProjectsState extends State<T_Projects> {
+  BuildContext _context;
+
+  Future<List<ProjectModel>> projects;
+  ScrollController _controller;
+
+  @override
+  void initState() {
+    _controller = ScrollController();
+    _controller.addListener(_scrollListener);
+
+    projects = locator<FireStoreUser>()
+        .getUserProjects(locator<FireStoreUser>().currentUser);
+    super.initState();
+  }
+
+  _scrollListener() {}
 
   // Accordion Head Template
   @override
@@ -33,7 +60,7 @@ class T_Projects extends StatelessWidget {
               ],
             ),
           ),
-          kSizeBox_Space10,
+          sizeBox_Spacing(10),
         ],
       ),
     );
@@ -42,75 +69,30 @@ class T_Projects extends StatelessWidget {
   // Accordion Content Template
   @override
   Widget _buildAccordionContentProjectsTemplate(
-      Text title, Text desc, Text credit, Text start, Text end) {
-    return Container(
-      decoration: kProject_AccordionBoxDecorationStyle,
-      child: Column(
-        children: <Widget>[
-          Container(
-            padding: EdgeInsets.only(left: 15, top: 15, right: 15),
-            alignment: Alignment.topLeft,
-            child: Column(
-              children: <Widget>[
-                Text(
-                  title.data,
-                  style: kProject_AccordionStyle,
-                ),
-              ],
-            ),
-          ),
-          Container(
-            padding: EdgeInsets.only(left: 15, top: 15, right: 15),
-            alignment: Alignment.topLeft,
-            child: Column(
-              children: <Widget>[
-                Text(
-                  desc.data,
-                  style: kProject_AccordionDescStyle,
-                ),
-              ],
-            ),
-          ),
-          Container(
-            padding: EdgeInsets.only(left: 15, top: 15, right: 15),
-            alignment: Alignment.topLeft,
-            child: Column(
-              children: <Widget>[
-                Text(
-                  "Available credits " + credit.data,
-                  style: kProject_AccordionDescStyle,
-                ),
-              ],
-            ),
-          ),
-          Container(
-            padding: EdgeInsets.only(left: 15, top: 15, right: 15),
-            alignment: Alignment.topLeft,
-            child: Column(
-              children: <Widget>[
-                Text(
-                  "Between " + start.data,
-                  style: kProject_AccordionDescStyle,
-                ),
-              ],
-            ),
-          ),
-          Container(
-            padding: EdgeInsets.only(left: 15, right: 15),
-            alignment: Alignment.topLeft,
-            child: Column(
-              children: <Widget>[
-                Text(
-                  "and " + end.data,
-                  style: kProject_AccordionDescStyle,
-                ),
-              ],
-            ),
-          ),
-          Container(
-            padding: EdgeInsets.only(bottom: 15),
-          ),
-        ],
+      Text title, Text start, Text end, ProjectModel project) {
+    return InkWell(
+      onTap: () {
+        print("Clicked");
+        Navigator.push(
+          _context,
+          MaterialPageRoute(
+              builder: (_context) => DetailedPageProjects(
+                    projectinfo: project,
+                  )),
+        );
+      },
+      child: Container(
+        decoration: kProject_AccordionBoxDecorationStyle,
+        child: Column(
+          children: <Widget>[
+            accordionInfoProject_Elem1(title, kProject_AccordionStyle),
+            accordionInfoProject_Elem1(
+                Text("Between " + start.data), kProject_AccordionDescStyle),
+            accordionInfoProject_Elem2(
+                Text("and " + end.data), kProject_AccordionDescStyle),
+            sizeBox_Spacing(15),
+          ],
+        ),
       ),
     );
   }
@@ -118,46 +100,63 @@ class T_Projects extends StatelessWidget {
   // Accordion Head Template
   @override
   Widget _buildAccordionProjectsTemplate(
-      Text p_title, Text p_desc, Text p_credit, Text p_start, Text p_end) {
+      Text p_title, ProjectModel project, int index) {
     return GFAccordion(
       titlePadding: EdgeInsets.all(0),
-      titleChild: _buildAccordionHeadProjectsTemplate(Text(p_title.data)),
+      titleChild: accordionHeadTemplate(p_title, kProject_Style),
       contentPadding: EdgeInsets.all(0),
       contentChild: _buildAccordionContentProjectsTemplate(
           Text(p_title.data),
-          Text(p_desc.data),
-          Text(p_credit.data),
-          Text(p_start.data),
-          Text(p_end.data)),
+          Text(project.projectstart.toString()),
+          Text(project.projectEnd.toString()),
+          project),
     );
-  }
-
-  @override
-  Widget _test() {
-    return Container();
   }
 
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      children: <Widget>[
-        Container(
-          padding: EdgeInsets.all(10),
-          child: Column(
-            children: <Widget>[
-              _buildAccordionProjectsTemplate(
-                Text(
-                    "M - Flutter II : Flutter & Firebase Cloud Firestore Advanced"),
-                Text(
-                    "Flutter is Google’s UI toolkit for building beautiful, natively compiled applications for mobile, web, and desktop from a single codebase.\nOrganizations around the world are building apps with Flutter.\nFlutter Advantages: Fast Development, Expressive and Flexible UI, Native Performance\nFirebase: Helps You Build, Improve, & Grow Your Mobile Apps. Check It Out Today! Find All The Docs You Need To Get Started With Firebase In Minutes. Learn More! Automatic & secure login. Custom Domain Support. Build Fast For Any Device. "),
-                Text("12"),
-                Text("14/04/2021, 00h00"),
-                Text("02/06/2021, 00h00"),
+    _context = context;
+    return FutureBuilder(
+        future: projects,
+        builder: (BuildContext context, AsyncSnapshot snapshot) {
+          if (!snapshot.hasData) {
+            print("no data");
+            return new Center(
+              child: new CircularProgressIndicator(),
+            );
+          } else {
+            print("list of data is : " +
+                ((snapshot.data.length > 0)
+                    ? snapshot.data[0].toString()
+                    : "empty"));
+            return Scaffold(
+              body: Stack(
+                children: <Widget>[
+                  kContainer_BGPAGES,
+                  ListView(
+                    children: <Widget>[
+                      Container(
+                        padding: EdgeInsets.all(10),
+                        child: ListView.builder(
+                          controller: _controller, //new line
+                          itemCount: snapshot.data.length,
+                          shrinkWrap: true, // use this
+                          itemBuilder: (BuildContext context, int index) {
+                            if (snapshot.data[index] != null) {
+                              ProjectModel element = snapshot.data[index];
+                              return _buildAccordionProjectsTemplate(
+                                  Text(element.name), element, index);
+                            }
+                            return null;
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
               ),
-            ],
-          ),
-        )
-      ],
-    );
+            );
+          }
+        });
   }
 }

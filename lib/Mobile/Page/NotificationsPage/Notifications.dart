@@ -26,19 +26,11 @@ class _NotificationsPageState extends State<NotificationsPage> {
                 Text(
                   str.data,
                   style: kNotifStyle,
-                ), /*
-                Container(
-                  alignment: Alignment.centerRight,
-                  child: IconButton(
-                    icon: const Icon(Icons.close),
-                    color: Colors.white,
-                    onPressed: () {},
-                  ),
-                ),*/
+                ),
               ],
             ),
           ),
-          kSizeBox_Space10,
+          sizeBox_Spacing(10),
         ],
       ),
     );
