@@ -118,6 +118,19 @@ final navigationButtons = BoxDecoration(
   borderRadius: BorderRadius.circular(18),
 );
 
+final kBoxDecoration_Selection_Button = BoxDecoration(
+  color: Colors.white70,
+  boxShadow: [
+    BoxShadow(
+      color: Constants().app_color,
+      spreadRadius: 5,
+      blurRadius: 7,
+      offset: Offset(0, 3), // changes position of shadow
+    ),
+  ],
+  borderRadius: BorderRadius.circular(18),
+);
+
 /* Separator */
 Container separator(double value) {
   return Container(
@@ -130,6 +143,20 @@ Container separator(double value) {
 final textStyle_Title = TextStyle(
   color: Constants().selected_color,
   fontSize: 25.0,
+  fontWeight: FontWeight.bold,
+);
+
+/* Text Style Title */
+final textStyle_Selection_Title = TextStyle(
+  color: Colors.white,
+  fontSize: 30.0,
+  fontWeight: FontWeight.bold,
+);
+
+/* Text Style Title */
+final textStyle_Selection_Button = TextStyle(
+  color: Constants().app_color,
+  fontSize: 20.0,
   fontWeight: FontWeight.bold,
 );
 
@@ -165,3 +192,14 @@ final textStyle_DetailedPage = TextStyle(
   fontWeight: FontWeight.w400,
   fontFamily: 'OpenSans',
 );
+
+Widget selection_Button(Text str) {
+  return Container(
+    width: 240,
+    height: 50,
+    child: Center(
+      child: Text(str.data, style: textStyle_Selection_Button),
+    ),
+    decoration: kBoxDecoration_Selection_Button,
+  );
+}
