@@ -32,6 +32,8 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
             <intent-filter>
+               <!-- Required to fetch data from the internet. -->
+          <uses-permission android:name="android.permission.INTERNET" />
   <action android:name="FLUTTER_NOTIFICATION_CLICK" />
   <category android:name="android.intent.category.DEFAULT" />
 </intent-filter>

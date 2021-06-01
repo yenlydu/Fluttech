@@ -76,19 +76,19 @@ class MyWebState extends State<MyApp> {
   }
 }
 
-class WebAuthenticationWrapper extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    var firebaseUser = FirebaseAuth.instance.currentUser;
-    if (firebaseUser == null) firebaseUser = context.watch<User>();
-    // print(["hello", firebaseUser]);
-    if (firebaseUser != null) {
-      // return CreateUser();
-      return HomeAdmin(email: firebaseUser.email);
-    }
-    return LoginP();
-  }
-}
+// class WebAuthenticationWrapper extends StatelessWidget {
+//   @override
+//   Widget build(BuildContext context) {
+//     var firebaseUser = FirebaseAuth.instance.currentUser;
+//     if (firebaseUser == null) firebaseUser = context.watch<User>();
+//     // print(["hello", firebaseUser]);
+//     if (firebaseUser != null)   {
+//       // return CreateUser();
+//       return HomeAdmin(email: firebaseUser.email);
+//     }
+//     return LoginP();
+//   }
+// }
 
 class AuthenticationWrapper extends StatelessWidget {
   @override

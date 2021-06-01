@@ -8,6 +8,7 @@ import 'package:flutter2/Web/WebConstants/responsiveLayout.dart';
 import 'package:flutter2/Web/Navigation/ButtonsActions/CreateProject/CreateProjectButton.dart';
 import 'package:flutter2/Web/Navigation/HandleStudents/DisplayHandleStudents.dart';
 import 'package:responsive_builder/responsive_builder.dart';
+import 'package:http/http.dart' as http;
 
 import 'package:flutter2/Web/CreateUser.dart';
 import 'package:flutter2/Mobile/Widget/Autocomplete.dart';
@@ -107,9 +108,12 @@ class ConstructAllProjects extends StatelessWidget {
       unitEnd: DateTime(2014, 09, 20, 15, 30),
       creditAvailable: 10,
     )
-
-
   ];
+
+Future<http.Response> fetchUnits() {
+  return http.get(Uri.parse('https://us-central1-flutter2-f9a8c.cloudfunctions.net/getUnits'));
+}
+
   Widget tes(BuildContext context) {
     if (!ResponsiveLayout.isSmallScreen(context)) {
       return Container(
@@ -121,7 +125,12 @@ class ConstructAllProjects extends StatelessWidget {
           children: [
             CreateProjectButton(),
             Flexible(
-              child: HandleUnits(unitInformation: unitInformation)
+              child: 
+              // ElevatedButton(
+              //   onPressed: fetchUnits(),
+              //   child: Text("TEST BUTTON FETCH UNITS"),
+              //   )
+              HandleUnits(unitInformation: unitInformation)
                   .constructProjectsList(40, context),
             ),
           ],
