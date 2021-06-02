@@ -197,7 +197,7 @@ class DetailedPageProjectsState extends State<DetailedPageProjects> {
     print("role is : " + role);
     setState(() {
       _ismanager = (role == "manager" || role == "admin") ? true : false;
-      _isuser = (role == "user") ? true : false;
+      _isuser = (role == "student") ? true : false;
       _showsub = widget.projectinfo.usersId
               .contains(locator<FireStoreUser>().currentUser.firebaseid)
           ? false

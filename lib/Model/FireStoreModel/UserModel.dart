@@ -1,6 +1,6 @@
 // Local User Data
 class UserModel {
-  String firebaseid;
+  String firebaseID;
 
   String email;
   String firstName;
@@ -16,11 +16,11 @@ class UserModel {
 
   List<String> subscribeProject;
   List<String> subscribeUnit;
-  List<String> appointementlist;
+  List<String> appointementList;
 
   // Init User Data (avoid null Reference Exception)
   UserModel({
-    this.firebaseid = '',
+    this.firebaseID = '',
     this.email = 'template@temp.tmp',
     this.firstName = 'Template',
     this.lastName = 'Temp',
@@ -31,7 +31,7 @@ class UserModel {
     this.role = 'user',
     this.subscribeProject = const <String>[],
     this.subscribeUnit = const <String>[],
-    this.appointementlist = const <String>[],
+    this.appointementList = const <String>[],
   });
 
   // Get Combinaison of First Name & Last name of the user
@@ -42,7 +42,7 @@ class UserModel {
   // get User object from json encoding
   factory UserModel.fromJson(Map<String, dynamic> parsedJson) {
     return new UserModel(
-      firebaseid: parsedJson['firebaseid'] ?? '',
+      firebaseID: parsedJson['firebaseID'] ?? '',
       email: parsedJson['email'] ?? '',
       firstName: parsedJson['firstName'] ?? '',
       lastName: parsedJson['lastName'] ?? '',
@@ -53,14 +53,14 @@ class UserModel {
       role: parsedJson['role'] ?? 'user',
       subscribeProject: List.from(parsedJson['subscribeProject']) ?? <String>[],
       subscribeUnit: List.from(parsedJson['subscribeUnit']) ?? <String>[],
-      appointementlist: List.from(parsedJson['appointementlist']) ?? <String>[],
+      appointementList: List.from(parsedJson['appointementList']) ?? <String>[],
     );
   }
 
   // Create an json encode version of the User Class (for Data saving)
   Map<String, dynamic> toJson() {
     return {
-      'firebaseid': this.firebaseid,
+      'firebaseID': this.firebaseID,
       'email': this.email,
       'firstName': this.firstName,
       'lastName': this.lastName,
@@ -71,7 +71,7 @@ class UserModel {
       'role': this.role,
       'subscribeProject': this.subscribeProject,
       'subscribeUnit': this.subscribeUnit,
-      'appointementlist': this.appointementlist,
+      'appointementList': this.appointementList,
     };
   }
 }

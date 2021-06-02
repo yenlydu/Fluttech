@@ -13,7 +13,7 @@ import 'FireStoreUser.dart';
 class FireStoreAppointement {
   FirebaseFirestore firestore = FirebaseFirestore.instance;
   CollectionReference appointement =
-      FirebaseFirestore.instance.collection('Appointement');
+      FirebaseFirestore.instance.collection('Appointements');
 
   FireStoreAppointement() {}
 

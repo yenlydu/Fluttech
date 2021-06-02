@@ -14,7 +14,7 @@ import 'package:flutter2/Model/FireStoreModel/ProjectModel.dart';
 // Manage Unit Info with Shared Preferences
 class FireStoreUnit {
   FirebaseFirestore firestore = FirebaseFirestore.instance;
-  CollectionReference units = FirebaseFirestore.instance.collection('Unit');
+  CollectionReference units = FirebaseFirestore.instance.collection('Units');
 
   FireStoreUnit() {}
 

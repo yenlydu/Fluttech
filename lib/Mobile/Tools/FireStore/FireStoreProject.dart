@@ -14,7 +14,7 @@ import 'FireStoreUser.dart';
 class FireStoreProject {
   FirebaseFirestore firestore = FirebaseFirestore.instance;
   CollectionReference project =
-      FirebaseFirestore.instance.collection('Project');
+      FirebaseFirestore.instance.collection('Projects');
 
   FireStoreProject() {}
 

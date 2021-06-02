@@ -135,7 +135,7 @@ class AppointmentsPageState extends State<AppointmentsPage> {
   Widget build(BuildContext context) {
     var role = locator<FireStoreUser>().currentUser.role;
     _ismanager = (role == "manager" || role == "admin") ? true : false;
-    _isuser = (role == "user") ? true : false;
+    _isuser = (role == "student") ? true : false;
 
     return FutureBuilder(
         future: appoints,
