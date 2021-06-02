@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:carousel_slider/carousel_slider.dart';
 
 import 'package:flutter2/Model/Constants.dart';
 import 'package:flutter2/Model/Constants/C_Notifications.dart';

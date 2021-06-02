@@ -17,26 +17,6 @@ class NavElem extends StatefulWidget {
 
 class _NavElemState extends State<NavElem> {
   int _selectedIndex = 0;
-  /*static const TextStyle optionStyle =
-      TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
-  static const List<Widget> _widgetOptions = <Widget>[
-    Text(
-      'Index 1: Profile',
-      style: optionStyle,
-    ),
-    Text(
-      'Index 2: Projects',
-      style: optionStyle,
-    ),
-    Text(
-      'Index 3: Calendar',
-      style: optionStyle,
-    ),
-    Text(
-      'Index 4: Notifications',
-      style: optionStyle,
-    ),
-  ];*/
 
   void _onItemTapped(int index) {
     setState(() {

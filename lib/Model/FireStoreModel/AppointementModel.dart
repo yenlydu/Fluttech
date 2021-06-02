@@ -37,8 +37,9 @@ class AppointementModel {
       unitid: parsedJson['unitid'] ?? '',
       subscribedusersId:
           List.from(parsedJson['subscribedusersId']) ?? const <String>[],
-      timetoAppoint:
-          (parsedJson['timetoAppoint'] as Timestamp).toDate() ?? null,
+      timetoAppoint: (parsedJson['timetoAppoint'] == null)
+          ? DateTime.now()
+          : (parsedJson['timetoAppoint'] as Timestamp).toDate() ?? null,
     );
   }
 

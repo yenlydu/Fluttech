@@ -3,11 +3,8 @@ import 'package:flutter2/Mobile/Tools/FireStore/FireStoreUnit.dart';
 import 'package:flutter2/Mobile/Tools/FireStore/FireStoreUser.dart';
 import 'package:flutter2/Mobile/Tools/ServiceLocator/ServiceManager.dart';
 import 'package:flutter2/Model/FireStoreModel/UnitModel.dart';
-import 'package:flutter2/Model/FireStoreModel/UserModel.dart';
-import 'package:getwidget/getwidget.dart';
 
 import '../../../Model/Constants.dart';
-import '../../../Model/Constants/C_Projects.dart';
 
 class DetailedPage extends StatefulWidget {
   DetailedPage(
@@ -37,12 +34,12 @@ class DetailedPageState extends State<DetailedPage> {
 
   @override
   Widget build(BuildContext context) {
-    _showsub = widget.unitinfo.usersId
-            .contains(locator<FireStoreUser>().currentUser.firebaseid)
+    _showsub = widget.unitinfo.usersID
+            .contains(locator<FireStoreUser>().currentUser.firebaseID)
         ? false
         : true;
-    _showunsub = widget.unitinfo.usersId
-            .contains(locator<FireStoreUser>().currentUser.firebaseid)
+    _showunsub = widget.unitinfo.usersID
+            .contains(locator<FireStoreUser>().currentUser.firebaseID)
         ? true
         : false;
     return Scaffold(

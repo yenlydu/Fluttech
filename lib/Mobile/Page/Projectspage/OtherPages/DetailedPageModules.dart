@@ -63,7 +63,6 @@ class DetailedPageModulesState extends State<DetailedPageModules> {
     if (picked != null)
       setState(() {
         projectstartDate = picked;
-
         projectstartDatetext =
             DateFormat('yyyy-MM-dd').format(projectstartDate);
       });
@@ -346,13 +345,13 @@ class DetailedPageModulesState extends State<DetailedPageModules> {
     var role = locator<FireStoreUser>().currentUser.role;
     print("role is : " + role);
     _ismanager = (role == "manager" || role == "admin") ? true : false;
-    _isuser = (role == "user") ? true : false;
-    _showsub = widget.unitinfo.usersId
-            .contains(locator<FireStoreUser>().currentUser.firebaseid)
+    _isuser = (role == "student") ? true : false;
+    _showsub = widget.unitinfo.usersID
+            .contains(locator<FireStoreUser>().currentUser.firebaseID)
         ? false
         : true;
-    _showunsub = widget.unitinfo.usersId
-            .contains(locator<FireStoreUser>().currentUser.firebaseid)
+    _showunsub = widget.unitinfo.usersID
+            .contains(locator<FireStoreUser>().currentUser.firebaseID)
         ? true
         : false;
     projectstartDatetext = DateFormat('yyyy-MM-dd').format(projectstartDate);

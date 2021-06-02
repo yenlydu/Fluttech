@@ -19,15 +19,12 @@ class DetailedPageProjects extends StatefulWidget {
 }
 
 class DetailedPageProjectsState extends State<DetailedPageProjects> {
-  BuildContext _context;
-
   Future<List<UserModel>> usersFuture;
   List<UserModel> users;
   String title = '';
   DateTime start = DateTime.now();
   DateTime end = DateTime.now();
 
-  bool _ismanager;
   bool _isuser;
   bool _showsub;
   bool _showunsub;
@@ -173,7 +170,7 @@ class DetailedPageProjectsState extends State<DetailedPageProjects> {
                               if (snapshot.data[index] != null) {
                                 UserModel element = snapshot.data[index];
                                 return studentName(
-                                    element.firebaseid, element.email);
+                                    element.firebaseID, element.email);
                               } else {
                                 return null;
                               }
@@ -192,23 +189,21 @@ class DetailedPageProjectsState extends State<DetailedPageProjects> {
 
   @override
   Widget build(BuildContext context) {
-    _context = context;
     var role = locator<FireStoreUser>().currentUser.role;
     print("role is : " + role);
     setState(() {
-      _ismanager = (role == "manager" || role == "admin") ? true : false;
-      _isuser = (role == "user") ? true : false;
-      _showsub = widget.projectinfo.usersId
-              .contains(locator<FireStoreUser>().currentUser.firebaseid)
+      _isuser = (role == "student") ? true : false;
+      _showsub = widget.projectinfo.usersID
+              .contains(locator<FireStoreUser>().currentUser.firebaseID)
           ? false
           : true;
-      _showunsub = widget.projectinfo.usersId
-              .contains(locator<FireStoreUser>().currentUser.firebaseid)
+      _showunsub = widget.projectinfo.usersID
+              .contains(locator<FireStoreUser>().currentUser.firebaseID)
           ? true
           : false;
     });
     title = widget.projectinfo.name;
-    start = widget.projectinfo.projectstart;
+    start = widget.projectinfo.projectStart;
     end = widget.projectinfo.projectEnd;
     return Scaffold(
       appBar: AppBar(

@@ -41,7 +41,7 @@ class _SelectionPageState extends State<SelectionPage> {
                                 builder: (context) => LoginPage()),
                           )
                         },
-                        child: selection_Button(Text("User")),
+                        child: selection_Button(Text("Student or Manager")),
                       ),
                       sizeBox_Spacing(5),
                       TextButton(
@@ -65,23 +65,3 @@ class _SelectionPageState extends State<SelectionPage> {
     );
   }
 }
-
-/*
-
-           */
-/*
-          Container(
-            //height: double.infinity,
-            child: Center(
-              child: Align(
-                alignment: Alignment.center,
-                child: Column(
-                  children: [
-                    Text("Connect as", style: textStyle_Title),
-                    TextButton(onPressed: () => {}, child: Text("User")),
-                    TextButton(onPressed: () => {}, child: Text("Manager")),
-                  ],
-                ),
-              ),
-            ),
-          ), */

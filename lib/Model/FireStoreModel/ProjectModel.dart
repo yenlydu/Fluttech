@@ -1,18 +1,16 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-import 'Group.dart';
-
 // Local Data
 class ProjectModel {
   String id;
   String name;
+  String description;
 
-  String unitid;
+  String unitID;
 
-  List<Group> groups = [];
-  List<String> usersId = [];
+  List<String> usersID = [];
 
-  DateTime projectstart = DateTime.now();
+  DateTime projectStart = DateTime.now();
   DateTime registerEnd = DateTime.now();
   DateTime projectEnd = DateTime.now();
 
@@ -20,9 +18,10 @@ class ProjectModel {
   ProjectModel(
       {this.id = '',
       this.name = '',
-      this.unitid = '',
-      this.usersId = const <String>[],
-      this.projectstart = null,
+      this.description = '',
+      this.unitID = '',
+      this.usersID = const <String>[],
+      this.projectStart = null,
       this.registerEnd = null,
       this.projectEnd = null});
 
@@ -31,11 +30,18 @@ class ProjectModel {
     return new ProjectModel(
       id: parsedJson['id'] ?? '',
       name: parsedJson['name'] ?? '',
-      unitid: parsedJson['unitid'] ?? '',
-      usersId: List.from(parsedJson['usersId']) ?? const <String>[],
-      projectstart: (parsedJson['projectstart'] as Timestamp).toDate() ?? null,
-      registerEnd: (parsedJson['registerEnd'] as Timestamp).toDate() ?? null,
-      projectEnd: (parsedJson['projectEnd'] as Timestamp).toDate() ?? null,
+      description: parsedJson['description'] ?? '',
+      unitID: parsedJson['unitID'] ?? '',
+      usersID: List.from(parsedJson['usersID']) ?? const <String>[],
+      projectStart: (parsedJson['projectStart'] == null)
+          ? DateTime.now()
+          : (parsedJson['projectStart'] as Timestamp).toDate() ?? null,
+      registerEnd: (parsedJson['registerEnd'] == null)
+          ? DateTime.now()
+          : (parsedJson['registerEnd'] as Timestamp).toDate() ?? null,
+      projectEnd: (parsedJson['projectEnd'] == null)
+          ? DateTime.now()
+          : (parsedJson['projectEnd'] as Timestamp).toDate() ?? null,
     );
   }
 
@@ -44,9 +50,10 @@ class ProjectModel {
     return {
       'id': this.id,
       'name': this.name,
-      'unitid': this.unitid,
-      'usersId': this.usersId,
-      'projectstart': this.projectstart,
+      'description': this.description,
+      'unitID': this.unitID,
+      'usersID': this.usersID,
+      'projectStart': this.projectStart,
       'registerEnd': this.registerEnd,
       'projectEnd': this.projectEnd,
     };
