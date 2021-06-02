@@ -6,26 +6,26 @@ const runtimeOpts = {
 };
 
 // Find a user by his email
-export const getUserByEmail = functions.runWith(runtimeOpts).https.onRequest(async (req, res) => {
-	const { email } = req.body;
+export const getUserByEmail = functions.runWith(runtimeOpts).https.onCall(async (data, context) => {
+	const { email } = data;
 	var user;
 	const snapshot = await admin.firestore().collection("Users").where("email", "==", email.toLowerCase()).get();
 	snapshot.forEach((doc) => {
 		user = doc.data().firebaseID;
 	});
 	console.log(user);
-	if (user) res.status(200).send(user);
-	else res.status(404).send("No user found !");
+	if (user) return(user);
+	else return("No user found !");
 });
 
 // Create user in Auth
-export const createUser = functions.https.onRequest(async (req, res) => {
-	const { displayName, email, phoneNumber, photoURL, disabled, emailVerified, password } = req.body;
+export const createUser = functions.https.onCall(async (data, context) => {
+	const { displayName, email, phoneNumber, photoURL, disabled, emailVerified, password } = data;
 
 	console.log("Adding user", email);
 
 	if (!email || !password) {
-		res.status(400).send({ message: "Missing fields" });
+		return({ message: "Missing fields" });
 	}
 
 	try {
@@ -43,9 +43,9 @@ export const createUser = functions.https.onRequest(async (req, res) => {
 		});
 
 		//  the newely created user record
-		res.status(201).send(user);
+		return(user);
 	} catch (err) {
-		res.status(500).send({ message: `${err.code} - ${err.message}` });
+		return({ message: `${err.code} - ${err.message}` });
 	}
 });
 
@@ -68,7 +68,6 @@ export const StoreUserOnFirestore = functions.auth.user().onCreate(async (user) 
 		phoneNumber: user.phoneNumber,
 		subscribedProject: [],
 		subscribedUnit: [],
-		userID: user.uid,
 	});
 });
 
@@ -78,8 +77,8 @@ export const onDeleteUser = functions.auth.user().onDelete(async (user) => {
 });
 
 // Register user to unit
-export const addUserToUnit = functions.runWith(runtimeOpts).https.onRequest(async (req, res) => {
-	const { unitID, userID } = req.body;
+export const addUserToUnit = functions.runWith(runtimeOpts).https.onCall(async (data, context) => {
+	const { unitID, userID } = data;
 	await admin
 		.firestore()
 		.collection("Units")
@@ -94,12 +93,12 @@ export const addUserToUnit = functions.runWith(runtimeOpts).https.onRequest(asyn
 		.update({
 			subscribedUnit: admin.firestore.FieldValue.arrayUnion(unitID),
 		});
-	res.status(200).send("User successfully added to unit");
+	return("User successfully added to unit");
 });
 
 // Remove user to unit
-export const deleteUserToUnit = functions.runWith(runtimeOpts).https.onRequest(async (req, res) => {
-	const { unitID, userID } = req.body;
+export const deleteUserToUnit = functions.runWith(runtimeOpts).https.onCall(async (data, context) => {
+	const { unitID, userID } = data;
 	await admin
 		.firestore()
 		.collection("Units")
@@ -107,12 +106,12 @@ export const deleteUserToUnit = functions.runWith(runtimeOpts).https.onRequest(a
 		.update({
 			usersID: admin.firestore.FieldValue.arrayRemove(userID),
 		});
-	res.status(200).send("User successfully removed to unit");
+	return("User successfully removed to unit");
 });
 
 // Register user to project
-export const addUserToProject = functions.runWith(runtimeOpts).https.onRequest(async (req, res) => {
-	const { userID, projectID } = req.body;
+export const addUserToProject = functions.runWith(runtimeOpts).https.onCall(async (data, context) => {
+	const { userID, projectID } = data;
 	await admin
 		.firestore()
 		.collection(`Projects`)
@@ -134,12 +133,12 @@ export const addUserToProject = functions.runWith(runtimeOpts).https.onRequest(a
 			console.log(error);
 		});
 
-	res.status(200).send("User successfully added to project");
+	return("User successfully added to project");
 });
 
 // remove user to project
-export const removeUserToProject = functions.runWith(runtimeOpts).https.onRequest(async (req, res) => {
-	const { userID, projectID } = req.body;
+export const removeUserToProject = functions.runWith(runtimeOpts).https.onCall(async (data, context) => {
+	const { userID, projectID } = data;
 	await admin
 		.firestore()
 		.collection(`Projects`)
@@ -150,5 +149,5 @@ export const removeUserToProject = functions.runWith(runtimeOpts).https.onReques
 		.catch((error) => {
 			console.log(error);
 		});
-	res.status(200).send("User successfully removed to project");
+	return("User successfully removed to project");
 });

@@ -3,15 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter2/Web/Style/EditButtonStyle.dart';
 import 'package:flutter2/Web/Style/SaveDatasStyle.dart';
 import 'package:flutter2/Web/Navigation/ButtonsActions/Constants/PickRangeDate.dart';
-import 'package:date_range_picker/date_range_picker.dart' as DateRangePicker;
+// import 'package:date_range_picker/date_range_picker.dart' as DateRangePicker;
 import 'package:flutter2/Web/Navigation/HandleProjects/ProjectInformation.dart';
 import 'package:flutter2/Mobile/Widget/Autocomplete.dart';
 import 'package:flutter2/Web/Navigation/ButtonsActions/Constants/ProjectsActionsConstants.dart';
 import 'package:flutter2/Web/UnitsInformation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter2/Web/WebConstants/responsiveLayout.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert' show jsonEncode;
+import 'package:cloud_functions/cloud_functions.dart';
 
 import 'package:flutter2/Web/WebConstants/Enumerations.dart';
 
@@ -49,46 +48,38 @@ class _CreateProjectPopupState extends State<CreateProjectPopup> {
   }
 
   Future<void> createFirebaseUnit() async {
-    print("Dans le FIREBASE create Unit !");
-    print("${createdUnit.name}");
-    final res = await http
-        .post(
-          Uri.parse(
-              'https://us-central1-flutter2-f9a8c.cloudfunctions.net/addUnit'),
-          headers: <String, String>{
-            'Content-Type': 'application/json',
-          },
-          body: jsonEncode(<String, dynamic>{
-            'name': createdUnit.name,
-            "creditAvailable": createdUnit.creditAvailable,
-            "description": createdUnit.description,
-            "registerEnd": "null",
-            "unitStart": "createdUnit.unitStart",
-            "unitEnd": "createdUnit.unitEnd"
-          }),
-        )
-        .catchError((error) => {print(error)});
-    print('[onRequest] unit Res: ${res.body.toString()}');
+    // print("Dans le FIREBASE create Unit !");
+    // print(
+    //     "${createdUnit.name}\n${createdUnit.description}\n${createdUnit.creditAvailable}");
+    HttpsCallable callable =
+        FirebaseFunctions.instance.httpsCallable('addUnit');
+    final results = await callable({
+        'name': createdUnit.name,
+        "creditAvailable": createdUnit.creditAvailable,
+        "description": createdUnit.description,
+        "registerEnd": null,
+        "unitStart": createdUnit.unitStart,
+        "unitEnd": createdUnit.unitEnd
+        });
+    print(results.data);
   }
 
-  // Future<void> createFirebaseProject() async {
-  //   final res = await http.post(
-  //     Uri.parse(
-  //         'https://us-central1-flutter2-f9a8c.cloudfunctions.net/addProject'),
-  //     headers: <String, String>{
-  //       'Content-Type': 'application/json; charset=UTF-8',
-  //     },
-  //     body: jsonEncode(<String, dynamic>{
-  //       'name': createdProject.name,
-  //       "description": createdProject.description,
-  //       "registerEnd": null,
-  //       "projectStart": createdProject.projectStart,
-  //       "projectEnd": createdProject.projectEnd,
-  //       "unitID": "41siY4eeSofeLxfSobzq"
-  //     }),
-  //   );
-  //   print('[onRequest] project Res: ${res.body.toString()}');
-  // }
+  Future<void> createFirebaseProject() async {
+    // print("Dans le FIREBASE create Project !");
+    // print(
+    //     "${createdProject.name}\n${createdProject.description}");
+    HttpsCallable callable =
+        FirebaseFunctions.instance.httpsCallable('addProject');
+    final results = await callable({
+        'name': createdProject.name,
+        "description": createdProject.description,
+        "registerEnd": null,
+        "projectStart": createdProject.projectStart,
+        "projectEnd": createdProject.projectEnd,
+        "unitID": createdProject.unitID
+        });
+    print(results.data);
+  }
 
   @override
   void initState() {
@@ -137,7 +128,7 @@ class _CreateProjectPopupState extends State<CreateProjectPopup> {
       createdProject.projectEnd = tempDateRange["end"];
       tempDateRange.clear();
     }
-    // createFirebaseProject();
+    createFirebaseProject();
   }
 
   void createUnits() {
@@ -154,12 +145,11 @@ class _CreateProjectPopupState extends State<CreateProjectPopup> {
       editController["credits"].clear();
     }
     if (pickedDates != null) {
-      createdUnit.unitStart = Timestamp.fromDate(tempDateRange["begin"]);
-      createdUnit.unitEnd = Timestamp.fromDate(tempDateRange["end"]);
+      createdUnit.unitStart = tempDateRange["begin"];
+      createdUnit.unitEnd = tempDateRange["end"];
       tempDateRange.clear();
       print("created project endsnot null");
     }
-    print("Dans le create Unit !");
     createFirebaseUnit();
   }
 

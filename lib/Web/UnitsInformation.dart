@@ -8,7 +8,7 @@ class UnitInformation
     return UnitInformation(
       id: json['id'] as String,
       description: json['description'] as String,
-      unitStart: json['unitStart'] as Timestamp,
+      // unitStart: json['unitStart'] as DateTime,
     );
   }
   String id;
@@ -16,8 +16,8 @@ class UnitInformation
   List <String> usersId = [];
   List <String> projectList = [];
   List<ProjectInformation> projects;
-  Timestamp unitStart = Timestamp.now();
-  Timestamp unitEnd = Timestamp.now();
+  DateTime unitStart = DateTime.now();
+  DateTime unitEnd = DateTime.now();
   String description = "";
   String managerCreatorID = "";
   String managerCreatorName = "";// ?

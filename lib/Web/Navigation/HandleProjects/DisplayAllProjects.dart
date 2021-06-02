@@ -2,23 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter2/Web/Navigation/HandleProjects/DisplaySingleProjectContent.dart';
 import 'package:flutter2/Web/Navigation/HandleProjects/ProjectInformation.dart';
 import 'package:flutter2/Web/WebConstants/WebConstants.dart';
-
-
-import 'package:flutter/material.dart';
-import 'package:flutter2/Web/Navigation/HandleProjects/DisplayAllProjects.dart';
-import 'package:flutter2/Web/Navigation/HandleProjects/HandleUnits/HandleUnits.dart';
-import 'package:flutter2/Web/Style/ButtonsStyle.dart';
-import 'package:flutter2/Web/UnitsInformation.dart';
-import 'package:flutter2/Web/WebConstants/WebConstants.dart';
 import 'package:flutter2/Web/WebConstants/responsiveLayout.dart';
-import 'package:flutter2/Web/Navigation/ButtonsActions/CreateProject/CreateProjectButton.dart';
-import 'package:flutter2/Web/Navigation/HandleStudents/DisplayHandleStudents.dart';
-import 'package:responsive_builder/responsive_builder.dart';
-
-import 'package:flutter2/Web/CreateUser.dart';
-import 'package:flutter2/Mobile/Widget/Autocomplete.dart';
-import 'package:flutter2/Web/WebConstants/Enumerations.dart';
-import 'package:flutter2/Web/Navigation/HandleStudents/RolesDropDown/RolesDropDown.dart';
 
 class HandleProjects extends StatelessWidget {
   @override

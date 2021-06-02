@@ -13,6 +13,7 @@ List <UnitInformation> units;
 
 Widget test(String te)
 {
+  print(te);
   return Container(
     child: HandleProjects(),
   );
@@ -31,7 +32,7 @@ class RouteGenerator {
     if (uri.pathSegments.length == 2) {
       var id = uri.pathSegments[1];
       return PageRouteBuilder
-        (settings: settings, pageBuilder:  (_, __, ___) => test(settings.name),     transitionsBuilder: (context, animation, secondaryAnimation, child) {
+        (settings: settings, pageBuilder:  (_, __, ___) => test(id),     transitionsBuilder: (context, animation, secondaryAnimation, child) {
         return child;
       },
       );

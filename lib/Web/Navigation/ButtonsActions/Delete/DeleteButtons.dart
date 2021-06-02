@@ -5,43 +5,36 @@ import 'package:flutter2/Web/Navigation/HandleProjects/ProjectInformation.dart';
 import 'package:flutter2/Web/Style/ButtonsStyle.dart';
 import 'package:flutter2/Web/UnitsInformation.dart';
 import 'package:flutter2/Web/WebConstants/Enumerations.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert' show jsonEncode;
+import 'package:cloud_functions/cloud_functions.dart';
 
 Future<void> deleteFirebaseUnit(UnitInformation unit) async {
-  print("Dans le FIREBASE delete Unit !");
-  final res = await http
-      .post(
-        Uri.parse('https://us-central1-flutter2-f9a8c.cloudfunctions.net/deleteUnit'),
-        // headers: <String, String>{
-        //   'Content-Type': 'application/json',
-        // },
-        body: jsonEncode(<String, dynamic>{
-          'unitID': "7OvPHCvPsKcjNYzccTq0",
-        }),
-      )
-      .catchError((error) => {print(error)});
-      // print('Status code: ${response.statusCode}');
-
-  print('[onRequest] unit Res: ${res.body.toString()}');
+    HttpsCallable callable =
+        FirebaseFunctions.instance.httpsCallable('deleteUnit');
+    final results = await callable({
+        "unitID": unit.id
+        });
+    print(results.data);
 }
 
-// Future<void> deleteFirebaseProject(ProjectInformation project) async {
-//   print("Dans le FIREBASE create Unit !");
-//   final res = await http
-//       .post(
-//         Uri.parse(
-//             'https://us-central1-flutter2-f9a8c.cloudfunctions.net/addUnit'),
-//         headers: <String, String>{
-//           'Content-Type': 'application/json',
-//         },
-//         body: jsonEncode(<String, dynamic>{
-//           'unitID': project.id,
-//         }),
-//       )
-//       .catchError((error) => {print(error)});
-//   print('[onRequest] unit Res: ${res.body.toString()}');
-// }
+Future<void> deleteFirebaseProject(ProjectInformation project) async {
+    HttpsCallable callable =
+        FirebaseFunctions.instance.httpsCallable('deleteProject');
+    final results = await callable({
+        "projectID": project.id
+        });
+    print(results.data);
+}
+
+// NEED TO GET THE USER ID !!!!!!!!!
+Future<void> removeUserFirebaseProject(ProjectInformation project) async {
+    HttpsCallable callable =
+        FirebaseFunctions.instance.httpsCallable('removeUserToProject');
+    final results = await callable({
+        "projectID": project.id,
+        // "userID" : user.id
+        });
+    print(results.data);
+}
 
 Widget dismissDeletePopup(UnitInformation unit, BuildContext context) {
   Navigator.of(context).pop();
@@ -54,7 +47,7 @@ Widget dismissDeletePopupProject(
     ProjectInformation project, BuildContext context) {
   Navigator.of(context).pop();
   Navigator.pop(context);
-// deleteFirebaseProject(project);
+deleteFirebaseProject(project);
   return Container();
 }
 
@@ -62,7 +55,7 @@ Widget dismissUnregisterPopup(
     ProjectInformation project, BuildContext context) {
   Navigator.of(context).pop();
   Navigator.pop(context);
-// deleteFirebaseProject(project);
+  removeUserFirebaseProject(project);
   return Container();
 }
 
