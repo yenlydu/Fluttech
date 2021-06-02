@@ -41,7 +41,6 @@ class  _DisplayHandleUnitsState extends State<DisplayHandleUnits>
   void setProjectEdited(ProjectInformation pr)
   {
     setState(() {
-//      widget.project = pr;
     });
   }
 

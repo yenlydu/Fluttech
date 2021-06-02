@@ -12,7 +12,21 @@ import 'package:flutter2/Web/Style/SaveDatasStyle.dart';
 // import 'package:flutter2/Web/WebConstants/responsiveLayout.dart';
 // import 'package:intl/intl.dart';
 import 'package:cloud_functions/cloud_functions.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter2/Web/Style/EditButtonStyle.dart';
+import 'package:flutter2/Web/Style/SaveDatasStyle.dart';
+import 'package:flutter2/Web/Navigation/ButtonsActions/Constants/PickRangeDate.dart';
+// import 'package:date_range_picker/date_range_picker.dart' as DateRangePicker;
+import 'package:flutter2/Web/Navigation/HandleProjects/ProjectInformation.dart';
+import 'package:flutter2/Mobile/Widget/Autocomplete.dart';
+import 'package:flutter2/Web/Navigation/ButtonsActions/Constants/ProjectsActionsConstants.dart';
+import 'package:flutter2/Web/UnitsInformation.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter2/Web/WebConstants/responsiveLayout.dart';
+import 'package:cloud_functions/cloud_functions.dart';
 
+import 'package:flutter2/Web/WebConstants/Enumerations.dart';
 class EditPopup extends StatefulWidget {
   final ProjectInformation projectEdit;
   final UnitInformation unitEdit;
@@ -24,7 +38,9 @@ class EditPopup extends StatefulWidget {
 
 class _EditPopupState extends State<EditPopup> {
   UsersAutocomplete usersAutocomplete;
+  UsersAutocomplete addStudent;
   String selectedMail;
+  String studentMail;
   Map<String, DateTime> temProjectDates = {};
   Map<String, TextEditingController> editController = {
     "description": TextEditingController(),
@@ -84,7 +100,6 @@ class _EditPopupState extends State<EditPopup> {
       //   //MAXIME : SAVE BEGIN PROJECT DATE
       // }
       // ;
-
       if (editController["description"].text.isNotEmpty) {
         print("description not null");
         widget.projectEdit.description = editController["description"].text;
@@ -115,6 +130,11 @@ class _EditPopupState extends State<EditPopup> {
       //   //MAXIME : SAVE BEGIN PROJECT DATE
       // }
       // ;
+      if (editController["credits"].text.isNotEmpty) {
+        widget.unitEdit.creditAvailable = int.parse(editController["credits"].text);
+        editController["credits"].clear();
+      }
+
       if (selectedMail != null) {
         print("mail address not null");
         //MAXIME : SAVE TEACHER MAIL ADDRESS
@@ -154,6 +174,7 @@ class _EditPopupState extends State<EditPopup> {
       //_showMyDialog();
     });
   }
+
 
   @override
   void initState() {
@@ -265,6 +286,26 @@ class _EditPopupState extends State<EditPopup> {
                     clear: false)
                 : Container(),
             SizedBox(height: 20),
+            widget.unitEdit != null
+                ? Container(
+              width: 76.0,
+              child: TextFormField(
+                controller: editController["credits"],
+                keyboardType: TextInputType.number,
+                inputFormatters: <TextInputFormatter>[
+                  FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+                ],
+                maxLength: 3,
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(20.0),
+                  ),
+                  labelText: 'Credits',
+                ),
+              ),
+            )
+                : Container(),
+
             // !ResponsiveLayout.isSmallScreen(context)
             //     ? displayBigScreen()
             //     : Center(

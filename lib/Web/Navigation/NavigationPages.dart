@@ -26,15 +26,6 @@ class _AllProjectsState extends State<AllProjects>
 
   }
 
-  Widget createListView(BuildContext context, AsyncSnapshot snapshot) {
-    RaisedButton button = RaisedButton(
-      onPressed: () {
-        setState(() {});
-      },
-      child: Text('Refresh'),
-    );
-    //.. here create widget with snapshot data and with necessary button
-  }
   Widget loadData()
   {
     return FutureBuilder(
