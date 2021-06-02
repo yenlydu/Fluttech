@@ -15,7 +15,7 @@ class DisplayHandleUnits extends StatefulWidget {
   final UnitInformation unit;
   final String unitsId;
 
-  DisplayHandleUnits({this.unit, this.unitsId});
+  DisplayHandleUnits({@required this.unit, this.unitsId});
 
   @override
   _DisplayHandleUnitsState createState() => _DisplayHandleUnitsState();
@@ -25,9 +25,11 @@ class  _DisplayHandleUnitsState extends State<DisplayHandleUnits>
 {
   Widget displayTitle({String title})
   {
+    print( "teteint");
+    print( title);
     return Align(
       alignment: Alignment.centerLeft,
-      child: Text(title, style: TextStyle(color: Color(0xFF5D1EB5),fontSize: 22,fontWeight: FontWeight.bold, ),),
+      child: title!= null?Text(title, style: TextStyle(color: Color(0xFF5D1EB5),fontSize: 22,fontWeight: FontWeight.bold, ),): Container(),
     );
   }
 

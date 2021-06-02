@@ -11,25 +11,25 @@ class HandleUnits {
   HandleUnits({this.unitInformation});
 
   Widget getProjectsInformation(BuildContext context) {
-      return Container(
-          height: MediaQuery.of(context).size.height/1.3,
-          child: ListView.builder(
+    return Container(
+        height: MediaQuery.of(context).size.height/1.3,
+        child: ListView.builder(
 
-            itemCount: unitInformation.length,
-            itemBuilder: (BuildContext context, int index) {
-              return ListTile(
-                  title:Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      SizedBox(height: 25,),
-                      DisplayHandleUnits(unit: unitInformation[index], unitsId: unitInformation[index].id,),
+          itemCount: unitInformation.length,
+          itemBuilder: (BuildContext context, int index) {
+            return ListTile(
+                title:Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    SizedBox(height: 25,),
+                    DisplayHandleUnits(unit: unitInformation[index], unitsId: unitInformation[index].id,),
 
-                    ],
-                  )
-              );
-            },
-          )
-      );
+                  ],
+                )
+            );
+          },
+        )
+    );
 
   }
 
