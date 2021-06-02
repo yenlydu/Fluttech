@@ -15,7 +15,7 @@ class Test extends StatelessWidget {
 
   Widget test(String te)
   {
-
+    print(te);
     return Container(
       child: HandleProjects(),
     );

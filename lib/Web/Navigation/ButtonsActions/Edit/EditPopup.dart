@@ -27,6 +27,7 @@ class _EditPopupState extends State<EditPopup> {
   Map<String, DateTime> temProjectDates = {};
   Map<String, TextEditingController> editController = {
     "description": TextEditingController(),
+    "credits" : TextEditingController(),
     "title": TextEditingController(),
   };
 
@@ -201,6 +202,7 @@ class _EditPopupState extends State<EditPopup> {
                           temProjectDates["begin"] == null ? Text(DateFormat('yyyy-MM-dd').format(DateTime.now())): Text(DateFormat('yyyy-MM-dd').format(temProjectDates["begin"])),
                           Text("End of the project", style: TextStyle(color: Color(0xFF875BC5),fontSize: 18,fontFamily: "Montserrat-Italic",decoration: TextDecoration.underline,),),
                           temProjectDates["end"] == null ? Text(DateFormat('yyyy-MM-dd').format(DateTime.now())): Text(DateFormat('yyyy-MM-dd').format(temProjectDates["end"])),
+
                         ],
                       ),
 
