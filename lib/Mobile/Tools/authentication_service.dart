@@ -17,7 +17,8 @@ class AuthenticationService {
     await _firebaseAuth.signOut();
   }
 
-  Future<String> signIn({BuildContext context, String email, String password}) async {
+  Future<String> signIn(
+      {BuildContext context, String email, String password}) async {
     try {
       await _firebaseAuth.signInWithEmailAndPassword(
           email: email, password: password);
@@ -29,7 +30,26 @@ class AuthenticationService {
           background: Colors.green);
       Navigator.pushNamed(context, "/redirect");
 
-    return "Signed in";
+      return "Signed in";
+    } on FirebaseAuthException catch (e) {
+      print(["Error can't sign in :", e]);
+      return e.message;
+    }
+  }
+
+  Future<String> signInMobile(
+      {BuildContext context, String email, String password}) async {
+    try {
+      await _firebaseAuth.signInWithEmailAndPassword(
+          email: email, password: password);
+      showSimpleNotification(
+          Text(
+            "Welcome " + email + " !",
+            textAlign: TextAlign.center,
+          ),
+          background: Colors.green);
+
+      return "Signed in";
     } on FirebaseAuthException catch (e) {
       print(["Error can't sign in :", e]);
       return e.message;
