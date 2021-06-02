@@ -17,7 +17,7 @@ import 'FireStoreUnit.dart';
 // Manage User Info with Shared Preferences
 class FireStoreUser {
   FirebaseFirestore firestore = FirebaseFirestore.instance;
-  CollectionReference users = FirebaseFirestore.instance.collection('User');
+  CollectionReference users = FirebaseFirestore.instance.collection('Users');
 
   UserModel currentUser = new UserModel();
 
@@ -25,7 +25,7 @@ class FireStoreUser {
 
   Future<UserModel> registerUser(User fireUser, UserModel data) async {
     try {
-      data.firebaseid = fireUser.uid;
+      data.firebaseID = fireUser.uid;
       var res = await users.doc(fireUser.uid).set(data.toJson());
       //var ress = await users.doc(res.id).update({'id': res.id});
 
@@ -37,7 +37,7 @@ class FireStoreUser {
 
   Future<bool> UpdateUser(UserModel data) async {
     try {
-      var res = await users.doc(data.firebaseid).update(data.toJson());
+      var res = await users.doc(data.firebaseID).update(data.toJson());
 
       return true;
     } catch (e) {
@@ -47,7 +47,7 @@ class FireStoreUser {
 
   Future<bool> UpdateUserField(UserModel data) async {
     try {
-      var res = await users.doc(data.firebaseid).update(data.toJson());
+      var res = await users.doc(data.firebaseID).update(data.toJson());
       return true;
     } catch (e) {
       return false;
@@ -81,7 +81,7 @@ class FireStoreUser {
   Future<List<AppointementModel>> getUserAppointements(UserModel user) async {
     List<AppointementModel> Aptmtlist = [];
 
-    await user.appointementlist.forEach((element) async {
+    await user.appointementList.forEach((element) async {
       var res = await locator<FireStoreAppointement>().getAppointement(element);
       Aptmtlist.add(res);
     });
@@ -93,7 +93,7 @@ class FireStoreUser {
   Future<List<UnitModel>> getUserUnits(UserModel user) async {
     List<UnitModel> Unitlist = [];
 
-    await user.subscribeUnit.forEach((element) async {
+    await user.subscribedUnit.forEach((element) async {
       var res = await locator<FireStoreUnit>().getData(element);
       Unitlist.add(res);
     });
@@ -105,7 +105,7 @@ class FireStoreUser {
     try {
       List<ProjectModel> Projectlist = [];
 
-      user.subscribeProject.forEach((element) async {
+      user.subscribedProject.forEach((element) async {
         var res = await locator<FireStoreProject>().getData(element);
         Projectlist.add(res);
       });

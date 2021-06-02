@@ -13,7 +13,7 @@ import 'FireStoreUser.dart';
 class FireStoreAppointement {
   FirebaseFirestore firestore = FirebaseFirestore.instance;
   CollectionReference appointement =
-      FirebaseFirestore.instance.collection('Appointements');
+      FirebaseFirestore.instance.collection('Appointement');
 
   FireStoreAppointement() {}
 
@@ -65,16 +65,12 @@ class FireStoreAppointement {
 
   Future<AppointementModel> createAppointement(UserModel creator,
       UnitModel unit, String name, String room, DateTime timetoAppoint) async {
-    if (name.isNotEmpty &&
-        (timetoAppoint.millisecondsSinceEpoch >
-                unit.unitStart.millisecondsSinceEpoch &&
-            timetoAppoint.millisecondsSinceEpoch <
-                unit.unitEnd.millisecondsSinceEpoch)) {
+    if (name.isNotEmpty) {
       AppointementModel newUnit = new AppointementModel(
         name: name,
         room: room,
         creatorUserName: creator.email,
-        creatorUserid: creator.firebaseid,
+        creatorUserid: creator.firebaseID,
         unitid: unit.id,
         timetoAppoint: timetoAppoint,
       );
@@ -90,12 +86,12 @@ class FireStoreAppointement {
   Future<bool> subscribeToAppointement(AppointementModel appointement) async {
     try {
       appointement.subscribedusersId
-          .add(locator<FireStoreUser>().currentUser.firebaseid);
+          .add(locator<FireStoreUser>().currentUser.firebaseID);
       this.UpdateAppointement(appointement);
 
       locator<FireStoreUser>()
           .currentUser
-          .appointementlist
+          .appointementList
           .add(appointement.id);
       locator<FireStoreUser>().UpdateUser(locator<FireStoreUser>().currentUser);
 
@@ -108,12 +104,12 @@ class FireStoreAppointement {
   Future<bool> unsubscribeToAppointement(AppointementModel appointement) async {
     try {
       appointement.subscribedusersId
-          .remove(locator<FireStoreUser>().currentUser.firebaseid);
+          .remove(locator<FireStoreUser>().currentUser.firebaseID);
       this.UpdateAppointement(appointement);
 
       locator<FireStoreUser>()
           .currentUser
-          .appointementlist
+          .appointementList
           .remove(appointement.id);
       locator<FireStoreUser>().UpdateUser(locator<FireStoreUser>().currentUser);
 

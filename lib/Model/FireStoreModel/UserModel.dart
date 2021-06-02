@@ -14,8 +14,8 @@ class UserModel {
   String role;
   //Map<String, String> authorization;
 
-  List<String> subscribeProject;
-  List<String> subscribeUnit;
+  List<String> subscribedProject;
+  List<String> subscribedUnit;
   List<String> appointementList;
 
   // Init User Data (avoid null Reference Exception)
@@ -29,8 +29,8 @@ class UserModel {
     this.currentCredits = 0,
     this.maxAvailable = 0,
     this.role = 'user',
-    this.subscribeProject = const <String>[],
-    this.subscribeUnit = const <String>[],
+    this.subscribedProject = const <String>[],
+    this.subscribedUnit = const <String>[],
     this.appointementList = const <String>[],
   });
 
@@ -51,8 +51,9 @@ class UserModel {
       currentCredits: parsedJson['currentCredits'] ?? 0,
       maxAvailable: parsedJson['maxAvailable'] ?? 0,
       role: parsedJson['role'] ?? 'user',
-      subscribeProject: List.from(parsedJson['subscribeProject']) ?? <String>[],
-      subscribeUnit: List.from(parsedJson['subscribeUnit']) ?? <String>[],
+      subscribedProject:
+          List.from(parsedJson['subscribedProject']) ?? <String>[],
+      subscribedUnit: List.from(parsedJson['subscribedUnit']) ?? <String>[],
       appointementList: List.from(parsedJson['appointementList']) ?? <String>[],
     );
   }
@@ -69,8 +70,8 @@ class UserModel {
       'currentCredits': this.currentCredits,
       'maxAvailable': this.maxAvailable,
       'role': this.role,
-      'subscribeProject': this.subscribeProject,
-      'subscribeUnit': this.subscribeUnit,
+      'subscribedProject': this.subscribedProject,
+      'subscribedUnit': this.subscribedUnit,
       'appointementList': this.appointementList,
     };
   }

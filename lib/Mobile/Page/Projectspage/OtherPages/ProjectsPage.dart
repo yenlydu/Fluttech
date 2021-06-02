@@ -110,7 +110,7 @@ class ProjectsPageState extends State<ProjectsPage> {
       contentPadding: EdgeInsets.all(0),
       contentChild: _buildAccordionContentProjectsTemplate(
           Text(p_title.data),
-          Text(project.projectstart.toString()),
+          Text(project.projectStart.toString()),
           Text(project.projectEnd.toString()),
           project),
     );

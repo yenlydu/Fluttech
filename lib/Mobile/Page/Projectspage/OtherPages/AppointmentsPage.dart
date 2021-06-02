@@ -24,7 +24,6 @@ class AppointmentsPageState extends State<AppointmentsPage> {
   // Accordion Content Template
 
   Future<List<AppointementModel>> appoints;
-  bool _ismanager;
   bool _isuser;
   Map<int, bool> _showsub;
   Map<int, bool> _showunsub;
@@ -134,7 +133,6 @@ class AppointmentsPageState extends State<AppointmentsPage> {
   @override
   Widget build(BuildContext context) {
     var role = locator<FireStoreUser>().currentUser.role;
-    _ismanager = (role == "manager" || role == "admin") ? true : false;
     _isuser = (role == "student") ? true : false;
 
     return FutureBuilder(
@@ -175,13 +173,13 @@ class AppointmentsPageState extends State<AppointmentsPage> {
                           _showsub[index] = element.subscribedusersId.contains(
                                   locator<FireStoreUser>()
                                       .currentUser
-                                      .firebaseid)
+                                      .firebaseID)
                               ? false
                               : true;
                           _showunsub[index] = element.subscribedusersId
                                   .contains(locator<FireStoreUser>()
                                       .currentUser
-                                      .firebaseid)
+                                      .firebaseID)
                               ? true
                               : false;
                           return _buildAccordionModulesTemplate(

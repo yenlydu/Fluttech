@@ -76,21 +76,13 @@ class FireStoreProject {
       DateTime projectstart,
       DateTime registerEnd,
       DateTime projectEnd) async {
-    if (name.isNotEmpty &&
-        (projectstart.millisecondsSinceEpoch <
-                registerEnd.millisecondsSinceEpoch &&
-            projectstart.millisecondsSinceEpoch <
-                projectEnd.millisecondsSinceEpoch) &&
-        (projectstart.millisecondsSinceEpoch >=
-                unit.unitStart.millisecondsSinceEpoch &&
-            projectEnd.millisecondsSinceEpoch <=
-                unit.unitEnd.millisecondsSinceEpoch)) {
+    if (name.isNotEmpty) {
       ProjectModel newUnit = new ProjectModel(
           name: name,
-          projectstart: projectstart,
+          projectStart: projectstart,
           registerEnd: registerEnd,
           projectEnd: projectEnd,
-          unitid: unit.id);
+          unitID: unit.id);
       var res = await registerProject(newUnit);
       return res;
     } else {
@@ -115,7 +107,7 @@ class FireStoreProject {
   Future<List<UserModel>> getProjectUsers(ProjectModel projectinfo) async {
     List<UserModel> users = [];
 
-    projectinfo.usersId.forEach((result) async {
+    projectinfo.usersID.forEach((result) async {
       var res = await locator<FireStoreUser>().getUser(result);
       users.add(res);
     });
@@ -127,10 +119,10 @@ class FireStoreProject {
   //Subscribe to Unit
   Future<bool> subscribeToProject(ProjectModel project) async {
     try {
-      project.usersId.add(locator<FireStoreUser>().currentUser.firebaseid);
+      project.usersID.add(locator<FireStoreUser>().currentUser.firebaseID);
       await UpdateProject(project);
 
-      locator<FireStoreUser>().currentUser.subscribeProject.add(project.id);
+      locator<FireStoreUser>().currentUser.subscribedProject.add(project.id);
       locator<FireStoreUser>().UpdateUser(locator<FireStoreUser>().currentUser);
 
       return true;
@@ -142,10 +134,10 @@ class FireStoreProject {
   //Unsaubscribe to Unit
   Future<bool> unsubscribeToProject(ProjectModel project) async {
     try {
-      project.usersId.remove(locator<FireStoreUser>().currentUser.firebaseid);
+      project.usersID.remove(locator<FireStoreUser>().currentUser.firebaseID);
       await UpdateProject(project);
 
-      locator<FireStoreUser>().currentUser.subscribeProject.remove(project.id);
+      locator<FireStoreUser>().currentUser.subscribedProject.remove(project.id);
       locator<FireStoreUser>().UpdateUser(locator<FireStoreUser>().currentUser);
 
       return true;

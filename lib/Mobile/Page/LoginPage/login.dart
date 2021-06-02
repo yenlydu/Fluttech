@@ -31,12 +31,13 @@ class _LoginPageState extends State<LoginPage> {
   bool _loginvisible = false;
 
   _LoginPageState() {
-    /*Timer _timer;
+    Timer _timer;
     _timer = new Timer(const Duration(milliseconds: 400), () {
       setState(() {
         _visible = !_visible;
       });
-    });*/
+    });
+    _timer = _timer;
   }
 
   @override
@@ -157,7 +158,7 @@ class _LoginPageState extends State<LoginPage> {
             if (isexituser == null) {
               UserModel newuser = UserModel();
               newuser.email = user.email;
-              newuser.firebaseid = user.uid;
+              newuser.firebaseID = user.uid;
               newuser.firstName = user.email;
               newuser.phoneNumber = user.phoneNumber;
               locator<FireStoreUser>().registerUser(user, newuser);

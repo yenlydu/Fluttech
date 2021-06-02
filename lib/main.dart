@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter2/Web/Navigation/NavigationPages.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -46,7 +45,7 @@ class MyMobileState extends State<MyApp> with WidgetsBindingObserver {
           ),
           StreamProvider(
             create: (context) =>
-            context.read<AuthenticationService>().authStateChanges,
+                context.read<AuthenticationService>().authStateChanges,
           )
         ],
         child: Consumer<AuthenticationService>(
@@ -98,14 +97,13 @@ class AuthenticationWrapper extends StatelessWidget {
                 if (firebaseUser != null && snapshot.data != null) {
                   /*var remember = locator<LocalPreferences>().IsRememberUser();
                   if (!remember) {
-                    return LoginPage();
+                    return SelectionPage();
                   }*/
                   UserModel user = snapshot.data;
                   if (user.role == "admin") {
                     print("enter");
-                    return AllProjects();
-                  }
-                  else
+                    return MyAppTest();
+                  } else
                     return NavElem();
                 }
                 return SelectionPage();

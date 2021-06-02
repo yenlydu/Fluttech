@@ -5,17 +5,17 @@ class UnitModel {
   String id;
   String name;
   String description;
-  List<String> skillstobeacquired;
+  List<String> skillsToBeAcquired;
   int creditAvailable;
 
-  String usercreatorID;
-  String usercreatorName;
+  String managerCreatorID;
+  String managerCreatorName;
 
   List<String> teachers;
 
-  List<String> projectlist;
-  List<String> usersId;
-  List<String> appointementlist;
+  List<String> projectList;
+  List<String> usersID;
+  List<String> appointementList;
 
   DateTime unitStart = DateTime.now();
   DateTime registerEnd = DateTime.now();
@@ -26,14 +26,14 @@ class UnitModel {
     this.id = '',
     this.name = '',
     this.description = '',
-    this.skillstobeacquired = const <String>[],
+    this.skillsToBeAcquired = const <String>[],
     this.creditAvailable = 0,
-    this.usercreatorID = '',
-    this.usercreatorName = '',
+    this.managerCreatorID = '',
+    this.managerCreatorName = '',
     this.teachers = const <String>[],
-    this.projectlist = const <String>[],
-    this.usersId = const <String>[],
-    this.appointementlist = const <String>[],
+    this.projectList = const <String>[],
+    this.usersID = const <String>[],
+    this.appointementList = const <String>[],
     this.unitStart = null,
     this.registerEnd = null,
     this.unitEnd = null,
@@ -45,19 +45,25 @@ class UnitModel {
       id: parsedJson['id'] ?? '',
       name: parsedJson['name'] ?? '',
       description: parsedJson['description'] ?? '',
-      skillstobeacquired:
-          List.from(parsedJson['skillstobeacquired']) ?? const <String>[],
+      skillsToBeAcquired:
+          List.from(parsedJson['skillsToBeAcquired']) ?? const <String>[],
       creditAvailable: parsedJson['creditAvailable'] ?? 0,
-      usercreatorID: parsedJson['usercreatorID'] ?? '',
-      usercreatorName: parsedJson['usercreatorName'] ?? '',
+      managerCreatorID: parsedJson['managerCreatorID'] ?? '',
+      managerCreatorName: parsedJson['managerCreatorName'] ?? '',
       teachers: List.from(parsedJson['teachers']) ?? const <String>[],
-      projectlist: List.from(parsedJson['projectlist']) ?? const <String>[],
-      usersId: List.from(parsedJson['usersId']) ?? const <String>[],
-      appointementlist:
-          List.from(parsedJson['appointementlist']) ?? const <String>[],
-      unitStart: (parsedJson['unitStart'] as Timestamp).toDate() ?? null,
-      registerEnd: (parsedJson['registerEnd'] as Timestamp).toDate() ?? null,
-      unitEnd: (parsedJson['unitEnd'] as Timestamp).toDate() ?? null,
+      projectList: List.from(parsedJson['projectList']) ?? const <String>[],
+      usersID: List.from(parsedJson['usersID']) ?? const <String>[],
+      appointementList:
+          List.from(parsedJson['appointementList']) ?? const <String>[],
+      unitStart: (parsedJson['unitStart'] == null)
+          ? DateTime.now()
+          : (parsedJson['unitStart'] as Timestamp).toDate() ?? null,
+      registerEnd: (parsedJson['registerEnd'] == null)
+          ? DateTime.now()
+          : (parsedJson['registerEnd'] as Timestamp).toDate() ?? null,
+      unitEnd: (parsedJson['unitEnd'] == null)
+          ? DateTime.now()
+          : (parsedJson['unitEnd'] as Timestamp).toDate() ?? null,
     );
   }
 
@@ -67,14 +73,14 @@ class UnitModel {
       'id': this.id,
       'name': this.name,
       'description': this.description,
-      'skillstobeacquired': this.skillstobeacquired,
+      'skillsToBeAcquired': this.skillsToBeAcquired,
       'creditAvailable': this.creditAvailable,
-      'usercreatorID': this.usercreatorID,
-      'usercreatorName': this.usercreatorName,
+      'managerCreatorID': this.managerCreatorID,
+      'managerCreatorName': this.managerCreatorName,
       'teachers': this.teachers,
-      'projectlist': this.projectlist,
-      'usersId': this.usersId,
-      'appointementlist': this.appointementlist,
+      'projectList': this.projectList,
+      'usersID': this.usersID,
+      'appointementList': this.appointementList,
       'unitStart': this.unitStart,
       'registerEnd': this.registerEnd,
       'unitEnd': this.unitEnd,

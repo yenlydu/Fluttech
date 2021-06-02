@@ -96,8 +96,8 @@ class FireStoreUnit {
       UnitModel newUnit = new UnitModel(
         name: name,
         description: description,
-        usercreatorID: user.firebaseid,
-        usercreatorName: user.firstName,
+        managerCreatorID: user.firebaseID,
+        managerCreatorName: user.firstName,
         creditAvailable: creditAvailable,
         unitStart: unitStart,
         registerEnd: registerEnd,
@@ -128,10 +128,10 @@ class FireStoreUnit {
   //Subscribe to Unit
   Future<bool> subscribeToUnit(UnitModel unit) async {
     try {
-      unit.usersId.add(locator<FireStoreUser>().currentUser.firebaseid);
+      unit.usersID.add(locator<FireStoreUser>().currentUser.firebaseID);
       await UpdateUnit(unit);
 
-      locator<FireStoreUser>().currentUser.subscribeUnit.add(unit.id);
+      locator<FireStoreUser>().currentUser.subscribedUnit.add(unit.id);
       locator<FireStoreUser>().UpdateUser(locator<FireStoreUser>().currentUser);
 
       return true;
@@ -143,10 +143,10 @@ class FireStoreUnit {
   //Unsaubscribe to Unit
   Future<bool> unsubscribeToUnit(UnitModel unit) async {
     try {
-      unit.usersId.remove(locator<FireStoreUser>().currentUser.firebaseid);
+      unit.usersID.remove(locator<FireStoreUser>().currentUser.firebaseID);
       await UpdateUnit(unit);
 
-      locator<FireStoreUser>().currentUser.subscribeUnit.remove(unit.id);
+      locator<FireStoreUser>().currentUser.subscribedUnit.remove(unit.id);
       locator<FireStoreUser>().UpdateUser(locator<FireStoreUser>().currentUser);
 
       return true;
@@ -167,7 +167,7 @@ class FireStoreUnit {
       var res = await locator<FireStoreProject>().createProject(
           creator, unit, name, projectstart, registerEnd, projectEnd);
 
-      unit.projectlist.add(res.id);
+      unit.projectList.add(res.id);
       await this.UpdateUnit(unit);
       return res;
     } catch (e) {
@@ -181,7 +181,7 @@ class FireStoreUnit {
     try {
       var res = await locator<FireStoreAppointement>()
           .createAppointement(creator, unit, name, room, timetoAppoint);
-      unit.appointementlist.add(res.id);
+      unit.appointementList.add(res.id);
       await this.UpdateUnit(unit);
       return res;
     } catch (e) {
@@ -194,7 +194,7 @@ class FireStoreUnit {
     try {
       List<ProjectModel> Projectlist = [];
 
-      unit.projectlist.forEach((element) async {
+      unit.projectList.forEach((element) async {
         var res = await locator<FireStoreProject>().getData(element);
         Projectlist.add(res);
       });
@@ -210,7 +210,7 @@ class FireStoreUnit {
   Future<List<AppointementModel>> getUnitAppointement(UnitModel unit) async {
     List<AppointementModel> Aptmtlist = [];
 
-    unit.appointementlist.forEach((element) async {
+    unit.appointementList.forEach((element) async {
       var res = await locator<FireStoreAppointement>().getAppointement(element);
       Aptmtlist.add(res);
     });
@@ -223,7 +223,7 @@ class FireStoreUnit {
   Future<List<UserModel>> getUnitUsers(UnitModel unit) async {
     List<UserModel> Userlist = [];
 
-    unit.usersId.forEach((element) async {
+    unit.usersID.forEach((element) async {
       var res = await locator<FireStoreUser>().getUser(element);
       Userlist.add(res);
     });

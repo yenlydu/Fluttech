@@ -7,7 +7,6 @@ import 'package:flutter2/Model/Constants/C_Profile.dart';
 import 'package:flutter2/Model/FireStoreModel/UserModel.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
-import 'package:path_provider/path_provider.dart';
 
 //File Page Include
 import 'package:flutter2/Model/Constants.dart';
@@ -53,8 +52,6 @@ class _ProfilePageState extends State<ProfilePage> {
     final pickedFile = await picker.getImage(source: ImageSource.gallery);
 
     if (pickedFile != null) {
-      Directory tempDir = await getApplicationDocumentsDirectory();
-      String path = tempDir.path;
       var res = await locator<ImageProfileFireManager>()
           .uploadPhoto(File(pickedFile.path));
 
@@ -71,7 +68,6 @@ class _ProfilePageState extends State<ProfilePage> {
   //Open Phone Camera to take a profile picture
   _openCamera(BuildContext context) async {
     final picker = ImagePicker();
-    final fireStore = ImageProfileFireManager();
 
     PickedFile pickedFile = await picker.getImage(source: ImageSource.camera);
     if (pickedFile != null) {
