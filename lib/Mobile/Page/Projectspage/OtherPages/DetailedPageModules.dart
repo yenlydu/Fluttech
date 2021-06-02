@@ -344,7 +344,12 @@ class DetailedPageModulesState extends State<DetailedPageModules> {
     _context = context;
     var role = locator<FireStoreUser>().currentUser.role;
     print("role is : " + role);
-    _ismanager = (role == "manager" || role == "admin") ? true : false;
+    _ismanager = ((role == "manager" || role == "admin") &&
+            widget.unitinfo.teachers
+                .contains(locator<FireStoreUser>().currentUser.firebaseID))
+        ? true
+        : false;
+
     _isuser = (role == "student") ? true : false;
     _showsub = widget.unitinfo.usersID
             .contains(locator<FireStoreUser>().currentUser.firebaseID)

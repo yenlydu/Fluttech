@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/services.dart';
@@ -36,7 +39,9 @@ class MyMobileState extends State<MyApp> with WidgetsBindingObserver {
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
     ]);
-    FlutterStatusbarcolor.setStatusBarColor(Color.fromRGBO(86, 0, 232, 1));
+    if (!kIsWeb) {
+      FlutterStatusbarcolor.setStatusBarColor(Color.fromRGBO(86, 0, 232, 1));
+    }
     return OverlaySupport.global(
       child: MultiProvider(
         providers: [
