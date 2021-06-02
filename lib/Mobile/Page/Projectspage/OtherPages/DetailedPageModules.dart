@@ -97,13 +97,20 @@ class DetailedPageModulesState extends State<DetailedPageModules> {
   }
 
   Future<void> createProject() async {
-    locator<FireStoreUnit>().createProject(
+    var res = await locator<FireStoreUnit>().createProject(
         locator<FireStoreUser>().currentUser,
         widget.unitinfo,
         projectname,
         projectstartDate,
         projectregisterendDate,
         projectendDate);
+
+    widget.unitinfo.projectList.add(res.id);
+
+    projectname = "";
+    projectstartDate = DateTime.now();
+    projectregisterendDate = DateTime.now();
+    projectendDate = DateTime.now();
   }
 
   //Appoint Creation
@@ -125,12 +132,16 @@ class DetailedPageModulesState extends State<DetailedPageModules> {
   }
 
   Future<void> createAppoint() async {
-    locator<FireStoreUnit>().createAppointement(
+    var res = await locator<FireStoreUnit>().createAppointement(
         locator<FireStoreUser>().currentUser,
         widget.unitinfo,
         appointname,
         room,
         appointDate);
+    widget.unitinfo.appointementList.add(res.id);
+    appointname = "";
+    room = "";
+    appointDate = DateTime.now();
   }
 
 //DP MODULES
@@ -140,7 +151,8 @@ class DetailedPageModulesState extends State<DetailedPageModules> {
         context: _context,
         builder: (_context) => AlertDialog(
           title: Text("Add a Project"),
-          content: Container(
+          content: SingleChildScrollView(
+            scrollDirection: Axis.vertical,
             child: Column(
               children: <Widget>[
                 Text("Enter Project Title"),
@@ -193,7 +205,8 @@ class DetailedPageModulesState extends State<DetailedPageModules> {
         context: _context,
         builder: (_context) => AlertDialog(
           title: Text("Add a Appointment"),
-          content: Container(
+          content: SingleChildScrollView(
+            scrollDirection: Axis.vertical,
             child: Column(
               children: <Widget>[
                 Text("Enter Appointment Title"),

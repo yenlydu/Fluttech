@@ -43,7 +43,7 @@ class _SelectionPageState extends State<SelectionPage> {
                         },
                         child: selection_Button(Text("Student or Manager")),
                       ),
-                      sizeBox_Spacing(5),
+                      sizeBox_Spacing(20),
                       TextButton(
                         onPressed: () => {
                           Navigator.push(
