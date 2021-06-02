@@ -2,12 +2,12 @@ import * as functions from "firebase-functions";
 import * as admin from "firebase-admin";
 
 const runtimeOpts = {
-	timeoutSeconds: 3,
+	timeoutSeconds: 30,
 };
 
 // Create new project in unit
-export const addProject = functions.runWith(runtimeOpts).https.onRequest(async (req, res) => {
-	const { name, registerEnd, projectStart, projectEnd, unitID, description } = req.body;
+export const addProject = functions.runWith(runtimeOpts).https.onCall(async (data, context) => {
+	const { name, registerEnd, projectStart, projectEnd, unitID, description } = data;
 	await admin
 		.firestore()
 		.collection(`Projects`)
@@ -24,7 +24,7 @@ export const addProject = functions.runWith(runtimeOpts).https.onRequest(async (
 		})
 		.catch((error) => {
 			console.log(error);
-			res.status(500).send(error);
+			return(error);
 		});
 	const snapshot = await admin.firestore().collection(`Projects`).where("name", "==", name).get();
 	snapshot.forEach(async (project) => {
@@ -37,7 +37,7 @@ export const addProject = functions.runWith(runtimeOpts).https.onRequest(async (
 			})
 			.catch((error) => {
 				console.log(error);
-				res.status(500).send(error);
+				return(error);
 			});
 		await admin
 			.firestore()
@@ -48,15 +48,15 @@ export const addProject = functions.runWith(runtimeOpts).https.onRequest(async (
 			})
 			.catch((error) => {
 				console.log(error);
-				res.status(500).send(error);
+				return(error);
 			});
 	});
-	res.status(200).send(`Successfully added new Project : ${name}`);
+	return(`Successfully added new Project : ${name}`);
 });
 
 // Update project in unit
-export const updateProject = functions.runWith(runtimeOpts).https.onRequest(async (req, res) => {
-	const { name, registerEnd, projectStart, projectEnd, description, appointementList, projectID } = req.body;
+export const updateProject = functions.runWith(runtimeOpts).https.onCall(async (data, context) => {
+	const { name, registerEnd, projectStart, projectEnd, description, appointementList, projectID } = data;
 
 	await admin
 		.firestore()
@@ -72,14 +72,14 @@ export const updateProject = functions.runWith(runtimeOpts).https.onRequest(asyn
 		})
 		.catch((error) => {
 			console.log(error);
-			res.status(500).send(error);
+			return(error);
 		});
-	res.status(200).send(`Successfully updated project : ${name}`);
+	return(`Successfully updated project : ${name}`);
 });
 
 // Delete project in unit
-export const deleteProject = functions.runWith(runtimeOpts).https.onRequest(async (req, res) => {
-	const { projectID } = req.body;
+export const deleteProject = functions.runWith(runtimeOpts).https.onCall(async (data, context) => {
+	const { projectID } = data;
 	const projectInfo = await admin.firestore().collection(`Projects`).doc(`${projectID}`).get();
 	// console.log(projectInfo.data())
 	await admin
@@ -89,7 +89,7 @@ export const deleteProject = functions.runWith(runtimeOpts).https.onRequest(asyn
 		.delete()
 		.catch((error) => {
 			console.log(error);
-			res.status(500).send(error);
+			return(error);
 		});
 	await admin
 		.firestore()
@@ -100,14 +100,14 @@ export const deleteProject = functions.runWith(runtimeOpts).https.onRequest(asyn
 		})
 		.catch((error) => {
 			console.log(error);
-			res.status(500).send(error);
+			return(error);
 		});
-	res.status(200).send(`Successfully deleted Project`);
+	return(`Successfully deleted Project`);
 });
 
 // Get the list of all Projects in 1 specific unit
-export const getProjects = functions.runWith(runtimeOpts).https.onRequest(async (req, res) => {
-	const { unitID } = req.body;
+export const getProjects = functions.runWith(runtimeOpts).https.onCall(async (data, context) => {
+	const { unitID } = data;
 	const unitSnapshot = await admin.firestore().collection(`Units/`).doc(`${unitID}`).get();
 	var projectList = [];
 	unitSnapshot.data().projectList.forEach((project) => {
@@ -123,6 +123,6 @@ export const getProjects = functions.runWith(runtimeOpts).https.onRequest(async 
 		});
 	});
 	promise.then(() => {
-		res.status(200).send(allProjects);
+		return(allProjects);
 	});
 });

@@ -10,31 +10,13 @@ const String initialRoute= '/';
 const String routeUnits = '/handleUnits';
 
 
-class Test extends StatelessWidget {
-  const Test({Key key}) : super(key: key);
-
-  Widget test(String te)
-  {
-    print(te);
-    return Container(
-      child: HandleProjects(),
-    );
-  }
-  void getUnits(List<UnitInformation> tempUnits)
-  {
-    print("tempUnits[1].name");
-    if (tempUnits != null) {
-      print (tempUnits.length);
-      //units = tempUnits;
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Container();
-  }
+Widget test(String te)
+{
+  print(te);
+  return Container(
+    child: HandleProjects(),
+  );
 }
-
 
 final navKey = new GlobalKey<NavigatorState>();
 class RouteGenerator {
@@ -46,7 +28,7 @@ class RouteGenerator {
 
       var id = uri.pathSegments[1];
       return PageRouteBuilder
-        (settings: settings, pageBuilder:  (_, __, ___) => Test().test(settings.name),     transitionsBuilder: (context, animation, secondaryAnimation, child) {
+        (settings: settings, pageBuilder:  (_, __, ___) => test(id),     transitionsBuilder: (context, animation, secondaryAnimation, child) {
         return child;
       },
       );

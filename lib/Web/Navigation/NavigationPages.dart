@@ -24,7 +24,7 @@ class _AllProjectsState extends State<AllProjects>
     super.initState();
     my = getFirebaseUnits();
 
-    }
+  }
 
   Widget createListView(BuildContext context, AsyncSnapshot snapshot) {
     RaisedButton button = RaisedButton(
@@ -35,70 +35,70 @@ class _AllProjectsState extends State<AllProjects>
     );
     //.. here create widget with snapshot data and with necessary button
   }
-    Widget loadData()
-    {
-      return FutureBuilder(
-          future: my,
-          builder: (BuildContext context, AsyncSnapshot snapshot) {
-            List<Widget> children;
-            if (snapshot.connectionState != ConnectionState.done) {
-              children = <Widget>[
-                Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      SpinKitFadingCube(color: Colors.deepPurple),
-                      const Padding(
-                        padding: EdgeInsets.only(top: 16),
-                        child: Text('Awaiting result...'),
-                      )
-
-                    ],
-                  ),
-                )
-              ];
-            } else if (snapshot.hasError) {
-
-              children = <Widget>[
-                Icon(
-                  Icons.error_outline,
-                  color: Colors.red,
-                  size: 60,
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 16),
-                  child:
-              Text('Error: ${snapshot.error}'),
-
-            )
-              ];
-            } else {
-              children = <Widget>[
-                tes(context)
-              ];
-            }
-            return Container(
-                child: Padding(
-                    padding: EdgeInsets.all(40.0),
-                    child: Container(
-                        height: MediaQuery.of(context).size.height / 3* 1.8,
-                        child: Stack(
-                            children:
-                              children
-                        )
+  Widget loadData()
+  {
+    return FutureBuilder(
+        future: my,
+        builder: (BuildContext context, AsyncSnapshot snapshot) {
+          List<Widget> children;
+          if (snapshot.connectionState != ConnectionState.done) {
+            children = <Widget>[
+              Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    SpinKitFadingCube(color: Colors.deepPurple),
+                    const Padding(
+                      padding: EdgeInsets.only(top: 16),
+                      child: Text('Awaiting result...'),
                     )
-                )
-            );
+
+                  ],
+                ),
+              )
+            ];
+          } else if (snapshot.hasError) {
+
+            children = <Widget>[
+              Icon(
+                Icons.error_outline,
+                color: Colors.red,
+                size: 60,
+              ),
+              Padding(
+                padding: const EdgeInsets.only(top: 16),
+                child:
+                Text('Error: ${snapshot.error}'),
+
+              )
+            ];
+          } else {
+            children = <Widget>[
+              tes(context)
+            ];
           }
-      );
-}
+          return Container(
+              child: Padding(
+                  padding: EdgeInsets.all(40.0),
+                  child: Container(
+                      height: MediaQuery.of(context).size.height / 3* 1.8,
+                      child: Stack(
+                          children:
+                          children
+                      )
+                  )
+              )
+          );
+        }
+    );
+  }
 
   Future<void> getFirebaseUnits() async {
     print("entering");
     final res = await http.get(Uri.parse('https://us-central1-flutter2-f9a8c.cloudfunctions.net/getUnits'));
     print('[onRequest] Res: ${res.body.toString()}');
-      units = parseUnits(res.body);
+    units = parseUnits(res.body);
     for(var i = 0; i < units.length; i++){
       print ("TESTING");
       print (units[i].toString());
@@ -147,4 +147,3 @@ class _AllProjectsState extends State<AllProjects>
     return loadData();
   }
 }
-

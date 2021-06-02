@@ -6,11 +6,12 @@ import 'package:flutter2/Web/Navigation/ButtonsActions/Constants/ProjectsActions
 import 'package:flutter2/Web/Navigation/ButtonsActions/Constants/PickRangeDate.dart';
 import 'package:flutter2/Mobile/Widget/Autocomplete.dart';
 import 'package:flutter2/Web/UnitsInformation.dart';
-import 'package:flutter2/Web/WebConstants/Enumerations.dart';
+// import 'package:flutter2/Web/WebConstants/Enumerations.dart';
 import 'package:overlay_support/overlay_support.dart';
 import 'package:flutter2/Web/Style/SaveDatasStyle.dart';
-import 'package:flutter2/Web/WebConstants/responsiveLayout.dart';
-import 'package:intl/intl.dart';
+// import 'package:flutter2/Web/WebConstants/responsiveLayout.dart';
+// import 'package:intl/intl.dart';
+import 'package:cloud_functions/cloud_functions.dart';
 
 class EditPopup extends StatefulWidget {
   final ProjectInformation projectEdit;
@@ -40,72 +41,114 @@ class _EditPopupState extends State<EditPopup> {
     "prof@epitech.eu",
   ];
 
-  void saveProject()
-  {
+  Future<void> updateFirebaseProject() async {
+    HttpsCallable callable =
+        FirebaseFunctions.instance.httpsCallable('updateProject');
+    final results = await callable({
+      'name': widget.projectEdit.name,
+      'appointementList': [],
+      "registerEnd": null,
+      'projectID': widget.projectEdit.id,
+      'description': widget.projectEdit.description,
+      'projectEnd': null,
+      'projectStart': null,
+    });
+    print(results.data);
+  }
 
+  Future<void> updateFirebaseUnit() async {
+    HttpsCallable callable =
+        FirebaseFunctions.instance.httpsCallable('updateUnit');
+        print("${widget.unitEdit.name}, ${widget.unitEdit.creditAvailable}, ${widget.unitEdit.description}, ${widget.unitEdit.managerCreatorID}, ${widget.unitEdit.managerCreatorName}");
+    final results = await callable({
+      'name': widget.unitEdit.name,
+      'skillsToBeAcquired': [],
+      "creditAvailable": widget.unitEdit.creditAvailable,
+      'unitID': widget.unitEdit.id,
+      'description': widget.unitEdit.description,
+      "registerEnd": null,
+      'unitEnd': null,
+      'unitStart': null,
+      "managerCreatorID": widget.unitEdit.managerCreatorID,
+      "managerCreatorName": widget.unitEdit.managerCreatorName
+    });
+    print(results.data);
+  }
+
+  void saveProject() {
     setState(() {
-      if (temProjectDates != null) {
-        widget.projectEdit.projectStart = temProjectDates["begin"];
-        widget.projectEdit.projectEnd = temProjectDates["end"];
-        temProjectDates = null;
-        //MAXIME : SAVE BEGIN PROJECT DATE
-      };
+      // if (temProjectDates != null) {
+      //   widget.projectEdit.projectStart = temProjectDates["begin"];
+      //   widget.projectEdit.projectEnd = temProjectDates["end"];
+      //   temProjectDates = null;
+      //   //MAXIME : SAVE BEGIN PROJECT DATE
+      // }
+      // ;
 
-      if (editController["description"].text.isNotEmpty){
+      if (editController["description"].text.isNotEmpty) {
         print("description not null");
+        widget.projectEdit.description = editController["description"].text;
         editController["description"].clear();
         //MAXIME : SAVE PROJECT DESCRIPTION
 
-      };
+      }
+      ;
       if (editController["title"].text.isNotEmpty) {
         print("title not null");
+        widget.projectEdit.name = editController["title"].text;
         editController["title"].clear();
         //MAXIME : SAVE PROJECT TITLE
       }
-
     });
+    updateFirebaseProject();
     //MAXIME : this function checks the fields that have been changed for the Edit button
   }
-  void saveUnit()
-  {
+
+  void saveUnit() {
     setState(() {
       //MAXIME : this function checks the fields that have been changed for the Edit button
-      if (temProjectDates != null) {
-        widget.unitEdit.unitStart = Timestamp.fromDate(temProjectDates["begin"]);
-        widget.unitEdit.unitEnd = Timestamp.fromDate(temProjectDates["end"]);
-        temProjectDates = null;
-        //MAXIME : SAVE BEGIN PROJECT DATE
-      };
+      // if (temProjectDates != null) {
+      //   widget.unitEdit.unitStart =
+      //       temProjectDates["begin"];
+      //   widget.unitEdit.unitEnd = temProjectDates["end"];
+      //   temProjectDates = null;
+      //   //MAXIME : SAVE BEGIN PROJECT DATE
+      // }
+      // ;
       if (selectedMail != null) {
         print("mail address not null");
         //MAXIME : SAVE TEACHER MAIL ADDRESS
+        widget.unitEdit.teachers.add(selectedMail);
         selectedMail = null;
         usersAutocomplete.suggestionsTextFieldController.clear();
-      };
-      if (editController["description"].text.isNotEmpty){
+      }
+      ;
+      if (editController["description"].text.isNotEmpty) {
         print("description not null");
+        widget.unitEdit.description = editController["description"].text;
         editController["description"].clear();
         //MAXIME : SAVE PROJECT DESCRIPTION
 
-      };
+      }
+      ;
       if (editController["title"].text.isNotEmpty) {
         print("title not null");
+        widget.unitEdit.name = editController["title"].text;
         editController["title"].clear();
         //MAXIME : SAVE PROJECT TITLE
       }
     });
+    updateFirebaseUnit();
   }
 
-  void setProjectDates(List<DateTime> picked)
-  {
+  void setProjectDates(List<DateTime> picked) {
     setState(() {
       temProjectDates['begin'] = picked[0];
       temProjectDates['end'] = picked[1];
     });
   }
 
-  void getEmail(str)
-  {
+  void getEmail(str) {
     setState(() {
       selectedMail = str;
       //_showMyDialog();
@@ -116,18 +159,19 @@ class _EditPopupState extends State<EditPopup> {
   void initState() {
     super.initState();
     setState(() {
-      usersAutocomplete = new UsersAutocomplete(getStudentSelected: getEmail,);
+      usersAutocomplete = new UsersAutocomplete(
+        getStudentSelected: getEmail,
+      );
     });
   }
 
-  void getEditing(tempEditTextController)
-  {
+  void getEditing(tempEditTextController) {
     setState(() {
       editController = tempEditTextController;
     });
   }
-  OverlaySupportEntry test()
-  {
+
+  OverlaySupportEntry test() {
     showSimpleNotification(
         Text(
           "Nothing to save !",
@@ -136,45 +180,67 @@ class _EditPopupState extends State<EditPopup> {
         background: Colors.red);
   }
 
-  Widget checkEditType()
-  {
+  Widget checkEditType() {
     if (widget.projectEdit != null)
       return saveDatas(function: saveProject, text: "Save Project Datas");
     else if (widget.unitEdit != null)
       return saveDatas(function: saveUnit, text: "Save Units Datas");
-
   }
 
-  Widget displayingEmptyTempDates()
-  {
+  Widget displayingEmptyTempDates() {
     if (widget.projectEdit != null) {
-      return displayProjectDates(widget.projectEdit.projectStart, widget.projectEdit.projectEnd);
+      return displayProjectDates(
+          widget.projectEdit.projectStart, widget.projectEdit.projectEnd);
     } else if (widget.unitEdit != null)
-      return displayProjectDates(widget.unitEdit.unitStart.toDate(), widget.unitEdit.unitEnd.toDate());
+      return displayProjectDates(
+          widget.unitEdit.unitStart, widget.unitEdit.unitEnd);
   }
 
-  Widget pickRangeTypeDate()
-  {
+  Widget pickRangeTypeDate() {
     if (widget.projectEdit != null)
-      return pickRangeDate(context: context, beginDate: widget.projectEdit.projectStart, endDate: widget.projectEdit.projectEnd, function: setProjectDates);
+      return pickRangeDate(
+          context: context,
+          beginDate: widget.projectEdit.projectStart,
+          endDate: widget.projectEdit.projectEnd,
+          function: setProjectDates);
     else if (widget.unitEdit != null)
-      return pickRangeDate(context: context, beginDate: widget.unitEdit.unitStart.toDate(), endDate: widget.unitEdit.unitEnd.toDate(), function: setProjectDates);
-
+      return pickRangeDate(
+          context: context,
+          beginDate: widget.unitEdit.unitStart,
+          endDate: widget.unitEdit.unitEnd,
+          function: setProjectDates);
   }
 
-  Widget displayBigScreen()
-  {
+  Widget displayBigScreen() {
     return Column(
       children: [
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            Text("Begin of the project", style: TextStyle(color: Color(0xFF875BC5),fontSize: 18,fontFamily: "Montserrat-Italic",decoration: TextDecoration.underline,),),
-            Text("End of the project", style: TextStyle(color: Color(0xFF875BC5),fontSize: 18,fontFamily: "Montserrat-Italic",decoration: TextDecoration.underline,),),
+            Text(
+              "Begin of the project",
+              style: TextStyle(
+                color: Color(0xFF875BC5),
+                fontSize: 18,
+                fontFamily: "Montserrat-Italic",
+                decoration: TextDecoration.underline,
+              ),
+            ),
+            Text(
+              "End of the project",
+              style: TextStyle(
+                color: Color(0xFF875BC5),
+                fontSize: 18,
+                fontFamily: "Montserrat-Italic",
+                decoration: TextDecoration.underline,
+              ),
+            ),
           ],
-        ),                temProjectDates["begin"] == null ? displayingEmptyTempDates() : displayProjectDates(temProjectDates["begin"], temProjectDates["end"]),
-
-
+        ),
+        temProjectDates["begin"] == null
+            ? displayingEmptyTempDates()
+            : displayProjectDates(
+                temProjectDates["begin"], temProjectDates["end"]),
       ],
     );
   }
@@ -182,42 +248,67 @@ class _EditPopupState extends State<EditPopup> {
   @override
   Widget build(BuildContext context) {
     return Column(
-      children :[
-        SizedBox(height:20),
+      children: [
+        SizedBox(height: 20),
         Container(
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                titleDescriptionTextFields(setTextEditingController: getEditing, editController: editController),
-                widget.unitEdit != null ? usersAutocomplete.userAutocomplete(mailAddressesList: mailAddressesList, labelName: "Professor Mail", clear: false) : Container(),
-                SizedBox(height:20),
-                !ResponsiveLayout.isSmallScreen(context) ?
-                    displayBigScreen()
-                    :
-                    Center(
-                      child:                   Column(
-                        children: [
-                          Text("Begin of the project", style: TextStyle(color: Color(0xFF875BC5),fontSize: 18,fontFamily: "Montserrat-Italic",decoration: TextDecoration.underline,),),
-                          temProjectDates["begin"] == null ? Text(DateFormat('yyyy-MM-dd').format(DateTime.now())): Text(DateFormat('yyyy-MM-dd').format(temProjectDates["begin"])),
-                          Text("End of the project", style: TextStyle(color: Color(0xFF875BC5),fontSize: 18,fontFamily: "Montserrat-Italic",decoration: TextDecoration.underline,),),
-                          temProjectDates["end"] == null ? Text(DateFormat('yyyy-MM-dd').format(DateTime.now())): Text(DateFormat('yyyy-MM-dd').format(temProjectDates["end"])),
-
-                        ],
-                      ),
-
-                    )
-,
-                SizedBox(height:10),
-                SizedBox(height:10),
-                pickRangeTypeDate(),
-                SizedBox(height:35),
-                checkEditType()
-              ],
-            )
-        )
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            titleDescriptionTextFields(
+                setTextEditingController: getEditing,
+                editController: editController),
+            widget.unitEdit != null
+                ? usersAutocomplete.userAutocomplete(
+                    mailAddressesList: mailAddressesList,
+                    labelName: "Professor Mail",
+                    clear: false)
+                : Container(),
+            SizedBox(height: 20),
+            // !ResponsiveLayout.isSmallScreen(context)
+            //     ? displayBigScreen()
+            //     : Center(
+            //         child: Column(
+            //           children: [
+            //             Text(
+            //               "Begin of the project",
+            //               style: TextStyle(
+            //                 color: Color(0xFF875BC5),
+            //                 fontSize: 18,
+            //                 fontFamily: "Montserrat-Italic",
+            //                 decoration: TextDecoration.underline,
+            //               ),
+            //             ),
+            //             temProjectDates["begin"] == null
+            //                 ? Text(
+            //                     DateFormat('yyyy-MM-dd').format(DateTime.now()))
+            //                 : Text(DateFormat('yyyy-MM-dd')
+            //                     .format(temProjectDates["begin"])),
+            //             Text(
+            //               "End of the project",
+            //               style: TextStyle(
+            //                 color: Color(0xFF875BC5),
+            //                 fontSize: 18,
+            //                 fontFamily: "Montserrat-Italic",
+            //                 decoration: TextDecoration.underline,
+            //               ),
+            //             ),
+            //             temProjectDates["end"] == null
+            //                 ? Text(
+            //                     DateFormat('yyyy-MM-dd').format(DateTime.now()))
+            //                 : Text(DateFormat('yyyy-MM-dd')
+            //                     .format(temProjectDates["end"])),
+            //           ],
+            //         ),
+            //       ),
+            SizedBox(height: 10),
+            SizedBox(height: 10),
+            pickRangeTypeDate(),
+            SizedBox(height: 35),
+            checkEditType()
+          ],
+        ))
       ],
-
     );
   }
 }

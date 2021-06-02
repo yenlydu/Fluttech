@@ -12,10 +12,10 @@ class UnitInformation
       id: json['id'] as String,
       description: json['description'] as String,
       name: json['name'] as String,
-      usersId: json['usersId'] as List,
-        managerCreatorID: json['managerCreatorID'] as String,
-      teachers: json['teachers'] as List,
-      creditAvailable: json['creditAvailable'] as int,
+  //    usersId: json['usersId'] as List,
+    //    managerCreatorID: json['managerCreatorID'] as String,
+      //teachers: json['teachers'] as List,
+      //creditAvailable: json['creditAvailable'] as int,
 //      projectList: json['usersId'] as List<String>,
 
     );
@@ -25,8 +25,8 @@ class UnitInformation
   List <String> usersId = [];
   List <String> projectList = [];
   List<ProjectInformation> projects;
-  Timestamp unitStart = Timestamp.now();
-  Timestamp unitEnd = Timestamp.now();
+  DateTime unitStart = DateTime.now();
+  DateTime unitEnd = DateTime.now();
   String description = "";
   String managerCreatorID = "";
   String managerCreatorName = "";// ?

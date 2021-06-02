@@ -83,13 +83,13 @@ class PopupDescription extends StatelessWidget
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-                      displayBeginEndDates("Begin Date", this.project != null? project.projectStart: unit.unitStart),
-                      displayBeginEndDates("End Date", this.project != null? project.projectEnd: unit.unitEnd),
+                      displayBeginEndDates("Begin Date", this.project != null? DateTime.fromMicrosecondsSinceEpoch(project.projectStart.microsecondsSinceEpoch): unit.unitStart),
+                      displayBeginEndDates("End Date", this.project != null? DateTime.fromMicrosecondsSinceEpoch(project.projectEnd.microsecondsSinceEpoch): unit.unitEnd),
                     ],
                   ) : Column(
                     children: [
-                      displayBeginEndDates("Begin Date", this.project != null? project.projectStart: unit.unitStart),
-                      displayBeginEndDates("End Date", this.project != null? project.projectEnd: unit.unitEnd),
+                      displayBeginEndDates("Begin Date", this.project != null? DateTime.fromMicrosecondsSinceEpoch(project.projectStart.microsecondsSinceEpoch): unit.unitStart),
+                      displayBeginEndDates("End Date", this.project != null? DateTime.fromMicrosecondsSinceEpoch(project.projectEnd.microsecondsSinceEpoch): unit.unitEnd),
                     ],
                   ),
                   SizedBox(height: 25,),
