@@ -40,6 +40,40 @@ export const addUnit = functions.runWith(runtimeOpts).https.onCall(async (data, 
 	});
 	return `Successfully added new unit : ${name}`;
 });
+export const addUnit2 = functions.runWith(runtimeOpts).https.onRequest(async (data, res) => {
+	const { name, creditAvailable, registerEnd, unitStart, unitEnd, description } = data.body;
+
+	await admin
+		.firestore()
+		.collection(`Units`)
+		.add({
+			appointementList: [],
+			creditAvailable: creditAvailable,
+			description: description,
+			id: "",
+			name: name,
+			projectList: [],
+			registerEnd: registerEnd,
+			skillsToBeAcquired: [],
+			teachers: [],
+			unitStart: unitStart,
+			unitEnd: unitEnd,
+			managerCreatorID: "",
+			managerCreatorName: "",
+			usersID: [],
+		})
+		.catch((error) => {
+			console.log("l'error :", error);
+			res.send(error);
+		});
+	const snapshot = await admin.firestore().collection("Units").where("name", "==", name).get();
+	snapshot.forEach((doc) => {
+		admin.firestore().collection(`Units`).doc(`${doc.id}`).update({
+			id: doc.id,
+		});
+	});
+	res.send(`Successfully added new unit : ${name}`);
+});
 
 // Update unit
 export const updateUnit = functions.runWith(runtimeOpts).https.onCall(async (data, context) => {
@@ -62,9 +96,9 @@ export const updateUnit = functions.runWith(runtimeOpts).https.onCall(async (dat
 		})
 		.catch((error) => {
 			console.log(error);
-			return(error);
+			return error;
 		});
-	return(`Successfully updated unit : ${name}`);
+	return `Successfully updated unit : ${name}`;
 });
 
 // Delete unit
@@ -77,13 +111,17 @@ export const deleteUnit = functions.runWith(runtimeOpts).https.onCall(async (dat
 		.delete()
 		.catch((error) => {
 			console.log(error);
-			return(error);
+			return error;
 		});
-	return(`Unit successfully deleted`);
+	return `Unit successfully deleted`;
 });
 
 // Get the list of all units
 export const getUnits = functions.runWith(runtimeOpts).https.onRequest(async (req, res) => {
+	res.header("Content-Type", "application/json");
+	res.header("Access-Control-Allow-Origin", "*");
+	res.header("Access-Control-Allow-Headers", "Content-Type");
+
 	const snapshot = await admin.firestore().collection("Units").get();
 	var units = [];
 	snapshot.forEach((unit) => {
@@ -105,9 +143,9 @@ export const addTeacherToUnit = functions.runWith(runtimeOpts).https.onCall(asyn
 		})
 		.catch((error) => {
 			console.log(error);
-			return(error);
+			return error;
 		});
-	return(`Successfully added teacher`);
+	return `Successfully added teacher`;
 });
 
 // Remove a Teacher to unit
@@ -123,43 +161,42 @@ export const removeTeacherToUnit = functions.runWith(runtimeOpts).https.onCall(a
 		})
 		.catch((error) => {
 			console.log(error);
-			return(error);
+			return error;
 		});
-	return(`Successfully added teacher`);
+	return `Successfully added teacher`;
 });
 
+// // Create new unit
+// export const addUnit2 = functions.runWith(runtimeOpts).https.onCall(async (req, res) => {
+// 	const { name, creditAvailable, registerEnd, unitStart, unitEnd, description } = req.body;
 
-// Create new unit
-export const addUnit2 = functions.runWith(runtimeOpts).https.onCall(async (req, res) => {
-	const { name, creditAvailable, registerEnd, unitStart, unitEnd, description } = req.body;
-
-	await admin
-		.firestore()
-		.collection(`Units`)
-		.add({
-			creditAvailable: creditAvailable,
-			description: description,
-			id: "",
-			name: name,
-			projectList: [],
-			registerEnd: registerEnd,
-			skillsToBeAcquired: [],
-			teachers: [],
-			unitStart: unitStart,
-			unitEnd: unitEnd,
-			managerCreatorID: "",
-			managerCreatorName: "",
-			usersID: [],
-		})
-		.catch((error) => {
-			console.log(error);
-			return(error);
-		});
-	const snapshot = await admin.firestore().collection("Units").where("name", "==", name).get();
-	snapshot.forEach((doc) => {
-		admin.firestore().collection(`Units`).doc(`${doc.id}`).update({
-			id: doc.id,
-		});
-	});
-	return(`Successfully added new unit : ${name}`);
-});
+// 	await admin
+// 		.firestore()
+// 		.collection(`Units`)
+// 		.add({
+// 			creditAvailable: creditAvailable,
+// 			description: description,
+// 			id: "",
+// 			name: name,
+// 			projectList: [],
+// 			registerEnd: registerEnd,
+// 			skillsToBeAcquired: [],
+// 			teachers: [],
+// 			unitStart: unitStart,
+// 			unitEnd: unitEnd,
+// 			managerCreatorID: "",
+// 			managerCreatorName: "",
+// 			usersID: [],
+// 		})
+// 		.catch((error) => {
+// 			console.log(error);
+// 			return error;
+// 		});
+// 	const snapshot = await admin.firestore().collection("Units").where("name", "==", name).get();
+// 	snapshot.forEach((doc) => {
+// 		admin.firestore().collection(`Units`).doc(`${doc.id}`).update({
+// 			id: doc.id,
+// 		});
+// 	});
+// 	return `Successfully added new unit : ${name}`;
+// });

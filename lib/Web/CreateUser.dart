@@ -5,6 +5,7 @@ import 'package:flutter2/Model/Constants.dart';
 import 'package:overlay_support/overlay_support.dart';
 import 'package:flutter2/Web/WebConstants/Enumerations.dart';
 import 'package:flutter2/Web/Navigation/HandleStudents/RolesDropDown/RolesDropDown.dart';
+import 'package:cloud_functions/cloud_functions.dart';
 class CreateUser extends StatefulWidget {
   const CreateUser({Key key}) : super(key: key);
 
@@ -31,6 +32,19 @@ class _CreateUserState extends State<CreateUser> {
         print ("selectedRole " + selectedRole.toString());
       }
     });
+  }
+
+  Future<void> createFirebaseUser() async {
+    print("${emailController}, ${passwordController}, ${phoneNumberController}, ${displayNameController},");
+    HttpsCallable callable =
+        FirebaseFunctions.instance.httpsCallable('createUser');
+    final results = await callable({
+      'email': emailController,
+      "password": passwordController,
+      "phoneNumber": phoneNumberController,
+      "displayName": displayNameController,
+    });
+    print(results.data);
   }
 
   @override
@@ -180,7 +194,7 @@ class _CreateUserState extends State<CreateUser> {
                         child: Padding(
                           padding: EdgeInsets.only(left: 8.0),
                           child: TextField(
-                            controller: displayNameController,
+                            controller: phoneNumberController,
                             obscureText: true,
                             decoration: InputDecoration(
                                 border: InputBorder.none,
@@ -224,10 +238,11 @@ class _CreateUserState extends State<CreateUser> {
                                 passwordController.text != "" &&
                                 emailController.text != null &&
                                 emailController.text != "") {
-                              context.read<AuthenticationService>().signUp(
-                                email: emailController.text.trim(),
-                                password: passwordController.text.trim(),
-                              );
+                                  createFirebaseUser();
+                              // context.read<AuthenticationService>().signUp(
+                              //   email: emailController.text.trim(),
+                              //   password: passwordController.text.trim(),
+                              // );
                               emailController.clear();
                               passwordController.clear();
                               confirmPasswordController.clear();

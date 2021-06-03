@@ -44,5 +44,7 @@ module.exports = {
     "keyword-spacing": ["off", "tab"],
     "semi": ["off", "tab"],
     "comma-spacing": ["off", "tab"],
+    "curly": ["off", "tab"],
+    "no-trailing-spaces": ["off", "tab"],
   },
 };
