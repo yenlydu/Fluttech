@@ -15,10 +15,13 @@ class ImageProfileFireManager {
   Future<String> getUserPhoto() async {
     var user = FirebaseAuth.instance.currentUser;
 
-    if (user != null && user.uid != null) {
-      var storef = storage.ref().child("user/profile/" + user.uid);
+    if (user == null || user.uid == null) {
+      return null;
+    }
+    var storef = storage.ref("user/profile/" + user.uid);
+    try {
       return await storef.getDownloadURL();
-    } else {
+    } catch (e) {
       return null;
     }
   }
